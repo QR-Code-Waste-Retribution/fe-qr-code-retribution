@@ -21,6 +21,8 @@ Color transparentColor = Colors.transparent;
 Color blackColor = Color(0xff2E2E2E);
 Color whiteColor = Color.fromARGB(255, 255, 255, 255);
 Color backgroundInputColor = Color(0xffC2C2C2);
+Color navigationButtonColor = Color(0xff787575);
+Color navigationBackgroundColor = Color.fromARGB(255, 112, 111, 111);
 
 TextStyle primaryTextStyle = GoogleFonts.poppins(
   color: primaryColor,
