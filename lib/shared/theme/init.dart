@@ -18,6 +18,7 @@ Color primaryTextColor = Color(0xffF1F0F2);
 Color secondaryTextColor = Color(0xff999999);
 Color subtitleColor = Color(0xff504F5E);
 Color transparentColor = Colors.transparent;
+Color shadowColor = Color.fromARGB(15, 0, 0, 0);
 Color blackColor = Color(0xff2E2E2E);
 Color whiteColor = Color.fromARGB(255, 255, 255, 255);
 Color backgroundInputColor = Color(0xffC2C2C2);
@@ -29,7 +30,7 @@ TextStyle primaryTextStyle = GoogleFonts.poppins(
 );
 
 TextStyle secondaryTextStyle = GoogleFonts.poppins(
-  color: secondaryColor,
+  color: secondaryTextColor,
 );
 
 TextStyle subtitleTextStyle = GoogleFonts.poppins(
@@ -54,6 +55,10 @@ TextStyle whiteTextStyle = GoogleFonts.poppins(
 
 TextStyle alertTextStyle = GoogleFonts.poppins(
   color: alertColor,
+);
+
+TextStyle linkTextStyle = GoogleFonts.poppins(
+  color: priceColor,
 );
 
 FontWeight light = FontWeight.w300;
