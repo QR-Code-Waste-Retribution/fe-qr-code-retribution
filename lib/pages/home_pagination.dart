@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/pages/help/help_page.dart';
 import 'package:qr_code_app/pages/home/home_page.dart';
+import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class HomePagination extends StatefulWidget {
@@ -16,10 +17,7 @@ class _HomePaginationState extends State<HomePagination> {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     HelpPage(),
-    Icon(
-      Icons.camera,
-      size: 150,
-    ),
+    QRCodePage(),
     Icon(
       Icons.chat,
       size: 150,

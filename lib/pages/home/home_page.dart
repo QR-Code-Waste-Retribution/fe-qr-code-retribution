@@ -222,9 +222,9 @@ class HomeContent extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Container(
-                        width: device.width * 0.45,
-                        child: Expanded(
+                      Expanded(
+                        child: Container(
+                          width: device.width * 0.45,
                           child: Text(
                             'Semua tagihan iuran retribusi sampah sudah lunas dan sudah disetor',
                             style: blackTextStyle.copyWith(
