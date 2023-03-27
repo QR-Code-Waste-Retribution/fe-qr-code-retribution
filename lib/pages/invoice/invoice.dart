@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/invoice_card.dart';
+import 'package:qr_code_app/pages/invoice/invoice_total.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class Invoice extends StatefulWidget {
@@ -54,10 +56,48 @@ class _InvoiceState extends State<Invoice> {
               fontSize: 20,
             ),
           ),
+          SizedBox(
+            height: 7,
+          ),
+          Text(
+            'Pilih Semua',
+            textAlign: TextAlign.right,
+            style: primaryTextStyle.copyWith(
+              fontWeight: FontWeight.w500,
+              fontSize: 16,
+              color: priceColor,
+            ),
+          ),
+          SizedBox(
+            height: 7,
+          ),
           InvoiceCard(),
           InvoiceCard(),
           InvoiceCard(),
           InvoiceCard(),
+          SizedBox(
+            height: 15,
+          ),
+          Text(
+            'Apakah masyarakat ingin membayar retribusi sampah secara tunai sekarang?',
+            style: primaryTextStyle.copyWith(),
+          ),
+          CustomButton(
+            title: 'Bayar',
+            width: 220,
+            margin: const EdgeInsets.only(
+              top: 30,
+              bottom: 80,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: ((context) => InvoiceTotal()),
+                ),
+              );
+            },
+          ),
         ],
       ),
     );

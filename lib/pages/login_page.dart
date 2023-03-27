@@ -17,7 +17,9 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     device = Size(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.width);
+      MediaQuery.of(context).size.width,
+      MediaQuery.of(context).size.height,
+    );
 
     final emailController = TextEditingController();
     final passwordController = TextEditingController();
@@ -33,7 +35,7 @@ class _LoginPageState extends State<LoginPage> {
       Client client = Client();
       AuthProvider authProvider = AuthProvider(client.init());
       ResponseAPI authResponse = await authProvider.login(
-          username: emailController.text, password: passwordController.text);
+          username: emailController.text, password: passwordController.text,);
       if (authResponse.success) {
         AuthData data = AuthData.fromJson(authResponse.data);
         var snackBar = SnackBar(content: Text(authResponse.message));
