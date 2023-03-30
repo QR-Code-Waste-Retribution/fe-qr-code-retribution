@@ -6,6 +6,7 @@ double defaultRadius = 17.0;
 
 const Color primaryColor = Color(0xffAACC00);
 Color secondaryColor = Color(0xff55A630);
+Color thirdColor = Color(0xff8ED236);
 Color alertColor = Color(0xffED6363);
 Color priceColor = Color(0xff2C96F1);
 Color backgroundColor1 = Color(0xff1F1D2B);

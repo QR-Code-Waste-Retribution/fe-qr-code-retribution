@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/pages/invoice/payment_details.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class InvoiceTotal extends StatefulWidget {
@@ -174,7 +175,14 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                   top: 30,
                   bottom: 80,
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: ((context) => PaymentDetails()),
+                    ),
+                  );
+                },
               ),
               CustomButton(
                 title: 'Belum Lunas',

@@ -3,9 +3,13 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_app/pages/invoice/invoice.dart';
+import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+
+import 'package:qr_code_app/services/api_client.dart';
+import 'package:qr_code_app/services/providers/invoice_provider.dart';
 
 class QRCodePage extends StatefulWidget {
   const QRCodePage({super.key});
@@ -25,7 +29,34 @@ class _QRCodePageState extends State<QRCodePage> {
     if (Platform.isAndroid) {
       controller!.pauseCamera();
     }
-    // controller!.resumeCamera();
+    controller!.resumeCamera();
+  }
+
+  void scanQrCode(String? uuid) async {
+    await controller!.pauseCamera();
+    Client client = Client();
+
+    InvoiceProvider invoiceProvider = InvoiceProvider(client.init());
+    ResponseAPI scanQrCodeResponse =
+        await invoiceProvider.getInvoiceUser(subDistrictId: 17, uuid: uuid);
+    if (scanQrCodeResponse.success) {
+      InvoiceList data = InvoiceList.fromJson(scanQrCodeResponse.data);
+      var snackBar = SnackBar(content: Text(scanQrCodeResponse.message));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: ((context) => Invoice()),
+        ),
+      );
+    } else {
+      var snackBar = SnackBar(
+        content: Text(scanQrCodeResponse.message),
+        backgroundColor: alertColor,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
@@ -54,43 +85,11 @@ class _QRCodePageState extends State<QRCodePage> {
                         margin: const EdgeInsets.all(8),
                         child: ElevatedButton(
                           onPressed: () async {
-                            await controller?.toggleFlash();
-                            setState(() {});
+                            await controller?.resumeCamera();
                           },
-                          child: FutureBuilder(
-                            future: controller?.getFlashStatus(),
-                            builder: (context, snapshot) {
-                              return Text('Flash: ${snapshot.data}');
-                            },
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            // await controller?.flipCamera();
-                            setState(() {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: ((context) => Invoice()),
-                                ),
-                              );
-                              controller!.stopCamera();
-                            });
-                            controller!.dispose();
-                          },
-                          child: FutureBuilder(
-                            future: controller?.getCameraInfo(),
-                            builder: (context, snapshot) {
-                              if (snapshot.data != null) {
-                                return Text(
-                                    'Camera facing ${describeEnum(snapshot.data!)}');
-                              } else {
-                                return const Text('loading');
-                              }
-                            },
+                          child: const Text(
+                            'Scan QR Code',
+                            style: TextStyle(fontSize: 14),
                           ),
                         ),
                       )
@@ -133,6 +132,7 @@ class _QRCodePageState extends State<QRCodePage> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        scanQrCode(result?.code);
       });
     });
   }

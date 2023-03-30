@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       super.initState();
     }
 
-    void test() async {
+    void login() async {
       Client client = Client();
       AuthProvider authProvider = AuthProvider(client.init());
       ResponseAPI authResponse = await authProvider.login(
