@@ -3,17 +3,22 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+import 'package:qr_code_app/services/api_client.dart';
+import 'package:qr_code_app/services/providers/invoice_provider.dart';
+
+class QRCodePage extends StatefulWidget {
+  const QRCodePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<QRCodePage> createState() => _QRCodePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _QRCodePageState extends State<QRCodePage> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
@@ -25,6 +30,33 @@ class _HomePageState extends State<HomePage> {
       controller!.pauseCamera();
     }
     controller!.resumeCamera();
+  }
+
+  void scanQrCode(String? uuid) async {
+    await controller!.pauseCamera();
+    Client client = Client();
+
+    InvoiceProvider invoiceProvider = InvoiceProvider(client.init());
+    ResponseAPI scanQrCodeResponse =
+        await invoiceProvider.getInvoiceUser(subDistrictId: 17, uuid: uuid);
+    if (scanQrCodeResponse.success) {
+      InvoiceList data = InvoiceList.fromJson(scanQrCodeResponse.data);
+      var snackBar = SnackBar(content: Text(scanQrCodeResponse.message));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: ((context) => Invoice()),
+        ),
+      );
+    } else {
+      var snackBar = SnackBar(
+        content: Text(scanQrCodeResponse.message),
+        backgroundColor: alertColor,
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
   }
 
   @override
@@ -52,60 +84,13 @@ class _HomePageState extends State<HomePage> {
                       Container(
                         margin: const EdgeInsets.all(8),
                         child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.toggleFlash();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getFlashStatus(),
-                              builder: (context, snapshot) {
-                                return Text('Flash: ${snapshot.data}');
-                              },
-                            )),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              await controller?.flipCamera();
-                              setState(() {});
-                            },
-                            child: FutureBuilder(
-                              future: controller?.getCameraInfo(),
-                              builder: (context, snapshot) {
-                                if (snapshot.data != null) {
-                                  return Text(
-                                      'Camera facing ${describeEnum(snapshot.data!)}');
-                                } else {
-                                  return const Text('loading');
-                                }
-                              },
-                            )),
-                      )
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await controller?.pauseCamera();
-                          },
-                          child: const Text('pause',
-                              style: TextStyle(fontSize: 20)),
-                        ),
-                      ),
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
                           onPressed: () async {
                             await controller?.resumeCamera();
                           },
-                          child: const Text('resume',
-                              style: TextStyle(fontSize: 20)),
+                          child: const Text(
+                            'Scan QR Code',
+                            style: TextStyle(fontSize: 14),
+                          ),
                         ),
                       )
                     ],
@@ -123,7 +108,7 @@ class _HomePageState extends State<HomePage> {
     // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
             MediaQuery.of(context).size.height < 400)
-        ? 150.0
+        ? 250.0
         : 300.0;
     // To ensure the Scanner view is properly sizes after rotation
     // we need to listen for Flutter SizeChanged notification and update controller
@@ -147,6 +132,7 @@ class _HomePageState extends State<HomePage> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        scanQrCode(result?.code);
       });
     });
   }

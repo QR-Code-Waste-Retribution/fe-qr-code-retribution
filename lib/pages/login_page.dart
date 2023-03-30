@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/models/response_api.dart';
+import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/services/api_client.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,7 +17,37 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     device = Size(
-        MediaQuery.of(context).size.width, MediaQuery.of(context).size.width);
+      MediaQuery.of(context).size.width,
+      MediaQuery.of(context).size.height,
+    );
+
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+
+    @override
+    void initState() {
+      emailController.dispose();
+      passwordController.dispose();
+      super.initState();
+    }
+
+    void login() async {
+      Client client = Client();
+      AuthProvider authProvider = AuthProvider(client.init());
+      ResponseAPI authResponse = await authProvider.login(
+          username: emailController.text, password: passwordController.text,);
+      if (authResponse.success) {
+        AuthData data = AuthData.fromJson(authResponse.data);
+        var snackBar = SnackBar(content: Text(authResponse.message));
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      } else {
+        var snackBar = SnackBar(
+          content: Text(authResponse.message),
+          backgroundColor: alertColor,
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      }
+    }
 
     Widget header() {
       return Container(
@@ -91,6 +125,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: emailController,
                         scrollPadding: EdgeInsets.only(bottom: 40),
                         style: primaryTextStyle.copyWith(color: Colors.black),
                         decoration: InputDecoration.collapsed(
@@ -138,6 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        controller: passwordController,
                         scrollPadding: EdgeInsets.only(bottom: 40),
                         obscureText: true,
                         style: primaryTextStyle.copyWith(color: Colors.black),
@@ -181,6 +217,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 onPressed: () {
                   Navigator.pushNamed(context, '/home');
+                  // test();
                 },
               ),
             ],
