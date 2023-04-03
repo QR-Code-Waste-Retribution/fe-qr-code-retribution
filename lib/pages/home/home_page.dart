@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.only(top: 0, bottom: 50),
+        padding: EdgeInsets.only(top: 0, bottom: 50, left: 0, right: 0),
         children: [
           Container(
             width: device.width,
@@ -29,7 +29,11 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Positioned(
                   top: 0,
-                  child: Image.asset('assets/image/home_image.png'),
+                  child: Image.asset(
+                    'assets/image/home_image.png',
+                    width: device.width,
+                    scale: 0.9,
+                  ),
                 ),
                 Positioned(
                   top: 0,

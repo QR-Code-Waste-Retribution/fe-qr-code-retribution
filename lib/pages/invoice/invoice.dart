@@ -4,14 +4,14 @@ import 'package:qr_code_app/components/molekuls/invoice_card.dart';
 import 'package:qr_code_app/pages/invoice/invoice_total.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
-class Invoice extends StatefulWidget {
-  const Invoice({super.key});
+class InvoicePage extends StatefulWidget {
+  const InvoicePage({super.key});
 
   @override
-  State<Invoice> createState() => _InvoiceState();
+  State<InvoicePage> createState() => _InvoicePageState();
 }
 
-class _InvoiceState extends State<Invoice> {
+class _InvoicePageState extends State<InvoicePage> {
   bool? tagihan = false;
   Size device = const Size(0, 0);
   @override

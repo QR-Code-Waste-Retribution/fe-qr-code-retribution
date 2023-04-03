@@ -12,6 +12,7 @@ class InvoiceProvider {
       final response = await _client.post('/people/$uuid/invoice', data: {
         "sub_district_id": subDistrictId,
       });
+
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {

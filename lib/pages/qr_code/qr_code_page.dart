@@ -4,7 +4,7 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
-import 'package:qr_code_app/models/response_api.dart';
+import 'package:qr_code_app/pages/invoice/invoice.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -37,17 +37,18 @@ class _QRCodePageState extends State<QRCodePage> {
     Client client = Client();
 
     InvoiceProvider invoiceProvider = InvoiceProvider(client.init());
-    ResponseAPI scanQrCodeResponse =
-        await invoiceProvider.getInvoiceUser(subDistrictId: 17, uuid: uuid);
+    var scanQrCodeResponse =
+        await invoiceProvider.getInvoiceUser(subDistrictId: 4, uuid: uuid);
     if (scanQrCodeResponse.success) {
       InvoiceList data = InvoiceList.fromJson(scanQrCodeResponse.data);
       var snackBar = SnackBar(content: Text(scanQrCodeResponse.message));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
+      
+      
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: ((context) => Invoice()),
+          builder: ((context) => InvoicePage()),
         ),
       );
     } else {

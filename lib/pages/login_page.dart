@@ -35,17 +35,23 @@ class _LoginPageState extends State<LoginPage> {
       Client client = Client();
       AuthProvider authProvider = AuthProvider(client.init());
       ResponseAPI authResponse = await authProvider.login(
-          username: emailController.text, password: passwordController.text,);
+        username: emailController.text,
+        password: passwordController.text,
+      );
       if (authResponse.success) {
         AuthData data = AuthData.fromJson(authResponse.data);
         var snackBar = SnackBar(content: Text(authResponse.message));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          Navigator.pushNamed(context, '/home');
+        }
       } else {
         var snackBar = SnackBar(
           content: Text(authResponse.message),
           backgroundColor: alertColor,
         );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        if (context.mounted)
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
 
@@ -216,8 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                   bottom: 80,
                 ),
                 onPressed: () {
-                  Navigator.pushNamed(context, '/home');
-                  // test();
+                  login();
                 },
               ),
             ],
