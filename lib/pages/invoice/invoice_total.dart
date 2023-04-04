@@ -1,18 +1,88 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/pages/invoice/payment_details.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:intl/intl.dart';
 
 class InvoiceTotal extends StatefulWidget {
-  const InvoiceTotal({super.key});
+  final InvoiceList invoiceList;
+  const InvoiceTotal({Key? key, required this.invoiceList}) : super(key: key);
 
   @override
   State<InvoiceTotal> createState() => _InvoiceTotalState();
 }
 
 class _InvoiceTotalState extends State<InvoiceTotal> {
+
+  double totalPrice = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    double total = 0;
+    for (var invoice in widget.invoiceList.data) {
+      total += invoice.price.normalPrice;
+      print(total);
+    }
+
+    setState(() {
+      totalPrice = total;
+    });
+    
+  }
+
   @override
   Widget build(BuildContext context) {
+    Container invoiceListDetail(Invoice invoice, index) {
+      return Container(
+        margin: EdgeInsets.only(bottom: 20),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Tagihan ' + index.toString(),
+                  style: blackTextStyle.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  'Rp. ' + invoice.price.formatedPrice,
+                  style: blackTextStyle.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Tagihan bulan',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 12,
+                  ),
+                ),
+                Text(
+                  invoice.date,
+                  style: primaryTextStyle.copyWith(
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -66,7 +136,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
             child: Column(
               children: [
                 Text(
-                  'Rp 45.000',
+                  NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 2).format(totalPrice),
                   style: blackTextStyle.copyWith(
                     fontSize: 30,
                   ),
@@ -81,87 +151,14 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tagihan 1',
-                      style: blackTextStyle.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      'Rp. 30.000',
-                      style: blackTextStyle.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
                 SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tagihan bulan',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    Text(
-                      'Desember 2022 - Januari 2023',
-                      style: primaryTextStyle.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tagihan 2',
-                      style: blackTextStyle.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      'Rp. 15.000',
-                      style: blackTextStyle.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Tagihan bulan',
-                      style: blackTextStyle.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                    Text(
-                      'Desember 2022 - Januari 2023',
-                      style: primaryTextStyle.copyWith(
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
+                  height: 300,
+                  child: ListView.builder(
+                    itemCount: this.widget.invoiceList.data.length,
+                    itemBuilder: (context, index) {
+                    return invoiceListDetail(widget.invoiceList.data[index], index + 1);
+                  }),
+                )
               ],
             ),
           ),

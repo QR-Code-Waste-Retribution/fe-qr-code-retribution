@@ -50,8 +50,7 @@ class _LoginPageState extends State<LoginPage> {
           content: Text(authResponse.message),
           backgroundColor: alertColor,
         );
-        if (context.mounted)
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackBar);
       }
     }
 

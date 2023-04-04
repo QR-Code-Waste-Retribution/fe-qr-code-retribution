@@ -1,19 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/invoice_card.dart';
+import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/pages/invoice/invoice_total.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class InvoicePage extends StatefulWidget {
-  const InvoicePage({super.key});
+  final InvoiceList invoiceList;
+  const InvoicePage({Key? key, required this.invoiceList}) : super(key: key);
 
   @override
   State<InvoicePage> createState() => _InvoicePageState();
 }
 
 class _InvoicePageState extends State<InvoicePage> {
+  List<bool>? isChecked;
+  InvoiceList invoiceListChecked = InvoiceList(data: []);
   bool? tagihan = false;
   Size device = const Size(0, 0);
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = List.filled(widget.invoiceList.data.length, false);
+  }
+
   @override
   Widget build(BuildContext context) {
     device = Size(
@@ -71,10 +82,38 @@ class _InvoicePageState extends State<InvoicePage> {
           SizedBox(
             height: 7,
           ),
-          InvoiceCard(),
-          InvoiceCard(),
-          InvoiceCard(),
-          InvoiceCard(),
+          SizedBox(
+            height: device.height * 0.75,
+            child: ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: widget.invoiceList.data.length,
+              itemBuilder: (context, index) {
+                final item = widget.invoiceList.data[index];
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Checkbox(
+                      value: isChecked?[index],
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked?[index] = value!;
+                          if (value!) {
+                            invoiceListChecked.data
+                                .add(widget.invoiceList.data[index]);
+                          } else {
+                            invoiceListChecked.data.removeWhere((element) => element == widget.invoiceList.data[index]);
+                          }
+                        });
+                      },
+                    ),
+                    InvoiceCard(
+                      invoice: item,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ),
           SizedBox(
             height: 15,
           ),
@@ -93,7 +132,9 @@ class _InvoicePageState extends State<InvoicePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: ((context) => InvoiceTotal()),
+                  builder: ((context) => InvoiceTotal(
+                        invoiceList: invoiceListChecked,
+                      )),
                 ),
               );
             },

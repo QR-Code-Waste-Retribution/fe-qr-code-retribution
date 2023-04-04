@@ -139,7 +139,6 @@ class User {
     role = json['role'];
     district = json['district'];
     subDistrict = json['sub_district'];
-    urbanVillage = json['urban_village'];
   }
 
   Map<String, dynamic> toJson() {
@@ -162,7 +161,6 @@ class User {
     _data['role'] = role;
     _data['district'] = district;
     _data['sub_district'] = subDistrict;
-    _data['urban_village'] = urbanVillage;
     return _data;
   }
 }

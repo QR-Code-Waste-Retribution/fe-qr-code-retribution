@@ -14,7 +14,6 @@ class AuthProvider {
         "password": password,
       });
       final jsonDecodeResponse = jsonDecode(response.toString());
-      print(jsonDecodeResponse);
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
