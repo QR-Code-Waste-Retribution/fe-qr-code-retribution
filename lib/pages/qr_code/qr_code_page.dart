@@ -39,7 +39,7 @@ class _QRCodePageState extends State<QRCodePage> {
 
     InvoiceProvider invoiceProvider = InvoiceProvider(client.init());
     ResponseAPI scanQrCodeResponse =
-        await invoiceProvider.getInvoiceUser(subDistrictId: 1, uuid: uuid);
+        await invoiceProvider.getInvoiceUser(subDistrictId: 2, uuid: uuid);
     if (scanQrCodeResponse.success) {
       InvoiceList data = InvoiceList.fromJson(scanQrCodeResponse.data);
       var snackBar = SnackBar(content: Text(scanQrCodeResponse.message));

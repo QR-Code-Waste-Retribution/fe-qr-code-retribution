@@ -1,22 +1,28 @@
 import 'package:qr_code_app/models/category.dart';
 import 'package:qr_code_app/models/timestamp.dart';
 import 'package:qr_code_app/models/price.dart';
+import 'package:qr_code_app/models/user.dart';
 
 class InvoiceList {
   late final List<Invoice> data;
+  late final User? user;
 
-  InvoiceList({required this.data});
+  InvoiceList({required this.data, this.user});
 
-  InvoiceList.fromJson(List<dynamic> json) {
+  InvoiceList.fromJson(Map<String, dynamic> json) {
     data = <Invoice>[];
-    for (var v in json) {
+    for (var v in json['invoice']) {
       data.add(Invoice.fromJson(v));
     }
+    user = (json['user'] != null
+        ? User.fromJson(json['user'])
+        : null)!;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['data'] = this.data.map((v) => v.toJson()).toList();
+    data['user'] = user;
     return data;
   }
 }

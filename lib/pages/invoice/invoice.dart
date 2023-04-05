@@ -70,22 +70,36 @@ class _InvoicePageState extends State<InvoicePage> {
           SizedBox(
             height: 7,
           ),
-          Text(
-            'Pilih Semua',
-            textAlign: TextAlign.right,
-            style: primaryTextStyle.copyWith(
-              fontWeight: FontWeight.w500,
-              fontSize: 16,
-              color: priceColor,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                invoiceListChecked.data.length.toString() + ' / ' +  this.widget.invoiceList.data.length.toString()  + ' Terpilih',
+                style: primaryTextStyle.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: alertColor,
+                ),
+              ),
+              Text(
+                'Pilih Semua',
+                textAlign: TextAlign.right,
+                style: primaryTextStyle.copyWith(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16,
+                  color: priceColor,
+                ),
+              ),
+            ],
           ),
           SizedBox(
             height: 7,
           ),
           SizedBox(
-            height: device.height * 0.75,
             child: ListView.builder(
+              shrinkWrap: true,
               scrollDirection: Axis.vertical,
+              physics: NeverScrollableScrollPhysics(),
               itemCount: widget.invoiceList.data.length,
               itemBuilder: (context, index) {
                 final item = widget.invoiceList.data[index];
@@ -101,7 +115,8 @@ class _InvoicePageState extends State<InvoicePage> {
                             invoiceListChecked.data
                                 .add(widget.invoiceList.data[index]);
                           } else {
-                            invoiceListChecked.data.removeWhere((element) => element == widget.invoiceList.data[index]);
+                            invoiceListChecked.data.removeWhere((element) =>
+                                element == widget.invoiceList.data[index]);
                           }
                         });
                       },
