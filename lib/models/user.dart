@@ -1,5 +1,8 @@
 
 
+import 'package:qr_code_app/models/district.dart';
+import 'package:qr_code_app/models/sub_district.dart';
+
 class AuthData {
   AuthData({
     required this.accessToken,
@@ -116,8 +119,8 @@ class User {
   late final String createdAt;
   late final String updatedAt;
   late final Role role;
-  late final String district;
-  late final String subDistrict;
+  late final District district;
+  late final SubDistrict subDistrict;
   late final String urbanVillage;
   
   User.fromJson(Map<String, dynamic> json){
@@ -139,8 +142,12 @@ class User {
     role = (json['role'] != null
         ? Role.fromJson(json['role'])
         : null)!;
-    district = json['district'];
-    subDistrict = json['sub_district'];
+    district = (json['district'] != null
+        ? District.fromJson(json['district'])
+        : null)!;
+    subDistrict =  (json['sub_district'] != null
+        ? SubDistrict.fromJson(json['sub_district'])
+        : null)!;
   }
 
   Map<String, dynamic> toJson() {
@@ -174,23 +181,18 @@ class Role {
   });
   late final int id;
   late final String name;
-  late final String createdAt;
-  late final String updatedAt;
 
   Role.fromJson(Map<String, dynamic> json){
     id = json['id'];
     name = json['name'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
 Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
-    _data['created_at'] = createdAt;
-    _data['updated_at'] = updatedAt;
     return _data;
   }
 
 }
+

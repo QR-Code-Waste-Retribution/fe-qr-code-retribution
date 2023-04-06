@@ -15,6 +15,7 @@ class InvoicePage extends StatefulWidget {
 
 class _InvoicePageState extends State<InvoicePage> {
   List<bool>? isChecked;
+  bool? isAll = false;
   InvoiceList invoiceListChecked = InvoiceList(data: []);
   bool? tagihan = false;
   Size device = const Size(0, 0);
@@ -73,21 +74,37 @@ class _InvoicePageState extends State<InvoicePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              Row(
+                children: [
+                  Checkbox(
+                    value: isAll,
+                    onChanged: (bool? value) {
+                      setState(() {
+                        isAll = value!;
+                        
+                      });
+                    },
+                  ),
+                  Text(
+                    'Pilih Semua',
+                    textAlign: TextAlign.right,
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: FontWeight.w500,
+                      fontSize: 16,
+                      color: priceColor,
+                    ),
+                  ),
+                ],
+              ),
               Text(
-                invoiceListChecked.data.length.toString() + ' / ' +  this.widget.invoiceList.data.length.toString()  + ' Terpilih',
+                invoiceListChecked.data.length.toString() +
+                    ' / ' +
+                    this.widget.invoiceList.data.length.toString() +
+                    ' Terpilih',
                 style: primaryTextStyle.copyWith(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
                   color: alertColor,
-                ),
-              ),
-              Text(
-                'Pilih Semua',
-                textAlign: TextAlign.right,
-                style: primaryTextStyle.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: priceColor,
                 ),
               ),
             ],
@@ -106,20 +123,30 @@ class _InvoicePageState extends State<InvoicePage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Checkbox(
-                      value: isChecked?[index],
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked?[index] = value!;
-                          if (value!) {
-                            invoiceListChecked.data
-                                .add(widget.invoiceList.data[index]);
-                          } else {
-                            invoiceListChecked.data.removeWhere((element) =>
-                                element == widget.invoiceList.data[index]);
-                          }
-                        });
-                      },
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked?[index],
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked?[index] = value!;
+                              if (value!) {
+                                invoiceListChecked.data
+                                    .add(widget.invoiceList.data[index]);
+                              } else {
+                                invoiceListChecked.data.removeWhere((element) =>
+                                    element == widget.invoiceList.data[index]);
+                              }
+                            });
+                          },
+                        ),
+                        Text(
+                          'Tagihan ' + (index + 1).toString(),
+                          style: blackTextStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
                     ),
                     InvoiceCard(
                       invoice: item,
