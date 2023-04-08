@@ -1,7 +1,6 @@
-
-
 import 'package:qr_code_app/models/district.dart';
 import 'package:qr_code_app/models/sub_district.dart';
+import 'package:qr_code_app/utils/MyPreferences.dart';
 
 class AuthData {
   AuthData({
@@ -14,12 +13,24 @@ class AuthData {
   late final CredentialToken credentialToken;
   late final String tokenType;
   late final User user;
-  
-  AuthData.fromJson(Map<String, dynamic> json){
+
+  AuthData.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
     credentialToken = CredentialToken.fromJson(json['credential_token']);
     tokenType = json['token_type'];
     user = User.fromJson(json['user']);
+  }
+
+  static Future<bool> saveAuthPreferences(AuthData authData) {
+    Future<bool> pref = MyPreferences.saveValue('auth_data', authData);
+    return pref;
+  }
+
+  static Future<AuthData> getAuthPreferences() async {
+    final Map<String, dynamic>? authDataMap =
+         MyPreferences.getValue('auth_data') as Map<String, dynamic>?;
+
+    return AuthData.fromJson(authDataMap!);
   }
 
   Map<String, dynamic> toJson() {
@@ -53,8 +64,8 @@ class CredentialToken {
   late final String createdAt;
   late final String updatedAt;
   late final String expiresAt;
-  
-  CredentialToken.fromJson(Map<String, dynamic> json){
+
+  CredentialToken.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userId = json['user_id'];
     clientId = json['client_id'];
@@ -92,7 +103,6 @@ class User {
     required this.address,
     required this.phoneNumber,
     required this.emailVerifiedAt,
-    required this.urbanVillageId,
     required this.subDistrictId,
     required this.districtId,
     required this.roleId,
@@ -112,7 +122,6 @@ class User {
   late final String address;
   late final String phoneNumber;
   late final String emailVerifiedAt;
-  late final int urbanVillageId;
   late final int subDistrictId;
   late final int districtId;
   late final int roleId;
@@ -122,30 +131,27 @@ class User {
   late final District district;
   late final SubDistrict subDistrict;
   late final String urbanVillage;
-  
-  User.fromJson(Map<String, dynamic> json){
+
+  User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    email = json['email'];
+    email = json['email'] ?? '';
     username = json['username'];
     nik = json['nik'];
     gender = json['gender'];
     address = json['address'];
     phoneNumber = json['phoneNumber'];
-    emailVerifiedAt = json['email_verified_at'];
-    urbanVillageId = json['urban_village_id'];
+    emailVerifiedAt = json['email_verified_at'] ?? '';
     subDistrictId = json['sub_district_id'];
     districtId = json['district_id'];
     roleId = json['role_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    role = (json['role'] != null
-        ? Role.fromJson(json['role'])
-        : null)!;
+    role = (json['role'] != null ? Role.fromJson(json['role']) : null)!;
     district = (json['district'] != null
         ? District.fromJson(json['district'])
         : null)!;
-    subDistrict =  (json['sub_district'] != null
+    subDistrict = (json['sub_district'] != null
         ? SubDistrict.fromJson(json['sub_district'])
         : null)!;
   }
@@ -161,7 +167,6 @@ class User {
     _data['address'] = address;
     _data['phoneNumber'] = phoneNumber;
     _data['email_verified_at'] = emailVerifiedAt;
-    _data['urban_village_id'] = urbanVillageId;
     _data['sub_district_id'] = subDistrictId;
     _data['district_id'] = districtId;
     _data['role_id'] = roleId;
@@ -182,17 +187,15 @@ class Role {
   late final int id;
   late final String name;
 
-  Role.fromJson(Map<String, dynamic> json){
+  Role.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
   }
 
-Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
     return _data;
   }
-
 }
-

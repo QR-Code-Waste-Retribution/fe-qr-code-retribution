@@ -26,6 +26,20 @@ class _InvoicePageState extends State<InvoicePage> {
     isChecked = List.filled(widget.invoiceList.data.length, false);
   }
 
+  void checkAllInvoice(bool value) {
+    int i = 0;
+    for (var item in isChecked!) {
+      isChecked![i] = value;
+      i++;
+    }
+
+    if (value) {
+      invoiceListChecked = this.widget.invoiceList;
+    } else {
+      invoiceListChecked = InvoiceList(data: []);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     device = Size(
@@ -81,7 +95,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     onChanged: (bool? value) {
                       setState(() {
                         isAll = value!;
-                        
+                        checkAllInvoice(value);
                       });
                     },
                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/pages/help/help_page.dart';
 import 'package:qr_code_app/pages/home/home_page.dart';
+import 'package:qr_code_app/pages/qr_code/qr_code_scanner_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -17,15 +18,12 @@ class _HomePaginationState extends State<HomePagination> {
   static const List<Widget> _pages = <Widget>[
     HomePage(),
     HelpPage(),
-    QRCodePage(),
+    QRCodeScannerPage(),
     Icon(
       Icons.chat,
       size: 150,
     ),
-    Icon(
-      Icons.mediation,
-      size: 150,
-    ),
+    QRCodeGeneratorPage(),
   ];
 
   @override
