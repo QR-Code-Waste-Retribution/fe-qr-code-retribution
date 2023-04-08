@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_app/data/home_menu.dart';
+import 'package:qr_code_app/components/molekuls/home_menu_grid.dart';
+import 'package:qr_code_app/core/constants/app_constants.dart';
+import 'package:qr_code_app/pages/home/home_body.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -20,7 +24,7 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       body: ListView(
-        padding: EdgeInsets.only(top: 0, bottom: 50, left: 0, right: 0),
+        padding: const EdgeInsets.only(top: 0, bottom: 50, left: 0, right: 0),
         children: [
           Container(
             width: device.width,
@@ -49,7 +53,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({
+  final AuthProvider authProvider = Get.find<AuthProvider>();
+
+  HomeContent({
     Key? key,
     required this.device,
   }) : super(key: key);
@@ -58,6 +64,8 @@ class HomeContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? role = authProvider.userRole;
+
     return Container(
       width: device.width,
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
@@ -67,7 +75,7 @@ class HomeContent extends StatelessWidget {
         children: [
           // Text Header
           Text(
-            'Halo Petugas A',
+            'Halo ${authProvider.authData.user?.name}',
             style: primaryTextStyle.copyWith(
               color: whiteColor,
               fontWeight: FontWeight.bold,
@@ -91,7 +99,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    'Selamat datang sebagai petugas di Aplikasi Retribusi Sampah Kabupaten Toba',
+                    '${AppConstants.headerHome[role]}',
                     style: primaryTextStyle.copyWith(
                       color: whiteColor,
                       fontWeight: FontWeight.w700,
@@ -104,223 +112,12 @@ class HomeContent extends StatelessWidget {
           ),
 
           // Home Menu Grid
-          Container(
-            padding: EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 20,
-            ),
-            width: device.width * 0.9,
-            decoration: BoxDecoration(
-              color: whiteColor,
-              boxShadow: [
-                BoxShadow(
-                  color: shadowColor,
-                  blurRadius: 5,
-                  offset: const Offset(2, 3.5),
-                ),
-              ],
-              borderRadius: BorderRadius.circular(30),
-            ),
-            child: HomeMenuGrid(device: device),
-          ),
+          HomeMenuGrid(device: device),
 
-          // Money Recapitulation
-          Container(
-            margin: EdgeInsets.only(top: 20, bottom: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Catatan Keuangan',
-                      style: primaryTextStyle.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    Text(
-                      'Lihat Detail',
-                      style: linkTextStyle.copyWith(),
-                    ),
-                  ],
-                ),
-                Container(
-                  margin: EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: shadowColor,
-                        blurRadius: 5,
-                        offset: const Offset(2, 3.5),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                    color: whiteColor,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 20,
-                          horizontal: 15,
-                        ),
-                        child: Icon(
-                          Icons.arrow_circle_down,
-                          color: primaryColor,
-                          size: 50,
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Total iuran yang sudah anda\nkumpulkan di bulan ini',
-                            style: secondaryTextStyle,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            'Rp. 640.000 -,',
-                            style: blackTextStyle.copyWith(
-                              fontSize: 22,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Status
-          Container(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Status',
-                  style: primaryTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 10),
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: shadowColor,
-                        blurRadius: 5,
-                        offset: const Offset(2, 3.5),
-                      )
-                    ],
-                    borderRadius: BorderRadius.circular(10),
-                    color: whiteColor,
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          width: device.width * 0.45,
-                          child: Text(
-                            'Semua tagihan iuran retribusi sampah sudah lunas dan sudah disetor',
-                            style: blackTextStyle.copyWith(
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Image.asset('assets/image/status_image.png'),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
+          // Home Body
+          HomeBody(device: device),
         ],
       ),
-    );
-  }
-}
-
-class HomeMenuGrid extends StatelessWidget {
-  const HomeMenuGrid({
-    Key? key,
-    required this.device,
-  }) : super(key: key);
-
-  final Size device;
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 3,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-      ),
-      padding: EdgeInsets.only(
-        top: 0,
-      ),
-      itemCount: 6,
-      itemBuilder: (BuildContext context, int index) {
-        return Center(
-          child: Container(
-            width: device.width,
-            child: Column(
-              children: [
-                Container(
-                  width: 50,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    color: whiteColor,
-                    borderRadius: BorderRadius.circular(200),
-                    boxShadow: [
-                      BoxShadow(
-                        color: shadowColor,
-                        blurRadius: 5,
-                        offset: const Offset(2, 3.5),
-                      ),
-                    ],
-                  ),
-                  child: Icon(
-                    homeMenu[index].iconImage,
-                    color: primaryColor,
-                  ),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Wrap(
-                  children: [
-                    Text(
-                      homeMenu[index].iconText,
-                      textAlign: TextAlign.center,
-                      style: primaryTextStyle.copyWith(
-                        fontSize: 12.5,
-                        color: blackColor,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }

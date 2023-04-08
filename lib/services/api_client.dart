@@ -1,11 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:qr_code_app/core/constants/app_constants.dart';
 
 
 class Client {
   Dio init() {
     Dio dio = Dio();
-    // dio.interceptors.add(ApiInterceptors());
-    dio.options.baseUrl = "http://localhost:8000/api";
+    dio.options.baseUrl = AppConstants.apiUrl;
     dio.options.contentType = 'application/json';
     return dio;
   }

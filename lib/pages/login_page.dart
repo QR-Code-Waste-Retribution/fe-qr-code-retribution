@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user.dart';
-import 'package:qr_code_app/services/api_client.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
-import 'package:qr_code_app/services/repositories/auth_repositories.dart';
+import 'package:qr_code_app/services/controllers/auth_controller.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class LoginPage extends StatefulWidget {
@@ -26,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
     final passwordController = TextEditingController();
 
     @override
-    void initState() {
+    void initState() async {
       super.initState();
     }
 
@@ -38,28 +37,10 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     void login() async {
-      ResponseAPI authResponse = await AuthRepositories().login(
+      await AuthController().login(
         username: emailController.text,
         password: passwordController.text,
       );
-
-      if (authResponse.success) {
-        AuthData data = AuthData.fromJson(authResponse.data);
-        if (await AuthData.saveAuthPreferences(data)) {
-          var snackBar = SnackBar(content: Text(authResponse.message));
-          if (context.mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(snackBar);
-            Navigator.pushNamed(context, '/home');
-          }
-        }
-      } else {
-        var snackBar = SnackBar(
-          content: Text(authResponse.message),
-          backgroundColor: alertColor,
-        );
-        if (context.mounted)
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      }
     }
 
     Widget header() {

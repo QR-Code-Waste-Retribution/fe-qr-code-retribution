@@ -11,7 +11,7 @@ class _HelpPageState extends State<HelpPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('Help Page'),
+      child: const Text('Help Page'),
     );
   }
 }

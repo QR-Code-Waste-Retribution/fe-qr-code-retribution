@@ -12,8 +12,8 @@ class InvoiceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 10),
-      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
       decoration: BoxDecoration(
         color: whiteColor,
         boxShadow: [
@@ -40,7 +40,7 @@ class InvoiceCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Column(
@@ -56,7 +56,7 @@ class InvoiceCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Column(
@@ -67,12 +67,12 @@ class InvoiceCard extends StatelessWidget {
                 style: blackTextStyle,
               ),
               Text(
-                'Kec. ' + invoice.subDistrictName,
+                'Kec. ${invoice.subDistrictName}',
                 style: primaryTextStyle,
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Column(
@@ -88,7 +88,7 @@ class InvoiceCard extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Row(
@@ -99,7 +99,7 @@ class InvoiceCard extends StatelessWidget {
                 style: blackTextStyle,
               ),
               Text(
-                'Rp ' + invoice.price.formatedPrice + ' -',
+                'Rp ${invoice.price.formatedPrice} -',
                 style: primaryTextStyle.copyWith(
                   fontWeight: FontWeight.w700,
                   fontSize: 20,

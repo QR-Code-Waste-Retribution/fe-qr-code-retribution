@@ -1,6 +1,5 @@
 import 'package:qr_code_app/models/district.dart';
 import 'package:qr_code_app/models/sub_district.dart';
-import 'package:qr_code_app/utils/MyPreferences.dart';
 
 class AuthData {
   AuthData({
@@ -10,9 +9,9 @@ class AuthData {
     required this.user,
   });
   late final String accessToken;
-  late final CredentialToken credentialToken;
+  late final CredentialToken? credentialToken;
   late final String tokenType;
-  late final User user;
+  late final User? user;
 
   AuthData.fromJson(Map<String, dynamic> json) {
     accessToken = json['access_token'];
@@ -21,24 +20,12 @@ class AuthData {
     user = User.fromJson(json['user']);
   }
 
-  static Future<bool> saveAuthPreferences(AuthData authData) {
-    Future<bool> pref = MyPreferences.saveValue('auth_data', authData);
-    return pref;
-  }
-
-  static Future<AuthData> getAuthPreferences() async {
-    final Map<String, dynamic>? authDataMap =
-         MyPreferences.getValue('auth_data') as Map<String, dynamic>?;
-
-    return AuthData.fromJson(authDataMap!);
-  }
-
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['access_token'] = accessToken;
-    _data['credential_token'] = credentialToken.toJson();
+    _data['credential_token'] = credentialToken?.toJson();
     _data['token_type'] = tokenType;
-    _data['user'] = user.toJson();
+    _data['user'] = user?.toJson();
     return _data;
   }
 }

@@ -1,14 +1,10 @@
 import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/services/api_client.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 
 class InvoiceRepositories {
-  Client client = Client();
-  late InvoiceProvider invoiceProvider;
+  final InvoiceProvider invoiceProvider;
 
-  InvoiceRepositories() {
-    invoiceProvider = InvoiceProvider(client.init());
-  }
+  InvoiceRepositories() : invoiceProvider = InvoiceProvider();
 
   Future<ResponseAPI> getAllInvoiceUser(_uuid) async {
     ResponseAPI scanQrCodeResponse =

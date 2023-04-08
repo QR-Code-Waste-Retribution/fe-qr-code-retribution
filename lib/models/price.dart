@@ -10,9 +10,9 @@ class Price {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['normal_price'] = this.normalPrice;
-    data['formated_price'] = this.formatedPrice;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['normal_price'] = normalPrice;
+    data['formated_price'] = formatedPrice;
     return data;
   }
 }

@@ -10,9 +10,9 @@ class TimeStamp {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date;
-    data['formated_date'] = this.formatedDate;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['date'] = date;
+    data['formated_date'] = formatedDate;
     return data;
   }
 }

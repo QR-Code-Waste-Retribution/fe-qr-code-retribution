@@ -46,7 +46,7 @@ class _HomePaginationState extends State<HomePagination> {
         currentIndex: _selectedIndex,
         selectedItemColor: secondaryColor,
         selectedFontSize: 10,
-        unselectedLabelStyle: TextStyle(
+        unselectedLabelStyle: const TextStyle(
           fontWeight: FontWeight.normal,
           color: primaryColor,
           fontSize: 10,
