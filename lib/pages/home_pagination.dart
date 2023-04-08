@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_app/pages/help/help_page.dart';
-import 'package:qr_code_app/pages/home/home_page.dart';
-import 'package:qr_code_app/pages/qr_code/qr_code_scanner_page.dart';
-import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
+import 'package:qr_code_app/core/constants/menu_pagination.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:get/get.dart';
 
 class HomePagination extends StatefulWidget {
   const HomePagination({super.key});
@@ -13,18 +12,9 @@ class HomePagination extends StatefulWidget {
 }
 
 class _HomePaginationState extends State<HomePagination> {
-  int _selectedIndex = 0;
+  final AuthProvider authProvider = Get.find<AuthProvider>();
 
-  static const List<Widget> _pages = <Widget>[
-    HomePage(),
-    HelpPage(),
-    QRCodeScannerPage(),
-    Icon(
-      Icons.chat,
-      size: 150,
-    ),
-    QRCodeGeneratorPage(),
-  ];
+  int _selectedIndex = 0;
 
   @override
   void reassemble() {
@@ -33,6 +23,8 @@ class _HomePaginationState extends State<HomePagination> {
 
   @override
   Widget build(BuildContext context) {
+    String? role = authProvider.userRole;
+
     void onItemTapped(int index) {
       setState(() {
         _selectedIndex = index;
@@ -55,41 +47,10 @@ class _HomePaginationState extends State<HomePagination> {
         unselectedItemColor: navigationButtonColor,
         elevation: 0,
         onTap: onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-            ),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.help,
-            ),
-            label: 'Bantuan',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.attach_money,
-            ),
-            label: 'Bayar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.alarm,
-            ),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-            ),
-            label: 'Profile',
-          ),
-        ],
+        items: MenuPagination.roleMenus[role]!,
       ),
       body: Center(
-        child: _pages.elementAt(_selectedIndex),
+        child: MenuPagination.rolePages[role]!.elementAt(_selectedIndex),
       ),
     );
   }

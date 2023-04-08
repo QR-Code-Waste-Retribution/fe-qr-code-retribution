@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
+import 'package:qr_code_app/components/molekuls/invoice_card.dart';
+import 'package:qr_code_app/core/constants/app_invoice.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class MasyarakatHome extends StatefulWidget {
@@ -30,8 +32,13 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
         SizedBox(
           height: 10,
         ),
+
+        // Informasi Iuran
         CustomHeader(text: 'Informasi Iuran'),
         Container(
+          margin: EdgeInsets.symmetric(
+            vertical: 10,
+          ),
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12.5),
           decoration: BoxDecoration(
             color: whiteColor,
@@ -47,9 +54,27 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Tagihan anda belum lunas',
-                style: blackTextStyle,
+              RichText(
+                text: TextSpan(
+                  style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.black,
+                  ),
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: 'Tagihan anda',
+                      style: blackTextStyle.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' belum lunas',
+                      style: alertTextStyle.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 5,
@@ -84,6 +109,40 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                 ],
               ),
             ],
+          ),
+        ),
+
+        // Detail Iuran
+        CustomHeader(text: 'Detail Iuran'),
+        SizedBox(
+          child: ListView.builder(
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: 2,
+            itemBuilder: (context, index) {
+              final item = AppInvoice.invoiceList[index];
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        'Tagihan ' + (index + 1).toString(),
+                        style: blackTextStyle.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  InvoiceCard(
+                    invoice: item,
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ],

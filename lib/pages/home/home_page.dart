@@ -24,11 +24,12 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       body: ListView(
+        shrinkWrap: true,
         padding: const EdgeInsets.only(top: 0, bottom: 50, left: 0, right: 0),
         children: [
           Container(
             width: device.width,
-            height: device.height * 1.05,
+            height: device.height * 1.6,
             child: Stack(
               children: [
                 Positioned(
