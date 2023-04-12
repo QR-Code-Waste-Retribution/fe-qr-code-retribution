@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
-import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/models/user.dart';
 import 'package:qr_code_app/services/controllers/auth_controller.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,6 +13,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final AuthProvider controller = Get.find<AuthProvider>();
+
   Size device = const Size(0, 0);
   @override
   Widget build(BuildContext context) {
@@ -33,19 +35,23 @@ class _LoginPageState extends State<LoginPage> {
     void dispose() {
       emailController.dispose();
       passwordController.dispose();
+      // controller.dispose();
       super.dispose();
     }
 
-    void login() async {
-      await AuthController().login(
-        username: emailController.text,
-        password: passwordController.text,
-      );
+    Future<void> login() async {
+      controller.isLoading.value = true;
+      await AuthController()
+          .login(
+            username: emailController.text,
+            password: passwordController.text,
+          )
+          .then((value) => {controller.isLoading.value = false});
     }
 
     Widget header() {
       return Container(
-        margin: EdgeInsets.only(top: 30),
+        margin: const EdgeInsets.only(top: 30),
         child: Wrap(
           alignment: WrapAlignment.spaceBetween,
           direction: Axis.horizontal,
@@ -68,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget bodyInputLogin() {
       return Container(
-        margin: EdgeInsets.only(top: 70),
+        margin: const EdgeInsets.only(top: 70),
         child: Column(
           children: [
             Text(
@@ -77,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                 fontSize: 30,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 7,
             ),
             Text(
@@ -94,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Widget emailInput() {
       return Container(
-        margin: EdgeInsets.only(top: 30),
+        margin: const EdgeInsets.only(top: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -105,12 +111,12 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: medium,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             Container(
               height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                   color: backgroundColor6,
                   borderRadius: BorderRadius.circular(12)),
@@ -120,7 +126,7 @@ class _LoginPageState extends State<LoginPage> {
                     Expanded(
                       child: TextFormField(
                         controller: emailController,
-                        scrollPadding: EdgeInsets.only(bottom: 40),
+                        scrollPadding: const EdgeInsets.only(bottom: 40),
                         style: primaryTextStyle.copyWith(color: Colors.black),
                         decoration: InputDecoration.collapsed(
                           hintText: 'Username / NIK',
@@ -153,12 +159,12 @@ class _LoginPageState extends State<LoginPage> {
                 fontWeight: medium,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             Container(
               height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               decoration: BoxDecoration(
                   color: backgroundColor6,
                   borderRadius: BorderRadius.circular(12)),
@@ -168,7 +174,7 @@ class _LoginPageState extends State<LoginPage> {
                     Expanded(
                       child: TextFormField(
                         controller: passwordController,
-                        scrollPadding: EdgeInsets.only(bottom: 40),
+                        scrollPadding: const EdgeInsets.only(bottom: 40),
                         obscureText: true,
                         style: primaryTextStyle.copyWith(color: Colors.black),
                         decoration: InputDecoration.collapsed(
@@ -191,8 +197,8 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: primaryColor,
       body: SafeArea(
         child: Container(
-          margin: EdgeInsets.only(right: 10),
-          decoration: BoxDecoration(
+          margin: const EdgeInsets.only(right: 10),
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
           child: ListView(
@@ -202,15 +208,30 @@ class _LoginPageState extends State<LoginPage> {
               bodyInputLogin(),
               emailInput(),
               passwordInput(),
-              CustomButton(
-                title: 'Login',
-                width: 220,
-                margin: const EdgeInsets.only(
-                  top: 30,
-                  bottom: 80,
-                ),
-                onPressed: () {
-                  login();
+              Obx(
+                () {
+                  if (controller.isLoading.value) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        CircularProgressIndicator(),
+                        SizedBox(height: 10.0),
+                        Text('Loading data...'),
+                      ],
+                    );
+                  } else {
+                    return CustomButton(
+                      title: 'Login',
+                      width: 220,
+                      margin: const EdgeInsets.only(
+                        top: 30,
+                        bottom: 80,
+                      ),
+                      onPressed: () {
+                        login();
+                      },
+                    );
+                  }
                 },
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'package:qr_code_app/pages/help/help_page.dart';
 import 'package:qr_code_app/pages/home/home_page.dart';
@@ -7,60 +8,63 @@ import 'package:qr_code_app/pages/profile/profile_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_scanner_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
 
-class MenuPagination {
-  static const Map<String, List<Widget>> rolePages = {
+class PaginationProvider extends GetxController {
+  RxInt currentIndex = 0.obs;
+
+  RxMap<String, List<Widget>> rolePages = {
     'pemungut': [
-      HomePage(),
-      HelpPage(),
-      QRCodeScannerPage(),
-      Icon(
+      const HomePage(),
+      const HelpPage(),
+      const QRCodeScannerPage(),
+      const Icon(
         Icons.chat,
         size: 150,
       ),
-      QRCodeGeneratorPage(),
+      const QRCodeGeneratorPage(),
     ],
     'masyarakat': [
-      HomePage(),
-      Icon(
+      const HomePage(),
+      const Icon(
         Icons.help,
         size: 150,
       ),
-      PaymentMethod(),
-      Icon(
+      const PaymentMethod(),
+      const Icon(
         Icons.chat,
         size: 150,
       ),
-      ProfilePage(),
+      const ProfilePage(),
     ],
-  };
+  }.obs;
 
-  static const Map<String, List<BottomNavigationBarItem>> roleMenus = {
+  
+  RxMap<String, List<BottomNavigationBarItem>> roleMenus = {
     'pemungut': [
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.home,
         ),
         label: 'Home',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.perm_contact_calendar,
         ),
         label: 'Kelola Akun',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.payment,
         ),
         label: 'Tagih',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.assignment,
         ),
         label: 'Rekapitulasi',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.person,
         ),
@@ -68,36 +72,48 @@ class MenuPagination {
       ),
     ],
     'masyarakat': [
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.home,
         ),
         label: 'Home',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.help,
         ),
         label: 'Bantuan',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.attach_money,
         ),
         label: 'Bayar',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.alarm,
         ),
         label: 'History',
       ),
-      BottomNavigationBarItem(
+      const BottomNavigationBarItem(
         icon: Icon(
           Icons.person,
         ),
         label: 'Profile',
       ),
     ],
-  };
+  }.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
+  @override
+  void onClose() {
+    print('Disposing PaginationProvider...');
+    Get.delete<PaginationProvider>();
+    super.onClose();
+  }
 }

@@ -8,6 +8,7 @@ const Color primaryColor = Color(0xffAACC00);
 Color secondaryColor = Color(0xff55A630);
 Color thirdColor = Color(0xff8ED236);
 Color alertColor = Color(0xffED6363);
+Color greenColor = Color(0xffAACC00);
 Color redColor = Color.fromARGB(255, 255, 140, 140);
 Color priceColor = Color(0xff2C96F1);
 Color backgroundColor1 = Color(0xff1F1D2B);
@@ -33,7 +34,7 @@ TextStyle primaryTextStyle = GoogleFonts.poppins(
 );
 
 TextStyle secondaryTextStyle = GoogleFonts.poppins(
-  color: secondaryTextColor,
+  color: secondaryColor,
 );
 
 TextStyle subtitleTextStyle = GoogleFonts.poppins(

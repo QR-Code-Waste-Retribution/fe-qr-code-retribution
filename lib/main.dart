@@ -5,7 +5,9 @@ import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/binding.dart';
 
 void main() async {
-  await GetStorage.init();
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();  
+  AppBindings().dependencies();
   runApp(const MyApp());
 }
 
@@ -16,7 +18,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      // routes: routes,
       getPages: Pages.pages,
       initialRoute: routeLogin,
       initialBinding: AppBindings(),

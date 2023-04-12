@@ -1,10 +1,11 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/api_client.dart';
 
-class AuthRepositories {
+class AuthRepositories extends GetxService{
   final Dio _client = Client().init();
 
   Future login({required String username, required String password}) async {

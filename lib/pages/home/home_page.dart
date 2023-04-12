@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/molekuls/home_menu_grid.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
+import 'package:qr_code_app/models/user.dart';
 import 'package:qr_code_app/pages/home/home_body.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -14,7 +15,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final AuthProvider authProvider = Get.find<AuthProvider>();
   Size device = const Size(0, 0);
+
+
   @override
   Widget build(BuildContext context) {
     device = Size(
@@ -42,7 +46,10 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Positioned(
                   top: 0,
-                  child: HomeContent(device: device),
+                  child: HomeContent(
+                    device: device,
+                    authData: authProvider.authData,
+                  ),
                 ),
               ],
             ),
@@ -54,29 +61,27 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeContent extends StatelessWidget {
-  final AuthProvider authProvider = Get.find<AuthProvider>();
-
   HomeContent({
     Key? key,
     required this.device,
+    required this.authData,
   }) : super(key: key);
 
   final Size device;
+  final AuthData? authData;
 
   @override
   Widget build(BuildContext context) {
-    String? role = authProvider.userRole;
-
     return Container(
       width: device.width,
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 35),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Text Header
           Text(
-            'Halo ${authProvider.authData.user?.name}',
+            'Halo ${authData?.user?.name}',
             style: primaryTextStyle.copyWith(
               color: whiteColor,
               fontWeight: FontWeight.bold,
@@ -87,7 +92,7 @@ class HomeContent extends StatelessWidget {
           // Header Home
           Container(
             width: device.width * 0.95,
-            margin: EdgeInsets.symmetric(vertical: 30),
+            margin: const EdgeInsets.symmetric(vertical: 30),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -95,12 +100,12 @@ class HomeContent extends StatelessWidget {
                   'assets/image/login_image.png',
                   width: device.width * 0.325,
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 30,
                 ),
                 Expanded(
                   child: Text(
-                    '${AppConstants.headerHome[role]}',
+                    '${AppConstants.headerHome[authData?.user?.role.name]}',
                     style: primaryTextStyle.copyWith(
                       color: whiteColor,
                       fontWeight: FontWeight.w700,
@@ -113,10 +118,10 @@ class HomeContent extends StatelessWidget {
           ),
 
           // Home Menu Grid
-          HomeMenuGrid(device: device),
+          HomeMenuGrid(device: device, authProvider: authData!,),
 
           // Home Body
-          HomeBody(device: device),
+          HomeBody(device: device, authProvider: authData!,),
         ],
       ),
     );

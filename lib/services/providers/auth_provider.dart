@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:get/state_manager.dart';
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user.dart';
@@ -11,18 +11,22 @@ class AuthProvider extends GetxController {
 
   final box = GetStorage();
 
-  AuthData _authData = AuthData(
+  final Rx<AuthData> _authData = AuthData(
     accessToken: '',
     credentialToken: null,
     tokenType: '',
     user: null,
-  );
+  ).obs;
 
-  AuthData get authData => _authData;
+  RxBool isLoading = false.obs;
 
-  bool? get isAuthenticated => _authData.accessToken.isNotEmpty;
+  bool get getLoading => isLoading.value;
 
-  String? get userRole => _authData.user?.role.name;
+  AuthData get authData => _authData.value;
+
+  bool? get isAuthenticated => _authData.value.accessToken.isNotEmpty;
+
+  String? get userRole => _authData.value.user?.role.name;
 
   Future<ResponseAPI> login(
       {required String username, required String password}) async {
@@ -31,15 +35,16 @@ class AuthProvider extends GetxController {
       password: password,
     );
 
-    _authData = AuthData.fromJson(response.data);
+    _authData.value = AuthData.fromJson(response.data);
     box.write('authData', jsonEncode(authData.toJson()));
     update();
+
     return response;
   }
 
   Future<void> logout() async {
     box.remove('authData');
-    _authData = AuthData(
+    _authData.value = AuthData(
         accessToken: '', credentialToken: null, tokenType: '', user: null);
     update();
   }
@@ -48,9 +53,10 @@ class AuthProvider extends GetxController {
   void onInit() {
     final authDataJson = box.read('authData');
     if (authDataJson != null) {
-      _authData = AuthData.fromJson(jsonDecode(authDataJson));
+      _authData.value = AuthData.fromJson(jsonDecode(authDataJson));
       update();
     }
     super.onInit();
   }
+
 }

@@ -23,7 +23,7 @@ class AuthController {
       ResponseAPI responseAPI = await _authProvider.login(username: username, password: password);
       Get.offAllNamed('/home');
       Get.snackbar(
-        'Success',
+        "Success",
         responseAPI.message,
         backgroundColor: primaryColor,
         colorText: Colors.white,
@@ -35,6 +35,7 @@ class AuthController {
         'Failed to login ${e.toString()}',
         backgroundColor: Colors.red,
         colorText: Colors.white,
+        borderRadius: 5,
       );
     }
   }

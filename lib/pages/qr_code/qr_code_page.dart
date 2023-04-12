@@ -15,10 +15,10 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Color.fromARGB(0, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(0, 255, 255, 255),
         shadowColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
             color: primaryColor,
@@ -40,11 +40,11 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
         ),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
         child: Column(
           children: [
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               decoration: BoxDecoration(
                 color: redColor,
               ),
@@ -55,14 +55,14 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 30,
             ),
             QrImage(
               data: "95d08e5b-8f28-3ff1-af78-be1fdf6588d8",
               version: QrVersions.auto,
               size: 320,
-              padding: EdgeInsets.all(0),
+              padding: const EdgeInsets.all(0),
             ),
           ],
         ),

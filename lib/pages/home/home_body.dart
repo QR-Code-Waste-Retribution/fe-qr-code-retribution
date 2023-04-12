@@ -1,22 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+
+import 'package:qr_code_app/models/user.dart';
 import 'package:qr_code_app/pages/home/masyarakat/masyarakat_home.dart';
 import 'package:qr_code_app/pages/home/pemungut/pemungut_home.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
 
 class HomeBody extends StatelessWidget {
-  final AuthProvider authProvider = Get.find<AuthProvider>();
 
   HomeBody({
     Key? key,
     required this.device,
+    required this.authProvider,
   }) : super(key: key);
 
   final Size device;
+  final AuthData authProvider;
+
+  // @override
+  // void dispose() {
+  //   authProvider.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
-    String? role = authProvider.userRole;
+    String? role = authProvider.user?.role.name;
 
     Map<String, Widget> homeBody = {
       'pemungut': PemungutHome(device: device),

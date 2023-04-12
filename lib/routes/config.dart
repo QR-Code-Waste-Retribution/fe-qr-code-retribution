@@ -2,16 +2,11 @@
 
 part of './init.dart';
 
-var routes = {
-  routeLogin: (context) => const LoginPage(),
-  routeHome: (context) => const HomePagination(),
-};
-
 
 class Pages {
   static final List<GetPage> pages = [
-    GetPage(name: '/home', page: () => HomePagination()),
-    GetPage(name: '/', page: () => LoginPage()),
+    GetPage(name: '/home', page: () => const HomePagination()),
+    GetPage(name: '/', page: () => const LoginPage()),
   ];
 }
 

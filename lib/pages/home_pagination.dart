@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/core/constants/menu_pagination.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:get/get.dart';
 
@@ -13,29 +14,30 @@ class HomePagination extends StatefulWidget {
 
 class _HomePaginationState extends State<HomePagination> {
   final AuthProvider authProvider = Get.find<AuthProvider>();
-
-  int _selectedIndex = 0;
+  final PaginationProvider paginationProvider = Get.find<PaginationProvider>();
 
   @override
   void reassemble() {
     super.reassemble();
   }
 
+  // @override
+  // void dispose() {
+  //   authProvider.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
-    String? role = authProvider.userRole;
 
     void onItemTapped(int index) {
-      setState(() {
-        _selectedIndex = index;
-      });
+      paginationProvider.currentIndex.value = index;
     }
 
     return Scaffold(
       backgroundColor: backgroundColor6,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.blue,
-        currentIndex: _selectedIndex,
+        currentIndex: paginationProvider.currentIndex.value,
         selectedItemColor: secondaryColor,
         selectedFontSize: 10,
         unselectedLabelStyle: const TextStyle(
@@ -47,16 +49,14 @@ class _HomePaginationState extends State<HomePagination> {
         unselectedItemColor: navigationButtonColor,
         elevation: 0,
         onTap: onItemTapped,
-        items: MenuPagination.roleMenus[role]!,
+        items: paginationProvider.roleMenus[authProvider.authData.user?.role.name]!,
       ),
-      body: Center(
-        child: MenuPagination.rolePages[role]!.elementAt(_selectedIndex),
+      body: Obx(
+        () => Center(
+          child: paginationProvider.rolePages[authProvider.authData.user?.role.name]!
+              .elementAt(paginationProvider.currentIndex.value),
+        ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

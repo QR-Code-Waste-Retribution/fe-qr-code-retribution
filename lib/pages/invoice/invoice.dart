@@ -51,7 +51,7 @@ class _InvoicePageState extends State<InvoicePage> {
         centerTitle: true,
         backgroundColor: secondaryColor,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
           ),
@@ -72,7 +72,7 @@ class _InvoicePageState extends State<InvoicePage> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
           Text(
             'Ahmad Sianipar',
@@ -82,7 +82,7 @@ class _InvoicePageState extends State<InvoicePage> {
               fontSize: 20,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 7,
           ),
           Row(
@@ -123,14 +123,14 @@ class _InvoicePageState extends State<InvoicePage> {
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 7,
           ),
           SizedBox(
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: widget.invoiceList.data.length,
               itemBuilder: (context, index) {
                 final item = widget.invoiceList.data[index];
@@ -170,7 +170,7 @@ class _InvoicePageState extends State<InvoicePage> {
               },
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 15,
           ),
           Text(

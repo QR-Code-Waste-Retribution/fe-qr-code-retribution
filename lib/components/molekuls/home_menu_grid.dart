@@ -1,23 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/data/home_menu.dart';
+import 'package:qr_code_app/models/user.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class HomeMenuGrid extends StatelessWidget {
-  final AuthProvider authProvider = Get.find<AuthProvider>();
+
 
   HomeMenuGrid({
     Key? key,
     required this.device,
+    required this.authProvider,
   }) : super(key: key);
 
   final Size device;
+    final AuthData authProvider;
+
 
   @override
   Widget build(BuildContext context) {
-
-    String? role = authProvider.userRole;
+    String? role = authProvider.user?.role.name;
 
     return Container(
       padding: EdgeInsets.symmetric(

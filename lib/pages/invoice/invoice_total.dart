@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
-import 'package:qr_code_app/pages/invoice/payment_details.dart';
+import 'package:qr_code_app/pages/invoice/invoice_payment_details.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:intl/intl.dart';
 
@@ -23,7 +23,6 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
     double total = 0;
     for (var invoice in widget.invoiceList.data) {
       total += invoice.price.normalPrice;
-      print(total);
     }
 
     setState(() {
