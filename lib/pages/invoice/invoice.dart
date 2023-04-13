@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/invoice_card.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
@@ -16,14 +17,14 @@ class InvoicePage extends StatefulWidget {
 class _InvoicePageState extends State<InvoicePage> {
   List<bool>? isChecked;
   bool? isAll = false;
-  InvoiceList invoiceListChecked = InvoiceList(data: []);
+  InvoiceList invoiceListChecked = InvoiceList(invoice: []);
   bool? tagihan = false;
   Size device = const Size(0, 0);
 
   @override
   void initState() {
     super.initState();
-    isChecked = List.filled(widget.invoiceList.data.length, false);
+    isChecked = List.filled(widget.invoiceList.invoice.length, false);
   }
 
   void checkAllInvoice(bool value) {
@@ -34,9 +35,9 @@ class _InvoicePageState extends State<InvoicePage> {
     }
 
     if (value) {
-      invoiceListChecked = this.widget.invoiceList;
+      invoiceListChecked = widget.invoiceList;
     } else {
-      invoiceListChecked = InvoiceList(data: []);
+      invoiceListChecked = InvoiceList(invoice: []);
     }
   }
 
@@ -46,6 +47,7 @@ class _InvoicePageState extends State<InvoicePage> {
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
     );
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -57,7 +59,7 @@ class _InvoicePageState extends State<InvoicePage> {
           ),
           onPressed: (() {
             setState(() {
-              Navigator.pop(context);
+              Get.back();
             });
           }),
         ),
@@ -111,10 +113,7 @@ class _InvoicePageState extends State<InvoicePage> {
                 ],
               ),
               Text(
-                invoiceListChecked.data.length.toString() +
-                    ' / ' +
-                    this.widget.invoiceList.data.length.toString() +
-                    ' Terpilih',
+                '${invoiceListChecked.invoice.length} / ${widget.invoiceList.invoice.length} Terpilih',
                 style: primaryTextStyle.copyWith(
                   fontWeight: FontWeight.w500,
                   fontSize: 16,
@@ -131,9 +130,9 @@ class _InvoicePageState extends State<InvoicePage> {
               shrinkWrap: true,
               scrollDirection: Axis.vertical,
               physics: const NeverScrollableScrollPhysics(),
-              itemCount: widget.invoiceList.data.length,
+              itemCount: widget.invoiceList.invoice.length,
               itemBuilder: (context, index) {
-                final item = widget.invoiceList.data[index];
+                final item = widget.invoiceList.invoice[index];
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -145,17 +144,17 @@ class _InvoicePageState extends State<InvoicePage> {
                             setState(() {
                               isChecked?[index] = value!;
                               if (value!) {
-                                invoiceListChecked.data
-                                    .add(widget.invoiceList.data[index]);
+                                invoiceListChecked.invoice
+                                    .add(widget.invoiceList.invoice[index]);
                               } else {
-                                invoiceListChecked.data.removeWhere((element) =>
-                                    element == widget.invoiceList.data[index]);
+                                invoiceListChecked.invoice.removeWhere((element) =>
+                                    element == widget.invoiceList.invoice[index]);
                               }
                             });
                           },
                         ),
                         Text(
-                          'Tagihan ' + (index + 1).toString(),
+                          'Tagihan ${index + 1}',
                           style: blackTextStyle.copyWith(
                             fontWeight: FontWeight.w600,
                           ),
@@ -185,12 +184,9 @@ class _InvoicePageState extends State<InvoicePage> {
               bottom: 80,
             ),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: ((context) => InvoiceTotal(
-                        invoiceList: invoiceListChecked,
-                      )),
+              Get.to(
+                () => InvoiceTotal(
+                  invoiceList: invoiceListChecked,
                 ),
               );
             },

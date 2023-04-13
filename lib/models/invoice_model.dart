@@ -4,15 +4,15 @@ import 'package:qr_code_app/models/price.dart';
 import 'package:qr_code_app/models/user.dart';
 
 class InvoiceList {
-  late final List<Invoice> data;
+  late final List<Invoice> invoice;
   late final User? user;
 
-  InvoiceList({required this.data, this.user});
+  InvoiceList({required this.invoice, this.user});
 
   InvoiceList.fromJson(Map<String, dynamic> json) {
-    data = <Invoice>[];
+    invoice = <Invoice>[];
     for (var v in json['invoice']) {
-      data.add(Invoice.fromJson(v));
+      invoice.add(Invoice.fromJson(v));
     }
     user = (json['user'] != null
         ? User.fromJson(json['user'])
@@ -20,10 +20,10 @@ class InvoiceList {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['data'] = this.data.map((v) => v.toJson()).toList();
-    data['user'] = user;
-    return data;
+    final Map<String, dynamic> invoice = <String, dynamic>{};
+    invoice['invoice'] = this.invoice.map((v) => v.toJson()).toList();
+    invoice['user'] = user;
+    return invoice;
   }
 }
 
@@ -74,18 +74,18 @@ class Invoice {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['category_id'] = categoryId;
-    data['price'] = price.toJson();
-    data['user_id'] = userId;
-    data['status'] = status;
-    data['category'] = category.toJson();
-    data['address'] = address;
-    data['sub_district_name'] = subDistrictName;
-    data['date'] = date;
-    data['created_at'] = createdAt.toJson();
-    data['updated_at'] = updatedAt.toJson();
-    return data;
+    final Map<String, dynamic> invoice = <String, dynamic>{};
+    invoice['id'] = id;
+    invoice['category_id'] = categoryId;
+    invoice['price'] = price.toJson();
+    invoice['user_id'] = userId;
+    invoice['status'] = status;
+    invoice['category'] = category.toJson();
+    invoice['address'] = address;
+    invoice['sub_district_name'] = subDistrictName;
+    invoice['date'] = date;
+    invoice['created_at'] = createdAt.toJson();
+    invoice['updated_at'] = updatedAt.toJson();
+    return invoice;
   }
 }

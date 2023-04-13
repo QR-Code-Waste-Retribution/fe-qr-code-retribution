@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
-import 'package:qr_code_app/services/controllers/auth_controller.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
+
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final AuthProvider controller = Get.find<AuthProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   Size device = const Size(0, 0);
+
   @override
   Widget build(BuildContext context) {
     device = Size(
@@ -35,18 +35,17 @@ class _LoginPageState extends State<LoginPage> {
     void dispose() {
       emailController.dispose();
       passwordController.dispose();
-      // controller.dispose();
       super.dispose();
     }
 
     Future<void> login() async {
-      controller.isLoading.value = true;
-      await AuthController()
+      _authProvider.isLoading.value = true;
+      await _authProvider
           .login(
             username: emailController.text,
             password: passwordController.text,
           )
-          .then((value) => {controller.isLoading.value = false});
+          .then((value) => {_authProvider.isLoading.value = false});
     }
 
     Widget header() {
@@ -210,7 +209,7 @@ class _LoginPageState extends State<LoginPage> {
               passwordInput(),
               Obx(
                 () {
-                  if (controller.isLoading.value) {
+                  if (_authProvider.isLoading.value) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: const [

@@ -1,23 +1,43 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/services/api_client.dart';
+import 'package:qr_code_app/pages/invoice/invoice.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
+import 'package:qr_code_app/shared/theme/init.dart';
 
-class InvoiceProvider {
-  final Dio _client = Client().init();
+class InvoiceProvider extends GetxController {
+  final InvoiceRepositories _invoiceRepositories = InvoiceRepositories();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
 
-  Future getInvoiceUser({required int subDistrictId, String? uuid}) async {
+  final Rx<InvoiceList> _invoice = InvoiceList(invoice: [], user: null).obs;
+
+  Future<void> getInvoiceUser({String? uuid}) async {
     try {
-      final response = await _client.post('/people/$uuid/invoice', data: {
-        "sub_district_id": subDistrictId,
-      });
-      final jsonDecodeResponse = jsonDecode(response.toString());
-      return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
-      final jsonDecodeResponse = jsonDecode(ex.response.toString());
-      return ResponseAPI.fromJson(jsonDecodeResponse);
+      ResponseAPI response = await _invoiceRepositories.getInvoiceUser(
+          subDistrictId: 51, uuid: uuid);
+      _invoice.value = InvoiceList.fromJson(response.data);
+
+      InvoiceList data = InvoiceList.fromJson(response.data);
+      Get.to(() => InvoicePage(invoiceList: data));
+
+      Get.snackbar(
+        "Success",
+        response.message,
+        backgroundColor: primaryColor,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+      update();
     } catch (e) {
-      throw Exception("Failed to get invoice user: $e");
+      Get.snackbar(
+        'Error',
+        'Failed to get invoice by ${uuid!} : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
     }
   }
 }

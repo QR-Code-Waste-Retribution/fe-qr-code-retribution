@@ -1,17 +1,11 @@
 import 'dart:io';
 import 'dart:developer';
 
+import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:qr_code_app/models/invoice_model.dart';
-import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/pages/invoice/invoice.dart';
-import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
-import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
-
-import 'package:qr_code_app/services/api_client.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class QRCodeScannerPage extends StatefulWidget {
   const QRCodeScannerPage({super.key});
@@ -21,43 +15,24 @@ class QRCodeScannerPage extends StatefulWidget {
 }
 
 class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
+  final InvoiceProvider _invoiceProvider = Get.find<InvoiceProvider>();
+
   Barcode? result;
-  QRViewController? controller;
+  QRViewController? qrViewController;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
   @override
   void reassemble() {
     super.reassemble();
     if (Platform.isAndroid) {
-      controller!.pauseCamera();
+      qrViewController!.pauseCamera();
     }
-    controller!.resumeCamera();
+    qrViewController!.resumeCamera();
   }
 
-  void scanQrCode(String? uuid) async {
-    await controller!.pauseCamera();
-    
-    ResponseAPI scanQrCodeResponse = await InvoiceRepositories().getAllInvoiceUser(uuid);
-    
-    if (scanQrCodeResponse.success) {
-      InvoiceList data = InvoiceList.fromJson(scanQrCodeResponse.data);
-      var snackBar = SnackBar(content: Text(scanQrCodeResponse.message));
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => InvoicePage(invoiceList: data)),
-          ),
-        );
-      }
-    } else {
-      var snackBar = SnackBar(
-        content: Text(scanQrCodeResponse.message),
-        backgroundColor: alertColor,
-      );
-      if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(snackBar);
-    }
+  Future<void> scanQrCode(String? uuid) async {
+    await qrViewController!.pauseCamera();
+    await _invoiceProvider.getInvoiceUser(uuid: uuid);
   }
 
   @override
@@ -86,7 +61,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
                         margin: const EdgeInsets.all(8),
                         child: ElevatedButton(
                           onPressed: () async {
-                            await controller?.resumeCamera();
+                            await qrViewController?.resumeCamera();
                           },
                           child: const Text(
                             'Scan QR Code',
@@ -128,7 +103,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
 
   void _onQRViewCreated(QRViewController controller) {
     setState(() {
-      this.controller = controller;
+      qrViewController = controller;
     });
     controller.scannedDataStream.listen((scanData) {
       setState(() {
@@ -149,7 +124,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
 
   @override
   void dispose() {
-    controller?.dispose();
+    qrViewController?.dispose();
     super.dispose();
   }
 }

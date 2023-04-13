@@ -21,7 +21,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
         Text(
@@ -29,17 +29,17 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
           style: blackTextStyle,
           textAlign: TextAlign.center,
         ),
-        SizedBox(
+        const SizedBox(
           height: 10,
         ),
 
         // Informasi Iuran
         CustomHeader(text: 'Informasi Iuran'),
         Container(
-          margin: EdgeInsets.symmetric(
+          margin: const EdgeInsets.symmetric(
             vertical: 10,
           ),
-          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 12.5),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12.5),
           decoration: BoxDecoration(
             color: whiteColor,
             borderRadius: BorderRadius.circular(10),
@@ -76,7 +76,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
               Row(
@@ -95,7 +95,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                   ),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Row(
@@ -118,7 +118,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
           child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
-            physics: NeverScrollableScrollPhysics(),
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: 2,
             itemBuilder: (context, index) {
               final item = AppInvoice.invoiceList[index];
@@ -129,14 +129,14 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                   Row(
                     children: [
                       Text(
-                        'Tagihan ' + (index + 1).toString(),
+                        'Tagihan ${index + 1}',
                         style: blackTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   InvoiceCard(
                     invoice: item,
                   ),

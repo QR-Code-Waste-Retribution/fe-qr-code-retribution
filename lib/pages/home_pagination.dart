@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_app/core/constants/menu_pagination.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -21,18 +20,8 @@ class _HomePaginationState extends State<HomePagination> {
     super.reassemble();
   }
 
-  // @override
-  // void dispose() {
-  //   authProvider.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
-
-    void onItemTapped(int index) {
-      paginationProvider.currentIndex.value = index;
-    }
-
     return Scaffold(
       backgroundColor: backgroundColor6,
       bottomNavigationBar: BottomNavigationBar(
@@ -48,12 +37,14 @@ class _HomePaginationState extends State<HomePagination> {
         showUnselectedLabels: true,
         unselectedItemColor: navigationButtonColor,
         elevation: 0,
-        onTap: onItemTapped,
-        items: paginationProvider.roleMenus[authProvider.authData.user?.role.name]!,
+        onTap: paginationProvider.updateCurrentIndex,
+        items: paginationProvider
+            .roleMenus[authProvider.authData.user?.role.name]!,
       ),
       body: Obx(
         () => Center(
-          child: paginationProvider.rolePages[authProvider.authData.user?.role.name]!
+          child: paginationProvider
+              .rolePages[authProvider.authData.user?.role.name]!
               .elementAt(paginationProvider.currentIndex.value),
         ),
       ),

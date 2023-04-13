@@ -1,14 +1,26 @@
+import 'dart:convert';
+
+import 'package:get/get.dart';
 import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/services/providers/invoice_provider.dart';
+import 'package:dio/dio.dart';
+import 'package:qr_code_app/services/api_client.dart';
 
-class InvoiceRepositories {
-  final InvoiceProvider invoiceProvider;
+class InvoiceRepositories extends GetxService{
 
-  InvoiceRepositories() : invoiceProvider = InvoiceProvider();
+  final Dio _client = Client().init();
 
-  Future<ResponseAPI> getAllInvoiceUser(_uuid) async {
-    ResponseAPI scanQrCodeResponse =
-        await invoiceProvider.getInvoiceUser(subDistrictId: 66, uuid: _uuid);
-    return scanQrCodeResponse;
+  Future getInvoiceUser({required int subDistrictId, String? uuid}) async {
+    try {
+      final response = await _client.post('/people/$uuid/invoice', data: {
+        "sub_district_id": subDistrictId,
+      });
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioError catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } catch (e) {
+      throw Exception("Failed to get invoice user: $e");
+    }
   }
 }

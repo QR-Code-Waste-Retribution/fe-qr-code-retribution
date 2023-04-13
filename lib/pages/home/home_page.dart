@@ -18,7 +18,6 @@ class _HomePageState extends State<HomePage> {
   final AuthProvider authProvider = Get.find<AuthProvider>();
   Size device = const Size(0, 0);
 
-
   @override
   Widget build(BuildContext context) {
     device = Size(

@@ -6,10 +6,15 @@ import 'package:qr_code_app/pages/home/home_page.dart';
 import 'package:qr_code_app/pages/payment/payment_method_page.dart';
 import 'package:qr_code_app/pages/profile/profile_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_scanner_page.dart';
-import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
 
 class PaginationProvider extends GetxController {
   RxInt currentIndex = 0.obs;
+
+  int get getCurrentIndex => currentIndex.value;
+
+  void updateCurrentIndex(int index) {
+    currentIndex.value = index;
+  }
 
   RxMap<String, List<Widget>> rolePages = {
     'pemungut': [
@@ -20,7 +25,7 @@ class PaginationProvider extends GetxController {
         Icons.chat,
         size: 150,
       ),
-      const QRCodeGeneratorPage(),
+      const ProfilePage(),
     ],
     'masyarakat': [
       const HomePage(),
@@ -37,7 +42,6 @@ class PaginationProvider extends GetxController {
     ],
   }.obs;
 
-  
   RxMap<String, List<BottomNavigationBarItem>> roleMenus = {
     'pemungut': [
       const BottomNavigationBarItem(
@@ -112,8 +116,11 @@ class PaginationProvider extends GetxController {
 
   @override
   void onClose() {
-    print('Disposing PaginationProvider...');
-    Get.delete<PaginationProvider>();
+    // Inisialisasi ulang controller setelah onDelete
+    Get.lazyPut(() => PaginationProvider());
     super.onClose();
   }
+
+  @override
+  InternalFinalCallback<void> get onDelete => super.onDelete;
 }

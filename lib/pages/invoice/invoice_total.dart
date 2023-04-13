@@ -21,7 +21,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
   void initState() {
     super.initState();
     double total = 0;
-    for (var invoice in widget.invoiceList.data) {
+    for (var invoice in widget.invoiceList.invoice) {
       total += invoice.price.normalPrice;
     }
 
@@ -153,9 +153,9 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                 SizedBox(
                   height: 300,
                   child: ListView.builder(
-                    itemCount: this.widget.invoiceList.data.length,
+                    itemCount: this.widget.invoiceList.invoice.length,
                     itemBuilder: (context, index) {
-                    return invoiceListDetail(widget.invoiceList.data[index], index + 1);
+                    return invoiceListDetail(widget.invoiceList.invoice[index], index + 1);
                   }),
                 )
               ],
