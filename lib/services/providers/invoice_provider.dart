@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/pages/invoice/invoice.dart';
+import 'package:qr_code_app/pages/invoice/pemungut/invoice_page.dart';
 // import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -15,6 +16,10 @@ class InvoiceProvider extends GetxController {
   final RxMap<String, String> _invoiceStatus = <String, String>{}.obs;
 
   InvoiceList get getInvoiceList => _invoice.value;
+
+  int get getInvoiceLength => _invoice.value.invoice.length;
+
+  InvoiceList get getInvoice => _invoice.value;
 
   // [true] Sudah Bayar || [false] Belum Bayar
   bool getStatusInvoice() {

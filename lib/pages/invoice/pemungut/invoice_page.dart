@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/invoice_card.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
-import 'package:qr_code_app/pages/invoice/invoice_total.dart';
+import 'package:qr_code_app/pages/invoice/pemungut/invoice_total.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class InvoicePage extends StatefulWidget {
