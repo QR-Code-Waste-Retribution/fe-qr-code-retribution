@@ -29,7 +29,7 @@ class _InvoicePageState extends State<InvoicePage> {
 
   void checkAllInvoice(bool value) {
     int i = 0;
-    for (var item in isChecked!) {
+    for (var _ in isChecked!) {
       isChecked![i] = value;
       i++;
     }
@@ -77,7 +77,7 @@ class _InvoicePageState extends State<InvoicePage> {
         padding: const EdgeInsets.all(20),
         children: [
           Text(
-            'Ahmad Sianipar',
+            '${widget.invoiceList.user?.name}',
             textAlign: TextAlign.center,
             style: primaryTextStyle.copyWith(
               fontWeight: FontWeight.w700,

@@ -35,21 +35,21 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
   Widget build(BuildContext context) {
     Container invoiceListDetail(Invoice invoice, index) {
       return Container(
-        margin: EdgeInsets.only(bottom: 20),
+        margin: const EdgeInsets.only(bottom: 20),
         child: Column(
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Tagihan ' + index.toString(),
+                  'Tagihan $index',
                   style: blackTextStyle.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  'Rp. ' + invoice.price.formatedPrice,
+                  'Rp. ${invoice.price.formatedPrice}',
                   style: blackTextStyle.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
@@ -57,7 +57,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 5,
             ),
             Row(
@@ -87,7 +87,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
         centerTitle: true,
         backgroundColor: secondaryColor,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
           ),
@@ -108,8 +108,9 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         children: [
+          const SizedBox(height: 20,),
           Text(
             'Pastikan uang yang anda terima sesuai dengan jumlah tagihan yang tertera!!!',
             style: blackTextStyle.copyWith(
@@ -120,8 +121,8 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
             textAlign: TextAlign.center,
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 30),
-            padding: EdgeInsets.all(20),
+            margin: const EdgeInsets.symmetric(vertical: 30),
+            padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: whiteColor,
               boxShadow: [
@@ -140,20 +141,20 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                     fontSize: 30,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Text(
                   'Detail Tagihan',
                   style: primaryTextStyle,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SizedBox(
                   height: 300,
                   child: ListView.builder(
-                    itemCount: this.widget.invoiceList.invoice.length,
+                    itemCount: widget.invoiceList.invoice.length,
                     itemBuilder: (context, index) {
                     return invoiceListDetail(widget.invoiceList.invoice[index], index + 1);
                   }),
@@ -175,7 +176,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: ((context) => PaymentDetails()),
+                      builder: ((context) => const PaymentDetails()),
                     ),
                   );
                 },

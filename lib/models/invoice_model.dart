@@ -14,9 +14,7 @@ class InvoiceList {
     for (var v in json['invoice']) {
       invoice.add(Invoice.fromJson(v));
     }
-    user = (json['user'] != null
-        ? User.fromJson(json['user'])
-        : null)!;
+    user = (json['user'] != null ? User.fromJson(json['user']) : null);
   }
 
   Map<String, dynamic> toJson() {

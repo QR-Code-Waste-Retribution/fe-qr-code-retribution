@@ -15,7 +15,7 @@ class PemungutHome extends StatelessWidget {
       children: [
         // Money Recapitulation
         Container(
-          margin: EdgeInsets.only(top: 20, bottom: 10),
+          margin: const EdgeInsets.only(top: 20, bottom: 10),
           child: Column(
             children: [
               Row(
@@ -36,7 +36,7 @@ class PemungutHome extends StatelessWidget {
                 ],
               ),
               Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: const EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -51,11 +51,11 @@ class PemungutHome extends StatelessWidget {
                 child: Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.symmetric(
+                      padding: const EdgeInsets.symmetric(
                         vertical: 20,
                         horizontal: 15,
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.arrow_circle_down,
                         color: primaryColor,
                         size: 50,
@@ -68,7 +68,7 @@ class PemungutHome extends StatelessWidget {
                           'Total iuran yang sudah anda\nkumpulkan di bulan ini',
                           style: secondaryTextStyle,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 5,
                         ),
                         Text(
@@ -100,8 +100,8 @@ class PemungutHome extends StatelessWidget {
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 10),
-                padding: EdgeInsets.all(20),
+                margin: const EdgeInsets.only(top: 10),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -127,7 +127,7 @@ class PemungutHome extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
                     Image.asset('assets/image/status_image.png'),

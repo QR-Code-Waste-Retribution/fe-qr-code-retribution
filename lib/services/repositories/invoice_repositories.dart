@@ -9,11 +9,24 @@ class InvoiceRepositories extends GetxService{
 
   final Dio _client = Client().init();
 
-  Future getInvoiceUser({required int subDistrictId, String? uuid}) async {
+  Future invoiceUserByUUIDandSubDistrict({required int subDistrictId, String? uuid}) async {
     try {
       final response = await _client.post('/people/$uuid/invoice', data: {
         "sub_district_id": subDistrictId,
       });
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioError catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } catch (e) {
+      throw Exception("Failed to get invoice user: $e");
+    }
+  }
+
+  Future invoiceUserByUserId({required int userId}) async {
+    try {
+      final response = await _client.get('/invoice/1');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {
