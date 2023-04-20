@@ -38,7 +38,7 @@ class _PrinterPortableState extends State<PrinterPortable> {
           backgroundColor: secondaryColor,
           automaticallyImplyLeading: false,
           title: Text(
-            "Profile",
+            "Pilih Printer Portable",
             style: primaryTextStyle.copyWith(
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
@@ -52,21 +52,21 @@ class _PrinterPortableState extends State<PrinterPortable> {
             padding: const EdgeInsets.all(8.0),
             child: ListView(
               children: <Widget>[
-                DropdownButton(
-                  value: selected_device,
-                  items: _devices
-                      .map(
-                        (e) => DropdownMenuItem(
-                          value: e,
-                          child: Text(e.name!),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (device) {
-                    setState(() {
-                      selected_device = device;
-                    });
-                  },
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemBuilder: (context, position) => ListTile(
+                    onTap: () {
+                      setState(() {
+                        selected_device = _devices[position];
+                      });
+                    },
+                    selectedColor: Colors.amber,
+                    style: ListTileStyle.drawer,
+                    leading: const Icon(Icons.print),
+                    title: Text(_devices[position].name!),
+                    subtitle: Text(_devices[position].address!),
+                  ),
+                  itemCount: _devices.length,
                 ),
                 ElevatedButton(
                   onPressed: () {

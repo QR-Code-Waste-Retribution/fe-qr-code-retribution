@@ -24,33 +24,27 @@ class _HomePageState extends State<HomePage> {
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
     );
-
+// Image.asset(
+//                     'assets/image/home_image.png',
+//                     width: device.width,
+//                     scale: 0.9,
+//                   )
     return Scaffold(
       body: ListView(
         shrinkWrap: true,
         padding: const EdgeInsets.only(top: 0, bottom: 50, left: 0, right: 0),
         children: [
           Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/image/home_image.png'),
+                  fit: BoxFit.contain,
+                  alignment: Alignment.topLeft),
+            ),
             width: device.width,
-            height: device.height * 1.6,
-            child: Stack(
-              children: [
-                Positioned(
-                  top: 0,
-                  child: Image.asset(
-                    'assets/image/home_image.png',
-                    width: device.width,
-                    scale: 0.9,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  child: HomeContent(
-                    device: device,
-                    authData: authProvider.authData,
-                  ),
-                ),
-              ],
+            child: HomeContent(
+              device: device,
+              authData: authProvider.authData,
             ),
           ),
         ],
@@ -117,10 +111,16 @@ class HomeContent extends StatelessWidget {
           ),
 
           // Home Menu Grid
-          HomeMenuGrid(device: device, authProvider: authData!,),
+          HomeMenuGrid(
+            device: device,
+            authProvider: authData!,
+          ),
 
           // Home Body
-          HomeBody(device: device, authProvider: authData!,),
+          HomeBody(
+            device: device,
+            authProvider: authData!,
+          ),
         ],
       ),
     );

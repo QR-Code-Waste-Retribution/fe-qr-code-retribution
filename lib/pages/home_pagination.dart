@@ -24,22 +24,24 @@ class _HomePaginationState extends State<HomePagination> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor6,
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.blue,
-        currentIndex: paginationProvider.currentIndex.value,
-        selectedItemColor: secondaryColor,
-        selectedFontSize: 10,
-        unselectedLabelStyle: const TextStyle(
-          fontWeight: FontWeight.normal,
-          color: primaryColor,
-          fontSize: 10,
+      bottomNavigationBar: Obx(
+        () => BottomNavigationBar(
+          backgroundColor: Colors.blue,
+          currentIndex: paginationProvider.currentIndex.value,
+          selectedItemColor: secondaryColor,
+          selectedFontSize: 10,
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.normal,
+            color: primaryColor,
+            fontSize: 10,
+          ),
+          showUnselectedLabels: true,
+          unselectedItemColor: navigationButtonColor,
+          elevation: 0,
+          onTap: paginationProvider.updateCurrentIndex,
+          items: paginationProvider
+              .roleMenus[authProvider.authData.user?.role.name]!,
         ),
-        showUnselectedLabels: true,
-        unselectedItemColor: navigationButtonColor,
-        elevation: 0,
-        onTap: paginationProvider.updateCurrentIndex,
-        items: paginationProvider
-            .roleMenus[authProvider.authData.user?.role.name]!,
       ),
       body: Obx(
         () => Center(

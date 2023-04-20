@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qr_code_app/core/constants/app_constants.dart';
+import 'package:qr_code_app/models/payment_method_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:get/get.dart';
 
 class PaymentMethod extends StatefulWidget {
   const PaymentMethod({super.key});
@@ -10,6 +14,21 @@ class PaymentMethod extends StatefulWidget {
 }
 
 class _PaymentMethodState extends State<PaymentMethod> {
+  final AuthProvider authProvider = Get.find<AuthProvider>();
+  late RolePayment _rolePayment;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    if (authProvider.authData.user?.role.name == 'pemungut') {
+      _rolePayment = AppConstants.preferencesPaymentMethodPage.pemungut;
+    } else {
+      _rolePayment = AppConstants.preferencesPaymentMethodPage.masyarakat;
+    }
+  }
+
   Size device = const Size(0, 0);
   @override
   Widget build(BuildContext context) {
@@ -17,6 +36,8 @@ class _PaymentMethodState extends State<PaymentMethod> {
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
     );
+
+    print(_rolePayment.header);
     return Scaffold(
       backgroundColor: secondaryColor,
       body: Container(
@@ -31,7 +52,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Ayo Bayar Retribusi Sampah Anda :)',
+                      _rolePayment.header,
                       style: whiteTextStyle.copyWith(
                         fontWeight: FontWeight.w700,
                         fontSize: 25,
@@ -59,7 +80,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                   padding: const EdgeInsets.all(20),
                   children: [
                     Text(
-                      'Pilih Metode Pembayaran',
+                      _rolePayment.titleBody,
                       style: primaryTextStyle.copyWith(
                         fontWeight: FontWeight.w700,
                         fontSize: 20,
@@ -68,69 +89,53 @@ class _PaymentMethodState extends State<PaymentMethod> {
                     const SizedBox(
                       height: 20,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: ((context) => const QRCodeGeneratorPage()),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(vertical: 0),
+                      itemCount: _rolePayment.option.length,
+                      itemBuilder: (context, index) {
+                        final item = _rolePayment.option[index];
+                        return GestureDetector(
+                          onTap: () {
+                            Get.to(
+                              () => const QRCodeGeneratorPage(),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(bottom: 20),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                              vertical: 15,
+                            ),
+                            decoration: BoxDecoration(
+                              color: greenColor.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  item.title,
+                                  style: secondaryTextStyle.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20,
+                                    color: secondaryColor,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  item.body,
+                                  style: primaryTextStyle,
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                          vertical: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          color: greenColor.withOpacity(0.2),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Pembayaran Tunai',
-                              style: secondaryTextStyle.copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                                color: secondaryColor,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              'Pastikan anda sedang bersama Petugas Pemungut Retribusi Sampah',
-                              style: primaryTextStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Container(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-                      decoration: BoxDecoration(
-                        color: greenColor.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Pembayaran Non Tunai',
-                            style: secondaryTextStyle.copyWith(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
-                              color: secondaryColor,
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),
