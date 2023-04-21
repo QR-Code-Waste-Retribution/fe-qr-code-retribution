@@ -4,23 +4,21 @@ import 'package:qr_code_app/models/user.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class HomeMenuGrid extends StatelessWidget {
-
-  HomeMenuGrid({
+  const HomeMenuGrid({
     Key? key,
     required this.device,
     required this.authProvider,
   }) : super(key: key);
 
   final Size device;
-    final AuthData authProvider;
-
+  final AuthData authProvider;
 
   @override
   Widget build(BuildContext context) {
     String? role = authProvider.user?.role.name;
 
     return Container(
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         vertical: 20,
         horizontal: 20,
       ),
@@ -37,20 +35,20 @@ class HomeMenuGrid extends StatelessWidget {
         borderRadius: BorderRadius.circular(30),
       ),
       child: GridView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           crossAxisSpacing: 10,
           mainAxisSpacing: 10,
         ),
-        padding: EdgeInsets.only(
+        padding: const EdgeInsets.only(
           top: 0,
         ),
         itemCount: listHomeMenu[role]?.length,
         itemBuilder: (BuildContext context, int index) {
           return Center(
-            child: Container(
+            child: SizedBox(
               width: device.width,
               child: Column(
                 children: [
@@ -73,7 +71,7 @@ class HomeMenuGrid extends StatelessWidget {
                       color: primaryColor,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 5,
                   ),
                   Wrap(

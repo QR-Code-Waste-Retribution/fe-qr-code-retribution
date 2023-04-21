@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -93,7 +94,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
           ),
           onPressed: (() {
             setState(() {
-              Navigator.pop(context);
+              Get.back();
             });
           }),
         ),

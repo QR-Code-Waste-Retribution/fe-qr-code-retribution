@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/models/payment_method_page.dart';
-import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:get/get.dart';
@@ -19,7 +18,6 @@ class _PaymentMethodState extends State<PaymentMethod> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
     if (authProvider.authData.user?.role.name == 'pemungut') {
@@ -37,110 +35,107 @@ class _PaymentMethodState extends State<PaymentMethod> {
       MediaQuery.of(context).size.height,
     );
 
-    print(_rolePayment.header);
     return Scaffold(
       backgroundColor: secondaryColor,
-      body: Container(
-        child: Column(
-          children: [
-            const SizedBox(
-              height: 20,
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    _rolePayment.header,
+                    style: whiteTextStyle.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 25,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: 30,
+                ),
+                Image.asset(
+                  'assets/image/payment_method_img.png',
+                  width: device.width * 0.35,
+                )
+              ],
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 35),
-              child: Row(
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(top: 20),
+              decoration: BoxDecoration(
+                color: whiteColor,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: ListView(
+                padding: const EdgeInsets.all(20),
                 children: [
-                  Expanded(
-                    child: Text(
-                      _rolePayment.header,
-                      style: whiteTextStyle.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                      ),
+                  Text(
+                    _rolePayment.titleBody,
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 20,
                     ),
                   ),
                   const SizedBox(
-                    width: 30,
+                    height: 20,
                   ),
-                  Image.asset(
-                    'assets/image/payment_method_img.png',
-                    width: device.width * 0.35,
-                  )
+                  ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(vertical: 0),
+                    itemCount: _rolePayment.option.length,
+                    itemBuilder: (context, index) {
+                      final item = _rolePayment.option[index];
+                      return GestureDetector(
+                        onTap: () {
+                          Get.toNamed(item.targetUrl);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 20),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 15,
+                            vertical: 15,
+                          ),
+                          decoration: BoxDecoration(
+                            color: greenColor.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.title,
+                                style: secondaryTextStyle.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
+                                  color: secondaryColor,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                item.body,
+                                style: primaryTextStyle,
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.only(top: 20),
-                decoration: BoxDecoration(
-                  color: whiteColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListView(
-                  padding: const EdgeInsets.all(20),
-                  children: [
-                    Text(
-                      _rolePayment.titleBody,
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.symmetric(vertical: 0),
-                      itemCount: _rolePayment.option.length,
-                      itemBuilder: (context, index) {
-                        final item = _rolePayment.option[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Get.toNamed(item.targetUrl);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(bottom: 20),
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 15,
-                              vertical: 15,
-                            ),
-                            decoration: BoxDecoration(
-                              color: greenColor.withOpacity(0.2),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  item.title,
-                                  style: secondaryTextStyle.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 20,
-                                    color: secondaryColor,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  item.body,
-                                  style: primaryTextStyle,
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

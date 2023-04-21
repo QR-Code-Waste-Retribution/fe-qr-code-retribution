@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 

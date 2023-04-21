@@ -6,7 +6,7 @@ import 'package:qr_code_app/pages/home/pemungut/pemungut_home.dart';
 
 class HomeBody extends StatelessWidget {
 
-  HomeBody({
+  const HomeBody({
     Key? key,
     required this.device,
     required this.authProvider,

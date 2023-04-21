@@ -27,15 +27,10 @@ class _LoginPageState extends State<LoginPage> {
     final passwordController = TextEditingController();
 
     @override
-    void initState() async {
-      super.initState();
-    }
-
-    @override
     void dispose() {
+      super.dispose();
       emailController.dispose();
       passwordController.dispose();
-      super.dispose();
     }
 
     Future<void> login() async {

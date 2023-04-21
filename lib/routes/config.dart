@@ -7,5 +7,6 @@ class Pages {
     GetPage(name: '/invoice', page: () => const InvoicePeoplePage()),
     GetPage(name: '/scan_qr_code', page: () => const QRCodeScannerPage()),
     GetPage(name: '/generate_qr_code', page: () => const QRCodeGeneratorPage()),
+    GetPage(name: '/additional_retribution', page: () => const AdditionalRetributionPage()),
   ];
 }

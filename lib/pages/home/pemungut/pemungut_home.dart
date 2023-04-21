@@ -88,54 +88,52 @@ class PemungutHome extends StatelessWidget {
         ),
 
         // Status
-        Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Status',
-                style: primaryTextStyle.copyWith(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Status',
+              style: primaryTextStyle.copyWith(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowColor,
-                      blurRadius: 5,
-                      offset: const Offset(2, 3.5),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                  color: whiteColor,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: device.width * 0.45,
-                        child: Text(
-                          'Semua tagihan iuran retribusi sampah sudah lunas dan sudah disetor',
-                          style: blackTextStyle.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 10),
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: shadowColor,
+                    blurRadius: 5,
+                    offset: const Offset(2, 3.5),
+                  )
+                ],
+                borderRadius: BorderRadius.circular(10),
+                color: whiteColor,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: device.width * 0.45,
+                      child: Text(
+                        'Semua tagihan iuran retribusi sampah sudah lunas dan sudah disetor',
+                        style: blackTextStyle.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16,
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Image.asset('assets/image/status_image.png'),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  Image.asset('assets/image/status_image.png'),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ],
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -23,13 +24,13 @@ class _PaymentDetailsState extends State<PaymentDetails> {
         centerTitle: true,
         backgroundColor: secondaryColor,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             size: 20,
           ),
           onPressed: (() {
             setState(() {
-              Navigator.pop(context);
+              Get.back();
             });
           }),
         ),
@@ -45,7 +46,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
       ),
       body: Container(
         width: device.width,
-        margin: EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Stack(
           alignment: AlignmentDirectional.center,
           children: [
@@ -55,7 +56,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                 children: [
                   Container(
                     width: device.width * 0.85,
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 15, right: 15, top: 40, bottom: 10),
                     decoration: BoxDecoration(
                       color: whiteColor,
@@ -76,14 +77,14 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                             fontSize: 30,
                           ),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Text(
                           'Berhasil',
                           style: blackTextStyle,
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
                         Table(

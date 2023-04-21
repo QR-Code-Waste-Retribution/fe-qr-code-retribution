@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/molekuls/invoice_card.dart';
-import 'package:qr_code_app/core/constants/app_invoice.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
@@ -51,7 +50,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
         const SizedBox(
           height: 10,
         ),
-        CustomHeader(text: 'Informasi Iuran'),
+        const CustomHeader(text: 'Informasi Iuran'),
         // Informasi Iuran
         Obx(
           () => _invoiceProvider.getStatusInvoice()
@@ -67,8 +66,8 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                       ),
                     ],
                   ),
-                  margin: EdgeInsets.symmetric(vertical: 7),
-                  padding: EdgeInsets.all(15),
+                  margin: const EdgeInsets.symmetric(vertical: 7),
+                  padding: const EdgeInsets.all(15),
                   width: device.width,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -183,7 +182,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                     ),
 
                     // Detail Iuran
-                    CustomHeader(text: 'Detail Iuran'),
+                    const CustomHeader(text: 'Detail Iuran'),
                     SizedBox(
                       child: ListView.builder(
                         shrinkWrap: true,
@@ -194,8 +193,6 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                         itemBuilder: (context, index) {
                           Invoice item =
                               _invoiceProvider.getInvoiceList.invoice[index];
-                          print(
-                              'Satst ${_invoiceProvider.getStatusInvoice().toString()}');
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

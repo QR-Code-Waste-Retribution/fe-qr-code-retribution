@@ -1,9 +1,8 @@
 import 'package:get/get.dart';
-import 'package:qr_code_app/pages/home/home_page.dart';
+import 'package:qr_code_app/pages/additional_retribution/additional_retribution_page.dart';
 import 'package:qr_code_app/pages/home_pagination.dart';
 import 'package:qr_code_app/pages/invoice/masyarakat/invoice_people_page.dart';
 import 'package:qr_code_app/pages/login_page.dart';
-import 'package:qr_code_app/pages/printer_portable/printer_portable_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_scanner_page.dart';
 part 'config.dart';

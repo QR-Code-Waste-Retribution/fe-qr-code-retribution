@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class CustomHeader extends StatelessWidget {
-  String text;
+  final String text;
 
-  CustomHeader({super.key, required this.text});
+  const CustomHeader({super.key, required this.text});
 
   @override
   Widget build(BuildContext context) {

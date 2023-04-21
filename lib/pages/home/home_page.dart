@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeContent extends StatelessWidget {
-  HomeContent({
+  const HomeContent({
     Key? key,
     required this.device,
     required this.authData,
