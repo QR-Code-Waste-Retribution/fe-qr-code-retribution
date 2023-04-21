@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 
 import 'package:qr_code_app/pages/help/help_page.dart';
 import 'package:qr_code_app/pages/home/home_page.dart';
+import 'package:qr_code_app/pages/manage_user/manage_user_page.dart';
 import 'package:qr_code_app/pages/payment/payment_method_page.dart';
 import 'package:qr_code_app/pages/profile/profile_page.dart';
+import 'package:qr_code_app/pages/recapitulation/recapitulation_page.dart';
 
 class PaginationProvider extends GetxController {
   RxInt currentIndex = 0.obs;
@@ -18,20 +20,14 @@ class PaginationProvider extends GetxController {
   RxMap<String, List<Widget>> rolePages = {
     'pemungut': [
       const HomePage(),
-      const HelpPage(),
+      const ManageUserPage(),
       const PaymentMethod(),
-      const Icon(
-        Icons.chat,
-        size: 150,
-      ),
+      const RecapitulationPage(),
       const ProfilePage(),
     ],
     'masyarakat': [
       const HomePage(),
-      const Icon(
-        Icons.help,
-        size: 150,
-      ),
+      const HelpPage(),
       const PaymentMethod(),
       const Icon(
         Icons.chat,
