@@ -99,9 +99,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
                         final item = _rolePayment.option[index];
                         return GestureDetector(
                           onTap: () {
-                            Get.to(
-                              () => const QRCodeGeneratorPage(),
-                            );
+                            Get.toNamed(item.targetUrl);
                           },
                           child: Container(
                             margin: EdgeInsets.only(bottom: 20),
