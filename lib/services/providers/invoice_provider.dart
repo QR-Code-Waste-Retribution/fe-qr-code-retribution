@@ -5,6 +5,7 @@ import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_page.dart';
 import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/number_format_price.dart';
 
 class InvoiceProvider extends GetxController {
   final InvoiceRepositories _invoiceRepositories = InvoiceRepositories();
@@ -24,10 +25,20 @@ class InvoiceProvider extends GetxController {
     int count = 0;
 
     for (var item in _invoice.value.invoice) {
-      if(item.status == 1) count++;
+      if (item.status == 1) count++;
     }
 
-    return count == _invoice.value.invoice.length ? true : false; 
+    return count == _invoice.value.invoice.length ? true : false;
+  }
+
+  String getTotalInvoicePrice() {
+    int count = 0;
+
+    for (var item in _invoice.value.invoice) {
+      if (item.status == 0) count += item.price.normalPrice;
+    }
+
+    return NumberFormatPrice().formatPrice(count);
   }
 
   Future<void> getInvoiceUserByUUIDandSubDistrict({String? uuid}) async {

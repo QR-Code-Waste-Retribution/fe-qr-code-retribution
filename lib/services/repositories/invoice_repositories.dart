@@ -25,8 +25,8 @@ class InvoiceRepositories extends GetxService{
   }
 
   Future invoiceUserByUserId({required int userId}) async {
-    try {
-      final response = await _client.get('/invoice/1');
+    try { 
+      final response = await _client.get('/invoice/$userId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {

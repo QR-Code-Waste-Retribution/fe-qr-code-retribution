@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
-import 'package:qr_code_app/components/molekuls/invoice_card.dart';
+import 'package:qr_code_app/components/molekuls/invoice/invoice_card.dart';
+import 'package:qr_code_app/components/molekuls/invoice/invoice_paid_card.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
+import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class MasyarakatHome extends StatefulWidget {
@@ -21,6 +23,8 @@ class MasyarakatHome extends StatefulWidget {
 class _MasyarakatHomeState extends State<MasyarakatHome> {
   final AuthProvider _authProvider = Get.find<AuthProvider>();
   final InvoiceProvider _invoiceProvider = Get.find<InvoiceProvider>();
+  final PaginationProvider paginationProvider = Get.find<PaginationProvider>();
+
   Size device = const Size(0, 0);
 
   @override
@@ -156,7 +160,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                                 style: blackTextStyle,
                               ),
                               Text(
-                                'Rp. 45,000.00 -',
+                                '${_invoiceProvider.getTotalInvoicePrice()} -',
                                 style: blackTextStyle.copyWith(
                                   fontSize: 25,
                                   fontWeight: FontWeight.w700,
@@ -170,10 +174,14 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                'Lakukan Pembayaran >',
-                                textAlign: TextAlign.end,
-                                style: priceTextStyle,
+                              GestureDetector(
+                                onTap: () =>
+                                    paginationProvider.updateCurrentIndex(2),
+                                child: Text(
+                                  'Lakukan Pembayaran >',
+                                  textAlign: TextAlign.end,
+                                  style: priceTextStyle,
+                                ),
                               ),
                             ],
                           ),
@@ -209,9 +217,13 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                               const SizedBox(
                                 height: 10,
                               ),
-                              InvoiceCard(
-                                invoice: item,
-                              ),
+                              item.status == 1
+                                  ? InvoicePaidCard(
+                                      categoryName: item.category.name,
+                                    )
+                                  : InvoiceCard(
+                                      invoice: item,
+                                    ),
                             ],
                           );
                         },
