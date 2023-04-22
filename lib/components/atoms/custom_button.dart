@@ -7,13 +7,19 @@ class CustomButton extends StatelessWidget {
   final Function() onPressed;
   final EdgeInsets margin;
   final Color backgroundColor;
+  final double height;
+  final double fontSize;
+  final double defaultRadiusButton;
 
   const CustomButton({
     super.key,
     required this.title,
     this.width = double.infinity,
+    this.height = 55,
     this.margin = EdgeInsets.zero,
     this.backgroundColor = primaryColor,
+    this.fontSize = 18,
+    this.defaultRadiusButton = defaultRadius,
     required this.onPressed,
   });
 
@@ -21,20 +27,20 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      height: 55,
+      height: height,
       margin: margin,
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: backgroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(defaultRadius),
+            borderRadius: BorderRadius.circular(defaultRadiusButton),
           ),
         ),
         child: Text(
           title,
           style: whiteTextStyle.copyWith(
-            fontSize: 18,
+            fontSize: fontSize,
             fontWeight: medium,
           ),
         ),

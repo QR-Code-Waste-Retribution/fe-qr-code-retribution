@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 double defaultMargin = 30.0;
-double defaultRadius = 17.0;
+const double defaultRadius = 17.0;
 
 const Color primaryColor = Color(0xffAACC00);
 Color secondaryColor = const Color(0xff55A630);
