@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:qr_code_app/models/payment_method_page.dart';
+import 'package:qr_code_app/models/virtual_account.dart';
 
 class AppConstants {
   static const String apiUrl = 'http://localhost:8000/api';
@@ -10,7 +12,8 @@ class AppConstants {
     'masyarakat': 'Selamat datang di Aplikasi Retribusi Sampah Kabupaten Toba',
   };
 
-  static PrefPaymentMethodPage preferencesPaymentMethodPage = PrefPaymentMethodPage(
+  static PrefPaymentMethodPage preferencesPaymentMethodPage =
+      PrefPaymentMethodPage(
     pemungut: RolePayment(
       header: 'Ayo Tagih dan kumpulkan  Retribusi Sampah',
       titleBody: 'Ayo Tagih dan kumpulkan  Retribusi Sampah',
@@ -41,11 +44,33 @@ class AppConstants {
         ),
         Option(
           title: 'Pembayaran NonTunai',
-          body:
-              '',
+          body: '',
           targetUrl: '/non_cash_payment',
         ),
       ],
     ),
   );
+
+  static List<VirtualAccount> virtualAccountList = [
+    VirtualAccount(
+      name: 'BRI',
+      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+    ),
+    VirtualAccount(
+      name: 'BNI',
+      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+    ),
+    VirtualAccount(
+      name: 'Bank Mandiri',
+      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+    ),
+    VirtualAccount(
+      name: 'CIMB',
+      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+    ),
+    VirtualAccount(
+      name: 'Danamon',
+      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+    ),
+  ];
 }

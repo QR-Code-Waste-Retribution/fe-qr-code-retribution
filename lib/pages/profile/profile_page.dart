@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/components/molekuls/arrow_option_card.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -50,44 +51,14 @@ class _ProfilePageState extends State<ProfilePage> {
             onTap: () {
               logout();
             },
-            child: Container(
-              width: device.width,
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-              decoration: BoxDecoration(
-                color: whiteColor,
-                boxShadow: [
-                  BoxShadow(
-                    color: shadowColor,
-                    blurRadius: 5,
-                  ),
-                ],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.logout,
-                    color: Colors.red,
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Text(
-                      "Keluar",
-                      style: blackTextStyle.copyWith(
-                        color: redColor,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.05,
-                      ),
-                    ),
-                  ),
-                  const Icon(Icons.navigate_next),
-                ],
+            child: const ArrowOptionCard(
+              text: 'Logout',
+              iconsLeading: Icon(
+                Icons.logout,
+                color: Colors.red,
               ),
             ),
-          )
+          ),
         ],
       ),
     );

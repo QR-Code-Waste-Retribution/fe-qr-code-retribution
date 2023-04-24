@@ -9,5 +9,7 @@ class Pages {
     GetPage(name: '/generate_qr_code', page: () => const QRCodeGeneratorPage()),
     GetPage(name: '/additional_retribution', page: () => const AdditionalRetributionPage()),
     GetPage(name: '/manage_user_page', page: () => const ManageUserPage()),
+    GetPage(name: '/non_cash_payment', page: () => const NonCashPage()),
+    GetPage(name: '/virtual_account_page', page: () => const VirtualAccountPage()),
   ];
 }

@@ -29,9 +29,9 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
 
   @override
   void initState() {
+    super.initState();
     _invoiceProvider.getInvoiceUserByUserId(
         userId: _authProvider.authData.user?.id);
-    super.initState();
   }
 
   @override
@@ -47,7 +47,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
           height: 10,
         ),
         Text(
-          'Ayooo, Jangan lupa membayar kewajiban retribusi anda untuk Toba yang lebih indah dan bersih',
+          'Ayooo, Jangan lupa membayar kewajiban retribusi anda untuk Toba yang lebih indah dan bersih ${_invoiceProvider.getInvoice.invoice.length}',
           style: blackTextStyle,
           textAlign: TextAlign.center,
         ),
