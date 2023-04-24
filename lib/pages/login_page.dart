@@ -16,22 +16,22 @@ class _LoginPageState extends State<LoginPage> {
 
   Size device = const Size(0, 0);
 
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     device = Size(
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
     );
-
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
-    @override
-    void dispose() {
-      super.dispose();
-      emailController.dispose();
-      passwordController.dispose();
-    }
 
     Future<void> login() async {
       _authProvider.isLoading.value = true;
@@ -119,6 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        keyboardType: TextInputType.text,
                         controller: emailController,
                         scrollPadding: const EdgeInsets.only(bottom: 40),
                         style: primaryTextStyle.copyWith(color: Colors.black),
@@ -167,6 +168,7 @@ class _LoginPageState extends State<LoginPage> {
                   children: [
                     Expanded(
                       child: TextFormField(
+                        keyboardType: TextInputType.text,
                         controller: passwordController,
                         scrollPadding: const EdgeInsets.only(bottom: 40),
                         obscureText: true,
@@ -188,6 +190,7 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return Scaffold(
+      backgroundColor: primaryColor,
       body: SafeArea(
         child: Obx(() {
           if (_authProvider.isLoading.value) {
