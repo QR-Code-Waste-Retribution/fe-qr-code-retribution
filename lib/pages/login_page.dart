@@ -188,49 +188,48 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     return Scaffold(
-      backgroundColor: primaryColor,
       body: SafeArea(
-        child: Container(
-          margin: const EdgeInsets.only(right: 10),
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: ListView(
-            padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-            children: [
-              header(),
-              bodyInputLogin(),
-              emailInput(),
-              passwordInput(),
-              Obx(
-                () {
-                  if (_authProvider.isLoading.value) {
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        CircularProgressIndicator(),
-                        SizedBox(height: 10.0),
-                        Text('Loading data...'),
-                      ],
-                    );
-                  } else {
-                    return CustomButton(
-                      title: 'Login',
-                      width: 220,
-                      margin: const EdgeInsets.only(
-                        top: 30,
-                        bottom: 80,
-                      ),
-                      onPressed: () {
-                        login();
-                      },
-                    );
-                  }
-                },
+        child: Obx(() {
+          if (_authProvider.isLoading.value) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 10.0),
+                  Text('Loading...'),
+                ],
               ),
-            ],
-          ),
-        ),
+            );
+          }
+
+          return Container(
+            height: device.height,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: ListView(
+              padding: EdgeInsets.symmetric(horizontal: defaultMargin),
+              children: [
+                header(),
+                bodyInputLogin(),
+                emailInput(),
+                passwordInput(),
+                CustomButton(
+                  title: 'Login',
+                  width: 220,
+                  margin: const EdgeInsets.only(
+                    top: 30,
+                    bottom: 80,
+                  ),
+                  onPressed: () {
+                    login();
+                  },
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }

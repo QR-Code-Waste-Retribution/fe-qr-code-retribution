@@ -40,16 +40,26 @@ class AuthProvider extends GetxController {
         username: username,
         password: password,
       );
-      _authData.value = AuthData.fromJson(response.data);
-      box.write('authData', jsonEncode(authData.toJson()));
-      Get.toNamed('/home');
-      Get.snackbar(
-        "Success",
-        response.message,
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      if (response.success) {
+        _authData.value = AuthData.fromJson(response.data);
+        box.write('authData', jsonEncode(authData.toJson()));
+        Get.toNamed('/home');
+        Get.snackbar(
+          "Success",
+          response.message,
+          backgroundColor: primaryColor,
+          colorText: Colors.white,
+          borderRadius: 5,
+        );
+      } else {
+        Get.snackbar(
+          "Failed",
+          response.message,
+          backgroundColor: redColor,
+          colorText: Colors.white,
+          borderRadius: 5,
+        );
+      }
       AppBindings().dependencies();
       update();
     } catch (e) {
