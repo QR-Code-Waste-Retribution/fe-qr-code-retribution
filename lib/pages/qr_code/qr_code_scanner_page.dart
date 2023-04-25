@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -16,6 +17,7 @@ class QRCodeScannerPage extends StatefulWidget {
 
 class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
   final InvoiceProvider _invoiceProvider = Get.find<InvoiceProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   Barcode? result;
   QRViewController? qrViewController;
@@ -32,7 +34,8 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
 
   Future<void> scanQrCode(String? uuid) async {
     await qrViewController!.pauseCamera();
-    await _invoiceProvider.getInvoiceUserByUUIDandSubDistrict(uuid: uuid);
+    await _invoiceProvider.getInvoiceUserByUUIDandSubDistrict(
+        uuid: uuid, subDistrictId: _authProvider.authData.user?.subDistrictId);
   }
 
   @override

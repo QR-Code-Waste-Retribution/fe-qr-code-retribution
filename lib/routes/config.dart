@@ -11,5 +11,6 @@ class Pages {
     GetPage(name: '/manage_user_page', page: () => const ManageUserPage()),
     GetPage(name: '/non_cash_payment', page: () => const NonCashPage()),
     GetPage(name: '/virtual_account_page', page: () => const VirtualAccountPage()),
+    GetPage(name: '/printer_portable_page', page: () => const PrinterPortablePage()),
   ];
 }

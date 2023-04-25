@@ -53,6 +53,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
             Positioned(
               top: 50,
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
                     width: device.width * 0.85,
@@ -211,17 +213,39 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                       ],
                     ),
                   ),
-                  CustomButton(
-                    onPressed: () {
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        '/home',
-                        (route) => false,
-                      );
-                    },
-                    title: 'Kembali',
-                    width: 120,
-                    margin: const EdgeInsets.symmetric(vertical: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomButton(
+                        onPressed: () {
+                          Get.toNamed('printer_portable_page');
+                        },
+                        title: 'Print',
+                        width: 120,
+                        height: 40,
+                        defaultRadiusButton: 7,
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                      ),
+                      const SizedBox(
+                        width: 60,
+                      ),
+                      CustomButton(
+                        onPressed: () {
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/home',
+                            (route) => false,
+                          );
+                        },
+                        backgroundColor: redColor,
+                        title: 'Kembali',
+                        width: 120,
+                        height: 40,
+                        defaultRadiusButton: 7,
+                        margin: const EdgeInsets.symmetric(vertical: 20),
+                      ),
+                    ],
                   ),
                 ],
               ),

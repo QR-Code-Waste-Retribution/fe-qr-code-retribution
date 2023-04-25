@@ -12,7 +12,7 @@ class InvoiceRepositories extends GetxService{
   Future invoiceUserByUUIDandSubDistrict({required int subDistrictId, String? uuid}) async {
     try {
       final response = await _client.post('/people/$uuid/invoice', data: {
-        "sub_district_id": subDistrictId,
+        "sub_district_id": 16,
       });
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);

@@ -41,10 +41,10 @@ class InvoiceProvider extends GetxController {
     return NumberFormatPrice().formatPrice(count);
   }
 
-  Future<void> getInvoiceUserByUUIDandSubDistrict({String? uuid}) async {
+  Future<void> getInvoiceUserByUUIDandSubDistrict({String? uuid, int? subDistrictId}) async {
     try {
       ResponseAPI response = await _invoiceRepositories
-          .invoiceUserByUUIDandSubDistrict(subDistrictId: 51, uuid: uuid);
+          .invoiceUserByUUIDandSubDistrict(subDistrictId: subDistrictId!, uuid: uuid);
       _invoice.value = InvoiceList.fromJson(response.data);
 
       InvoiceList data = InvoiceList.fromJson(response.data);

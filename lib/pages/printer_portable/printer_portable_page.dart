@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 
-class PrinterPortable extends StatefulWidget {
-  const PrinterPortable({super.key});
+class PrinterPortablePage extends StatefulWidget {
+  const PrinterPortablePage({super.key});
 
   @override
-  State<PrinterPortable> createState() => _PrinterPortableState();
+  State<PrinterPortablePage> createState() => _PrinterPortablePageState();
 }
 
-class _PrinterPortableState extends State<PrinterPortable> {
+class _PrinterPortablePageState extends State<PrinterPortablePage> {
   BlueThermalPrinter printer = BlueThermalPrinter.instance;
 
   List<BluetoothDevice> _devices = [];
