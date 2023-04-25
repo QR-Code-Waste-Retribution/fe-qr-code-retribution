@@ -29,65 +29,63 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: secondaryColor,
-          automaticallyImplyLeading: false,
-          title: Text(
-            "Pilih Printer Portable",
-            style: primaryTextStyle.copyWith(
-              fontWeight: FontWeight.w600,
-              letterSpacing: 1,
-              color: whiteColor,
-              fontSize: 16,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: secondaryColor,
+        automaticallyImplyLeading: false,
+        title: Text(
+          "Pilih Printer Portable",
+          style: primaryTextStyle.copyWith(
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1,
+            color: whiteColor,
+            fontSize: 16,
           ),
         ),
-        body: Container(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: ListView(
-              children: <Widget>[
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, position) => ListTile(
-                    onTap: () {
-                      setState(() {
-                        selected_device = _devices[position];
-                      });
-                    },
-                    selectedColor: Colors.amber,
-                    style: ListTileStyle.drawer,
-                    leading: const Icon(Icons.print),
-                    title: Text(_devices[position].name!),
-                    subtitle: Text(_devices[position].address!),
-                  ),
-                  itemCount: _devices.length,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    printer.connect(selected_device!);
+      ),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListView(
+            children: <Widget>[
+              ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (context, position) => ListTile(
+                  onTap: () {
+                    setState(() {
+                      selected_device = _devices[position];
+                    });
                   },
-                  child: Text('Connect'),
+                  selectedColor: Colors.amber,
+                  style: ListTileStyle.drawer,
+                  leading: const Icon(Icons.print),
+                  title: Text(_devices[position].name!),
+                  subtitle: Text(_devices[position].address!),
                 ),
-                ElevatedButton(
-                  onPressed: () {
-                    printer.disconnect();
-                  },
-                  child: Text('Disconnect'),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    if ((await printer.isConnected)!) {
-                      printInvoice();
-                    }
-                  },
-                  child: Text('Print'),
-                ),
-              ],
-            ),
+                itemCount: _devices.length,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  printer.connect(selected_device!);
+                },
+                child: Text('Connect'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  printer.disconnect();
+                },
+                child: Text('Disconnect'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  if ((await printer.isConnected)!) {
+                    printInvoice();
+                  }
+                },
+                child: Text('Print'),
+              ),
+            ],
           ),
         ),
       ),
@@ -115,5 +113,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
     printer.printLeftRight("No Referensi", "36382528344", 1);
     printer.printLeftRight("Jumlah Tagihan", "Rp. 100.000", 1);
     printer.printLeftRight("Waktu", "22-12-22 13:55", 1);
+    printer.printNewLine();
+    printer.printNewLine();
   }
 }
