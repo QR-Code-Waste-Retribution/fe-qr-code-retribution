@@ -15,7 +15,6 @@ class InvoiceTotal extends StatefulWidget {
 }
 
 class _InvoiceTotalState extends State<InvoiceTotal> {
-
   double totalPrice = 0;
 
   @override
@@ -24,12 +23,13 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
     double total = 0;
     for (var invoice in widget.invoiceList.invoice) {
       total += invoice.price.normalPrice;
+
+      print(invoice.id);
     }
 
     setState(() {
       totalPrice = total;
     });
-    
   }
 
   @override
@@ -111,7 +111,9 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const SizedBox(height: 20,),
+          const SizedBox(
+            height: 20,
+          ),
           Text(
             'Pastikan uang yang anda terima sesuai dengan jumlah tagihan yang tertera!!!',
             style: blackTextStyle.copyWith(
@@ -137,7 +139,9 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
             child: Column(
               children: [
                 Text(
-                  NumberFormat.currency(locale: 'id_ID', symbol: 'Rp ', decimalDigits: 2).format(totalPrice),
+                  NumberFormat.currency(
+                          locale: 'id_ID', symbol: 'Rp ', decimalDigits: 2)
+                      .format(totalPrice),
                   style: blackTextStyle.copyWith(
                     fontSize: 30,
                   ),
@@ -155,10 +159,11 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                 SizedBox(
                   height: 300,
                   child: ListView.builder(
-                    itemCount: widget.invoiceList.invoice.length,
-                    itemBuilder: (context, index) {
-                    return invoiceListDetail(widget.invoiceList.invoice[index], index + 1);
-                  }),
+                      itemCount: widget.invoiceList.invoice.length,
+                      itemBuilder: (context, index) {
+                        return invoiceListDetail(
+                            widget.invoiceList.invoice[index], index + 1);
+                      }),
                 )
               ],
             ),

@@ -4,9 +4,11 @@ import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qr_code_app/shared/theme/init.dart';
 
 class QRCodeScannerPage extends StatefulWidget {
   const QRCodeScannerPage({super.key});
@@ -41,43 +43,55 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: secondaryColor,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+          onPressed: (() {
+            setState(() {
+              Get.back();
+            });
+          }),
+        ),
+        title: Text(
+          "Scan QR Code",
+          style: primaryTextStyle.copyWith(
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1,
+            color: whiteColor,
+            fontSize: 16,
+          ),
+        ),
+      ),
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
+          Expanded( 
             flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  if (result != null)
-                    Text(
-                        'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
-                  else
-                    const Text('Scan a code'),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        margin: const EdgeInsets.all(8),
-                        child: ElevatedButton(
-                          onPressed: () async {
-                            await qrViewController?.resumeCamera();
-                          },
-                          child: const Text(
-                            'Scan QR Code',
-                            style: TextStyle(fontSize: 14),
-                          ),
-                        ),
-                      )
-                    ],
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.all(8),
+                  child: CustomButton(
+                    onPressed: () async {
+                      await qrViewController?.resumeCamera();
+                    },
+                    title: 'Scan QR Code',
+                    width: 120,
+                    height: 40,
+                    defaultRadiusButton: 7,
+                    margin: const EdgeInsets.symmetric(vertical: 20),
                   ),
-                ],
-              ),
+                )
+              ],
             ),
-          )
+          ),
         ],
       ),
     );

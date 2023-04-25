@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -194,16 +195,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Obx(() {
           if (_authProvider.isLoading.value) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 10.0),
-                  Text('Loading...'),
-                ],
-              ),
-            );
+            return const CustomLoading();
           }
 
           return Container(
