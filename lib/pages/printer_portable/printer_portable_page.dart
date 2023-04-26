@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 
@@ -12,6 +14,8 @@ class PrinterPortablePage extends StatefulWidget {
 
 class _PrinterPortablePageState extends State<PrinterPortablePage> {
   BlueThermalPrinter printer = BlueThermalPrinter.instance;
+  final TransactionProvider _transactionProvider =
+      Get.find<TransactionProvider>();
 
   List<BluetoothDevice> _devices = [];
   BluetoothDevice? selected_device;
@@ -30,6 +34,34 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
   @override
   Widget build(BuildContext context) {
+    TransactionInvoice transactionInvoice =
+        _transactionProvider.getTransactionInvoice;
+    void printInvoice() {
+      // SIZE
+      // 0 : Normal
+      // 1 : Normal - Bold
+      // 2 : Medium - Bold
+      // 3 : Large - Bold
+
+      // Align
+      // 1 : Left
+      // 2 : Center
+      // 3 : Right
+      printer.printNewLine();
+      printer.printCustom("Tagihan Retribusi Sampah", 0, 1);
+      printer.printLeftRight("Kategori", '', 1);
+      for (var invoice in transactionInvoice.invoice!) {
+        printer.printLeftRight('${invoice.category?.name}', '', 1);
+      }
+      printer.printLeftRight("Metode", "Tunai", 1);
+      printer.printLeftRight("Pembayaran", "", 1);
+      printer.printLeftRight("No Referensi", "${transactionInvoice.transaction?.referenceNumber}", 1);
+      printer.printLeftRight("Jumlah Tagihan", "Rp. ${transactionInvoice.transaction?.price?.formatedPrice}", 1);
+      printer.printLeftRight("Waktu", "${transactionInvoice.transaction?.createdAt?.formatedDate}", 1);
+      printer.printNewLine();
+      printer.printNewLine();
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -102,30 +134,5 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
         ),
       ),
     );
-  }
-
-  void printInvoice() {
-    // SIZE
-    // 0 : Normal
-    // 1 : Normal - Bold
-    // 2 : Medium - Bold
-    // 3 : Large - Bold
-
-    // Align
-    // 1 : Left
-    // 2 : Center
-    // 3 : Right
-
-    printer.printNewLine();
-    printer.printCustom("Tagihan Retribusi Sampah", 0, 1);
-    printer.printLeftRight("Kategori", '', 1);
-    printer.printLeftRight("Arena Hiburan/Panggung Hiburan Rakyat", '', 1);
-    printer.printLeftRight("Metode", "Tunai", 1);
-    printer.printLeftRight("Pembayaran", "", 1);
-    printer.printLeftRight("No Referensi", "36382528344", 1);
-    printer.printLeftRight("Jumlah Tagihan", "Rp. 100.000", 1);
-    printer.printLeftRight("Waktu", "22-12-22 13:55", 1);
-    printer.printNewLine();
-    printer.printNewLine();
   }
 }
