@@ -13,7 +13,7 @@ class Transaction {
   String? transactionNumber;
   User? user;
   int? pemungutId;
-  Category? categoryId;
+  Category? category;
   TimeStamp? createdAt;
   TimeStamp? updatedAt;
 
@@ -27,7 +27,7 @@ class Transaction {
       this.transactionNumber,
       this.user,
       this.pemungutId,
-      this.categoryId,
+      this.category,
       this.createdAt,
       this.updatedAt});
 
@@ -41,7 +41,7 @@ class Transaction {
     transactionNumber = json['transaction_number'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     pemungutId = json['pemungut_id'];
-    categoryId = json['category_id'] != null
+    category = json['category_id'] != null
         ? Category.fromJson(json['category_id'])
         : null;
     createdAt = json['created_at'] != null
@@ -67,8 +67,8 @@ class Transaction {
       data['user'] = user!.toJson();
     }
     data['pemungut_id'] = pemungutId;
-    if (categoryId != null) {
-      data['category_id'] = categoryId!.toJson();
+    if (category != null) {
+      data['category_id'] = category!.toJson();
     }
     if (createdAt != null) {
       data['created_at'] = createdAt!.toJson();

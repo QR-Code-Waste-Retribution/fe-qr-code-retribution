@@ -1,9 +1,9 @@
-import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/invoice_store.dart';
 import 'package:qr_code_app/models/transaction/transaction.dart';
 
 class TransactionInvoice {
   Transaction? transaction;
-  List<Invoice>? invoice;
+  List<InvoiceStore>? invoice;
 
   TransactionInvoice({this.transaction, this.invoice});
 
@@ -12,9 +12,9 @@ class TransactionInvoice {
         ? Transaction.fromJson(json['transaction'])
         : null;
     if (json['invoice'] != null) {
-      invoice = <Invoice>[];
+      invoice = <InvoiceStore>[];
       json['invoice'].forEach((v) {
-        invoice!.add(Invoice.fromJson(v));
+        invoice!.add(InvoiceStore.fromJson(v));
       });
     }
   }

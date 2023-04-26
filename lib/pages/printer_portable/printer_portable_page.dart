@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 
@@ -33,6 +34,17 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: secondaryColor,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+          ),
+          onPressed: (() {
+            setState(() {
+              Get.back();
+            });
+          }),
+        ),
         automaticallyImplyLeading: false,
         title: Text(
           "Pilih Printer Portable",

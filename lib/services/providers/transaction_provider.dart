@@ -13,16 +13,19 @@ class TransactionProvider extends GetxController {
   final Rx<TransactionInvoice> _transactionInvoice =
       TransactionInvoice(invoice: [], transaction: null).obs;
 
+  final RxBool isLoading = false.obs;
+
   TransactionInvoice get getTransactionInvoice => _transactionInvoice.value;
 
   Future<void> storeTransactionInvoiceMasyarakat(
       {required TransactionStore transactionStore}) async {
-    try {
+    // try {
       ResponseAPI response = await _transactionRepositories
           .transactionInvoiceMasyarakat(transactionStore: transactionStore);
 
       _transactionInvoice.value = TransactionInvoice.fromJson(response.data);
 
+      Get.toNamed('/invoice_payments_details');
       Get.snackbar(
         "Success",
         response.message,
@@ -31,14 +34,14 @@ class TransactionProvider extends GetxController {
         borderRadius: 5,
       );
       update();
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to store transaction : ${e.toString()}',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
-    }
+    // } catch (e) {
+    //   Get.snackbar(
+    //     'Error',
+    //     'Failed to store transaction : ${e.toString()}',
+    //     backgroundColor: Colors.red,
+    //     colorText: Colors.white,
+    //     borderRadius: 5,
+    //   );
+    // }
   }
 }

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/pages/additional_retribution/additional_retribution_page.dart';
 import 'package:qr_code_app/pages/home_pagination.dart';
 import 'package:qr_code_app/pages/invoice/masyarakat/invoice_people_page.dart';
+import 'package:qr_code_app/pages/invoice/pemungut/invoice_payment_details.dart';
 import 'package:qr_code_app/pages/login_page.dart';
 import 'package:qr_code_app/pages/manage_user/manage_user_page.dart';
 import 'package:qr_code_app/pages/payment/non_cash/non_cash_page.dart';

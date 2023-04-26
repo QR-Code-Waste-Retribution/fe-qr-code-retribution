@@ -1,6 +1,6 @@
 class TransactionStore {
   List<int>? invoiceId;
-  int? totalAmount;
+  double? totalAmount;
   int? masyarakatId;
   int? pemungutId;
   int? categoryId;
