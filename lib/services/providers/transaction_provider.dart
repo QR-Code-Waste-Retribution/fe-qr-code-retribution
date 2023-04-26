@@ -19,7 +19,7 @@ class TransactionProvider extends GetxController {
 
   Future<void> storeTransactionInvoiceMasyarakat(
       {required TransactionStore transactionStore}) async {
-    // try {
+    try {
       ResponseAPI response = await _transactionRepositories
           .transactionInvoiceMasyarakat(transactionStore: transactionStore);
 
@@ -34,14 +34,14 @@ class TransactionProvider extends GetxController {
         borderRadius: 5,
       );
       update();
-    // } catch (e) {
-    //   Get.snackbar(
-    //     'Error',
-    //     'Failed to store transaction : ${e.toString()}',
-    //     backgroundColor: Colors.red,
-    //     colorText: Colors.white,
-    //     borderRadius: 5,
-    //   );
-    // }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to store transaction : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
   }
 }

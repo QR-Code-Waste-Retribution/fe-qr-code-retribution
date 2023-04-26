@@ -7,7 +7,6 @@ import 'package:qr_code_app/models/transaction/transaction_store.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:qr_code_app/pages/invoice/pemungut/invoice_payment_details.dart';
 import 'package:intl/intl.dart';
 
 class InvoiceTotal extends StatefulWidget {

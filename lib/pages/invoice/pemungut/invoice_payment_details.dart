@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class PaymentDetails extends StatefulWidget {
@@ -12,6 +14,8 @@ class PaymentDetails extends StatefulWidget {
 
 class _PaymentDetailsState extends State<PaymentDetails> {
   Size device = const Size(0, 0);
+  final TransactionProvider _transactionProvider =
+      Get.find<TransactionProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +23,10 @@ class _PaymentDetailsState extends State<PaymentDetails> {
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
     );
+
+    TransactionInvoice transactionInvoice =
+        _transactionProvider.getTransactionInvoice;
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -73,7 +81,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     child: Column(
                       children: [
                         Text(
-                          'Rp. 100,000.00 -',
+                          'Rp. ${transactionInvoice.transaction?.price?.formatedPrice} -',
                           style: blackTextStyle.copyWith(
                             fontWeight: FontWeight.w700,
                             fontSize: 30,
@@ -114,7 +122,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Text(
-                                    'Arena Hiburan/Panggung Hiburan Rakyat',
+                                    '${transactionInvoice.invoice?[0].category?.name}',
                                     style: blackTextStyle.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -145,7 +153,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                   padding: const EdgeInsets.only(
                                       bottom: 20, top: 20),
                                   child: Text(
-                                    'Tunai',
+                                    '${transactionInvoice.transaction?.type}',
                                     style: blackTextStyle.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -176,7 +184,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                   padding: const EdgeInsets.only(
                                       bottom: 20, top: 20),
                                   child: Text(
-                                    '36382528344',
+                                    '${transactionInvoice.transaction?.referenceNumber}',
                                     style: blackTextStyle.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -200,7 +208,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                   padding: const EdgeInsets.only(
                                       bottom: 20, top: 20),
                                   child: Text(
-                                    '22-12-22 13:55',
+                                    '${transactionInvoice.transaction?.createdAt?.formatedDate}',
                                     style: blackTextStyle.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
