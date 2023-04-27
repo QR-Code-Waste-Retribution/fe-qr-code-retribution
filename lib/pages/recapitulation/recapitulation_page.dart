@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
-import 'package:qr_code_app/components/molekuls/search_input.dart';
+import 'package:qr_code_app/components/molekuls/input/search_input.dart';
 
 class RecapitulationPage extends StatefulWidget {
   const RecapitulationPage({super.key});

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
-import 'package:qr_code_app/components/molekuls/search_input.dart';
+import 'package:qr_code_app/components/molekuls/input/search_input.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class ManageUserPage extends StatefulWidget {
@@ -45,7 +46,9 @@ class _ManageUserPageState extends State<ManageUserPage> {
               top: 30,
               bottom: 30,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed('/add_user');
+            },
           ),
           Table(
             textDirection: TextDirection.ltr,

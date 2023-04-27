@@ -14,5 +14,8 @@ class Pages {
     GetPage(name: '/virtual_account_page', page: () => const VirtualAccountPage()),
     GetPage(name: '/printer_portable_page', page: () => const PrinterPortablePage()),
     GetPage(name: '/invoice_payments_details', page: () => const PaymentDetails()),
+
+
+    GetPage(name: '/add_user', page: () => const AddUserPage()),
   ];
 }
