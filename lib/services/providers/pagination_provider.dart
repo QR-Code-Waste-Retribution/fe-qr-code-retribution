@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:qr_code_app/pages/help/help_page.dart';
+import 'package:qr_code_app/pages/history/history_payment_page.dart';
 import 'package:qr_code_app/pages/home/home_page.dart';
 import 'package:qr_code_app/pages/manage_user/manage_user_page.dart';
 import 'package:qr_code_app/pages/payment/payment_method_page.dart';
@@ -29,10 +30,7 @@ class PaginationProvider extends GetxController {
       const HomePage(),
       const HelpPage(),
       const PaymentMethod(),
-      const Icon(
-        Icons.chat,
-        size: 150,
-      ),
+      const HistoryPaymentPage(),
       const ProfilePage(),
     ],
   }.obs;
