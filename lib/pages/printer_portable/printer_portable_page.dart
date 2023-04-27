@@ -4,6 +4,7 @@ import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:qr_code_app/utils/number_format_price.dart';
 
 class PrinterPortablePage extends StatefulWidget {
   const PrinterPortablePage({super.key});
@@ -51,7 +52,8 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
       printer.printCustom("Tagihan Retribusi Sampah", 0, 1);
       printer.printLeftRight("Kategori", '', 1);
       for (var invoice in transactionInvoice.invoice!) {
-        printer.printLeftRight('${invoice.category?.name}', '', 1);
+        printer.printLeftRight('${invoice.category?.name.substring(0, 12)}',
+            NumberFormatPrice().formatPrice(invoice.category?.price), 0);
       }
       printer.printLeftRight("Metode", "Tunai", 1);
       printer.printLeftRight("Pembayaran", "", 1);

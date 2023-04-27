@@ -4,11 +4,12 @@ import 'package:qr_code_app/shared/theme/init.dart';
 class ArrowOptionCard extends StatefulWidget {
   final String text;
   final Widget iconsLeading;
-  const ArrowOptionCard({
-    super.key,
-    required this.text,
-    required this.iconsLeading,
-  });
+  final Color textColor;
+  const ArrowOptionCard(
+      {super.key,
+      required this.text,
+      required this.iconsLeading,
+      this.textColor = Colors.black});
 
   @override
   State<ArrowOptionCard> createState() => _ArrowOptionCardState();
@@ -47,7 +48,7 @@ class _ArrowOptionCardState extends State<ArrowOptionCard> {
             child: Text(
               widget.text,
               style: blackTextStyle.copyWith(
-                color: redColor,
+                color: widget.textColor,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1.05,
               ),
