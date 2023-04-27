@@ -37,6 +37,12 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
   Widget build(BuildContext context) {
     TransactionInvoice transactionInvoice =
         _transactionProvider.getTransactionInvoice;
+
+    
+    String category(String str){
+      return str.length > 12 ? str.substring(0, 12) : str; 
+    }
+
     void printInvoice() {
       // SIZE
       // 0 : Normal
@@ -52,7 +58,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
       printer.printCustom("Tagihan Retribusi Sampah", 0, 1);
       printer.printLeftRight("Kategori", '', 1);
       for (var invoice in transactionInvoice.invoice!) {
-        printer.printLeftRight('${invoice.category?.name.substring(0, 12)}',
+        printer.printLeftRight(category(invoice.category?.name ?? ''),
             NumberFormatPrice().formatPrice(invoice.category?.price), 0);
       }
       printer.printLeftRight("Metode", "Tunai", 1);
