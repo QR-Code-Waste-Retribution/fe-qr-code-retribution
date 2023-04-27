@@ -3,7 +3,8 @@ import 'package:qr_code_app/models/payment_method_page.dart';
 import 'package:qr_code_app/models/virtual_account.dart';
 
 class AppConstants {
-  static const String apiUrl = 'http://localhost:8000/api';
+  static const String apiUrlServer = 'http://35.213.170.85/api';
+  static const String apiUrlLocal = 'http://localhost:8000/api';
   static const int apiTimeout = 5000; // milliseconds
 
   static const Map<String, String> headerHome = {
