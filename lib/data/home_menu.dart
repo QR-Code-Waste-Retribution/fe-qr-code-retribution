@@ -12,7 +12,7 @@ class HomeMenu {
 
 List<HomeMenu> listHomeMenuPemungut = [
   HomeMenu(
-    iconText: 'Riwayat Tagihan',
+    iconText: 'Riwayat Pembayaran',
     iconImage: Icons.list,
     href: () {
 
