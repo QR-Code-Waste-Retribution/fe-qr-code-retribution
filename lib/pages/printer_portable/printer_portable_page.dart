@@ -55,9 +55,12 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
       }
       printer.printLeftRight("Metode", "Tunai", 1);
       printer.printLeftRight("Pembayaran", "", 1);
-      printer.printLeftRight("No Referensi", "${transactionInvoice.transaction?.referenceNumber}", 1);
-      printer.printLeftRight("Jumlah Tagihan", "Rp. ${transactionInvoice.transaction?.price?.formatedPrice}", 1);
-      printer.printLeftRight("Waktu", "${transactionInvoice.transaction?.createdAt?.formatedDate}", 1);
+      printer.printLeftRight("No Referensi",
+          "${transactionInvoice.transaction?.referenceNumber}", 1);
+      printer.printLeftRight("Jumlah Tagihan",
+          "Rp. ${transactionInvoice.transaction?.price?.formatedPrice}", 1);
+      printer.printLeftRight("Waktu",
+          "${transactionInvoice.transaction?.createdAt?.formatedDate}", 1);
       printer.printNewLine();
       printer.printNewLine();
     }
@@ -72,9 +75,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
-              Get.back();
-            });
+            Get.back();
           }),
         ),
         automaticallyImplyLeading: false,

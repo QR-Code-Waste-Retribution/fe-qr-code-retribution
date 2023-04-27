@@ -3,6 +3,7 @@ part of './init.dart';
 class Pages {
   static final List<GetPage> pages = [
     GetPage(name: '/', page: () => const LoginPage()),
+    GetPage(name: '/recapitulation', page: () => const RecapitulationPage()),
     GetPage(name: '/home', page: () => const HomePagination()),
     GetPage(name: '/invoice', page: () => const InvoicePeoplePage()),
     GetPage(name: '/scan_qr_code', page: () => const QRCodeScannerPage()),

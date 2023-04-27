@@ -10,5 +10,6 @@ import 'package:qr_code_app/pages/payment/non_cash/virtual_account/virtual_accou
 import 'package:qr_code_app/pages/printer_portable/printer_portable_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_page.dart';
 import 'package:qr_code_app/pages/qr_code/qr_code_scanner_page.dart';
+import 'package:qr_code_app/pages/recapitulation/recapitulation_page.dart';
 part 'config.dart';
 part 'name.dart';

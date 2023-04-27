@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/molekuls/search_input.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class ManageUserPage extends StatefulWidget {
@@ -33,46 +34,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(20),
         children: [
-          Container(
-            decoration: BoxDecoration(
-              color: backgroundColor6,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            padding: const EdgeInsets.only(left: 15),
-            child: Center(
-              child: Row(
-                children: [
-                  const Icon(
-                    Icons.search,
-                    color: Colors.black,
-                    size: 20,
-                  ),
-                  const SizedBox(
-                    width: 15,
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      style: primaryTextStyle.copyWith(color: Colors.black),
-                      decoration: InputDecoration(
-                        hintText: 'Cari nama, kategori, dll',
-                        hintStyle: subtitleTextStyle.copyWith(fontSize: 15),
-                        contentPadding: const EdgeInsets.only(top: 15.0),
-                        border: InputBorder.none,
-                        suffixIcon: IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.clear,
-                            size: 20,
-                            color: blackColor,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          const SearchInputWidget(),
           CustomButton(
             title: 'Tambah Akun Baru',
             width: 100,
@@ -131,8 +93,8 @@ class _ManageUserPageState extends State<ManageUserPage> {
                   ),
                 ],
               ),
-              TableRowMasyarakat(),
-              TableRowMasyarakat(),
+              tableRowMasyarakat(),
+              tableRowMasyarakat(),
             ],
           ),
         ],
@@ -140,7 +102,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
     );
   }
 
-  TableRow TableRowMasyarakat() {
+  TableRow tableRowMasyarakat() {
     return TableRow(
       decoration: BoxDecoration(
         border: Border(
