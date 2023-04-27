@@ -57,10 +57,18 @@ class _HistoryPaymentPageState extends State<HistoryPaymentPage> {
                 padding: const EdgeInsets.all(20),
                 children: [
                   Text(
-                    'History',
+                    'Riwayat Pembayaran',
                     style: primaryTextStyle.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 20,
+                    ),
+                  ),
+                  Text(
+                    'Data di urutkan berdasarkan tanggal yang terbaru',
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 15,
+                      color: secondaryTextColor,
                     ),
                   ),
                   ListView.builder(
