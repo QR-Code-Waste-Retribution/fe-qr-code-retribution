@@ -3,7 +3,8 @@ import 'package:qr_code_app/shared/theme/init.dart';
 
 class InputText extends StatelessWidget {
   final String hintText;
-  const InputText({super.key, required this.hintText});
+  final bool obscure;
+  const InputText({super.key, required this.hintText, this.obscure = false});
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +15,7 @@ class InputText extends StatelessWidget {
       ),
       padding: const EdgeInsets.only(left: 15),
       child: TextFormField(
+        obscureText: obscure,
         style: primaryTextStyle.copyWith(color: Colors.black),
         decoration: InputDecoration(
           hintText: hintText,

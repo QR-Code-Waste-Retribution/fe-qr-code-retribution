@@ -4,10 +4,8 @@ import './input_text.dart';
 
 class InputGroup extends StatelessWidget {
   final String hintText;
-  const InputGroup({
-    super.key,
-    required this.hintText,
-  });
+  final bool obscure;
+  const InputGroup({super.key, required this.hintText, this.obscure = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +25,7 @@ class InputGroup extends StatelessWidget {
           ),
           InputText(
             hintText: hintText,
+            obscure: obscure,
           ),
         ],
       ),

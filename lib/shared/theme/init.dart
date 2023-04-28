@@ -11,6 +11,7 @@ Color alertColor = const Color(0xffED6363);
 Color greenColor = const Color(0xffAACC00);
 Color redColor = const Color.fromARGB(255, 255, 140, 140);
 Color priceColor = const Color(0xff2C96F1);
+Color greenThin = const Color.fromARGB(20, 85, 166, 48);
 Color backgroundColor1 = const Color(0xff1F1D2B);
 Color backgroundColor2 = const Color(0xff2B2937);
 Color backgroundColor3 = const Color(0xff242231);
@@ -36,7 +37,6 @@ TextStyle primaryTextStyle = GoogleFonts.poppins(
 TextStyle dangerTextStyle = GoogleFonts.poppins(
   color: alertColor,
 );
-
 
 TextStyle secondaryTextStyle = GoogleFonts.poppins(
   color: secondaryColor,

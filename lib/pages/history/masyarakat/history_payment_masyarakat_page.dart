@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
-class HistoryPaymentPage extends StatefulWidget {
-  const HistoryPaymentPage({super.key});
+class HistoryPaymentMasyarakatPage extends StatefulWidget {
+  const HistoryPaymentMasyarakatPage({super.key});
 
   @override
-  State<HistoryPaymentPage> createState() => _HistoryPaymentPageState();
+  State<HistoryPaymentMasyarakatPage> createState() => _HistoryPaymentMasyarakatPageState();
 }
 
-class _HistoryPaymentPageState extends State<HistoryPaymentPage> {
+class _HistoryPaymentMasyarakatPageState extends State<HistoryPaymentMasyarakatPage> {
   Size device = const Size(0, 0);
   @override
   Widget build(BuildContext context) {

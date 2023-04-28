@@ -134,7 +134,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           GestureDetector(
             onTap: () {
-              logout();
+              Get.toNamed('/change_password');
             },
             child: ArrowOptionCard(
               text: 'Ganti Kata Sandi',

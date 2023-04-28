@@ -7,41 +7,39 @@ class HomeMenu {
 
   String iconText;
   IconData iconImage;
-  Function href;
+  String href;
 }
 
 List<HomeMenu> listHomeMenuPemungut = [
   HomeMenu(
     iconText: 'Riwayat Pembayaran',
     iconImage: Icons.list,
-    href: () {
-
-    },
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Tagih',
     iconImage: Icons.money,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Rekapitulasi',
     iconImage: Icons.assignment,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Tambah Akun',
     iconImage: Icons.person_add,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Akun Masyarakat',
     iconImage: Icons.people_sharp,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Profile',
     iconImage: Icons.person,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
 ];
 
@@ -49,27 +47,27 @@ List<HomeMenu> listHomeMenuMasyarakat = [
   HomeMenu(
     iconText: 'Bantuan',
     iconImage: Icons.help,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Bayar',
     iconImage: Icons.payment,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'History',
     iconImage: Icons.history,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Daftar Kategori',
     iconImage: Icons.menu_book,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
   HomeMenu(
     iconText: 'Profile',
     iconImage: Icons.person,
-    href: () {},
+    href: '/history_payment_pemungut',
   ),
 ];
 
