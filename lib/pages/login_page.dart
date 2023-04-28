@@ -210,6 +210,17 @@ class _LoginPageState extends State<LoginPage> {
                 bodyInputLogin(),
                 emailInput(),
                 passwordInput(),
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed('/forget_password');
+                  },
+                  child: Text(
+                    'Lupa Password?',
+                    style: priceTextStyle.copyWith(
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
                 CustomButton(
                   title: 'Login',
                   width: 220,
