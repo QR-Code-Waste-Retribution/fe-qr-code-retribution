@@ -28,5 +28,6 @@ class Pages {
     GetPage(name: '/change_password', page: () => const ChangePasswordPage()),
     GetPage(name: '/edit_profile', page: () => const EditProfilePage()),
     GetPage(name: '/forget_password', page: () => const ForgetPasswordPage()),
+    GetPage(name: '/list_categories', page: () => const ListCategoriesPage()),
   ];
 }

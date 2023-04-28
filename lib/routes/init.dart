@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:qr_code_app/pages/additional_retribution/additional_retribution_page.dart';
+import 'package:qr_code_app/pages/categories/list_categories_page.dart';
 import 'package:qr_code_app/pages/history/pemungut/history_payment_pemungut_page.dart';
 import 'package:qr_code_app/pages/home_pagination.dart';
 import 'package:qr_code_app/pages/invoice/masyarakat/invoice_people_page.dart';

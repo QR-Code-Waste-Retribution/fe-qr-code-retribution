@@ -62,7 +62,7 @@ List<HomeMenu> listHomeMenuMasyarakat = [
   HomeMenu(
     iconText: 'Daftar Kategori',
     iconImage: Icons.menu_book,
-    href: '/history_payment_pemungut',
+    href: '/list_categories',
   ),
   HomeMenu(
     iconText: 'Profile',
