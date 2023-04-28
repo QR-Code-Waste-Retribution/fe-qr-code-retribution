@@ -21,6 +21,7 @@ class Pages {
     GetPage(
         name: '/invoice_payments_details', page: () => const PaymentDetails()),
     GetPage(name: '/add_user', page: () => const AddUserPage()),
+    GetPage(name: '/edit_user', page: () => const EditUserPage()),
     GetPage(
         name: '/history_payment_pemungut',
         page: () => const HistoryPaymentPemungutPage()),

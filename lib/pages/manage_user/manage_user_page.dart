@@ -152,7 +152,9 @@ class _ManageUserPageState extends State<ManageUserPage> {
                 height: 35,
                 fontSize: 14,
                 defaultRadiusButton: 10,
-                onPressed: () {},
+                onPressed: () {
+                  Get.toNamed('/edit_user');
+                },
               ),
               Switch(
                 value: isSwitched,

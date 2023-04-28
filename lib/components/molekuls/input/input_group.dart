@@ -15,7 +15,7 @@ class InputGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Text subLabelCreate() {
+    Widget subLabelCreate() {
       if (subLabel.isNotEmpty) {
         return Text(
           subLabel,
@@ -27,7 +27,7 @@ class InputGroup extends StatelessWidget {
           ),
         );
       }
-      return const Text('');
+      return const SizedBox();
     }
 
     return Container(
