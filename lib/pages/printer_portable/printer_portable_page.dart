@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
@@ -17,6 +18,8 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
   BlueThermalPrinter printer = BlueThermalPrinter.instance;
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
+
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   List<BluetoothDevice> _devices = [];
   BluetoothDevice? selected_device;
@@ -38,9 +41,42 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
     TransactionInvoice transactionInvoice =
         _transactionProvider.getTransactionInvoice;
 
-    
-    String category(String str){
-      return str.length > 12 ? str.substring(0, 12) : str; 
+    String category(String str) {
+      return str.length > 12 ? str.substring(0, 12) : str;
+    }
+
+    List<String> splitStringByLength(String input, int length) {
+      List<String> result = [];
+      int startIndex = 0;
+      int endIndex = length;
+
+      while (startIndex < input.length) {
+        if (endIndex > input.length) {
+          endIndex = input.length;
+        }
+        result.add(input.substring(startIndex, endIndex));
+        startIndex = endIndex;
+        endIndex += length;
+      }
+
+      return result;
+    }
+
+    void categoryInvoiceName() {
+      for (var invoice in transactionInvoice.invoice!) {
+        List<String> parts =
+            splitStringByLength(invoice.category?.name ?? '', 15);
+        int index = 0;
+        for (var item in parts) {
+          if (index == 0) {
+            printer.printLeftRight(item,
+                NumberFormatPrice().formatPrice(invoice.category?.price), 0);
+          } else {
+            printer.printLeftRight(item, '', 0);
+          }
+          index++;
+        }
+      }
     }
 
     void printInvoice() {
@@ -55,12 +91,12 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
       // 2 : Center
       // 3 : Right
       printer.printNewLine();
-      printer.printCustom("Tagihan Retribusi Sampah", 0, 1);
+      printer.printCustom("Tagihan Retribusi Sampah", 0, 2);
+      printer.printNewLine();
+      printer.printLeftRight(
+          "Pemungut", '${_authProvider.authData.user?.name}', 1);
       printer.printLeftRight("Kategori", '', 1);
-      for (var invoice in transactionInvoice.invoice!) {
-        printer.printLeftRight(category(invoice.category?.name ?? ''),
-            NumberFormatPrice().formatPrice(invoice.category?.price), 0);
-      }
+      categoryInvoiceName();
       printer.printLeftRight("Metode", "Tunai", 1);
       printer.printLeftRight("Pembayaran", "", 1);
       printer.printLeftRight("No Referensi",
