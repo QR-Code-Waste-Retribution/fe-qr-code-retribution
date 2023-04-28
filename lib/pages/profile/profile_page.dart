@@ -56,7 +56,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 Positioned(
                   right: 0,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed('/edit_profile');
+                    },
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(

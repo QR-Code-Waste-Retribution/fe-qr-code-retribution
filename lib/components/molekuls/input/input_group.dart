@@ -5,10 +5,31 @@ import './input_text.dart';
 class InputGroup extends StatelessWidget {
   final String hintText;
   final bool obscure;
-  const InputGroup({super.key, required this.hintText, this.obscure = false});
+  final String subLabel;
+  const InputGroup({
+    super.key,
+    required this.hintText,
+    this.obscure = false,
+    this.subLabel = '',
+  });
 
   @override
   Widget build(BuildContext context) {
+    Text subLabelCreate() {
+      if (subLabel.isNotEmpty) {
+        return Text(
+          subLabel,
+          style: primaryTextStyle.copyWith(
+            fontWeight: FontWeight.w400,
+            fontSize: 12,
+            color: blackColor,
+            fontStyle: FontStyle.italic,
+          ),
+        );
+      }
+      return const Text('');
+    }
+
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
@@ -20,6 +41,10 @@ class InputGroup extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+          const SizedBox(
+            height: 4,
+          ),
+          subLabelCreate(),
           const SizedBox(
             height: 10,
           ),
