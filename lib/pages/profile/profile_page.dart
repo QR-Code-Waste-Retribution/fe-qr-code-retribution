@@ -51,82 +51,109 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             color: whiteColor,
             padding: const EdgeInsets.all(15),
-            child: Column(
+            child: Stack(
               children: [
-                Row(
-                  children: [
-                    const Icon(Icons.person),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      'Ahmad Sianipar',
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                Positioned(
+                  right: 0,
+                  child: GestureDetector(
+                    onTap: () {},
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.settings_phone),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      '0821676636382',
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.fact_check),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      '1212394053374739',
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    const Icon(Icons.location_on),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Container(
-                      width: device.width * 0.6,
                       child: Text(
-                        'Toko Trisno, Pasar I Parsoburan Kecamatan Habinsaran, Kabupaten Toba',
-                        style: primaryTextStyle.copyWith(
+                        'Edit Profile',
+                        style: whiteTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
-                          fontSize: 15,
                         ),
                       ),
+                    ),
+                  ),
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(Icons.person),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          'Ahmad Sianipar',
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.settings_phone),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          '0821676636382',
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.fact_check),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Text(
+                          '1212394053374739',
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        const Icon(Icons.location_on),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Container(
+                          width: device.width * 0.6,
+                          child: Text(
+                            'Toko Trisno, Pasar I Parsoburan Kecamatan Habinsaran, Kabupaten Toba',
+                            style: primaryTextStyle.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
               ],
             ),
+          ),
+          const SizedBox(
+            height: 15,
           ),
           const CustomHeader(text: 'Pengaturan'),
           const SizedBox(
