@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/models/categories/list_invoices.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/number_format_price.dart';
 
 class ListCategoriesPage extends StatefulWidget {
   const ListCategoriesPage({super.key});
@@ -10,7 +14,16 @@ class ListCategoriesPage extends StatefulWidget {
 }
 
 class _ListCategoriesPageState extends State<ListCategoriesPage> {
+  final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
   Size device = const Size(0, 0);
+
+  @override
+  void initState() {
+    _categoriesProvider.getAllCategories(districtId: _authProvider.districtId!);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,55 +94,55 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Table(
-                    textDirection: TextDirection.ltr,
-                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                    children: [
-                      TableRow(
-                        decoration: BoxDecoration(
-                          color: secondaryColor,
-                          border: Border(
-                            bottom: BorderSide(
-                              color: blackColor,
+                  Obx(
+                    () => Table(
+                      textDirection: TextDirection.ltr,
+                      defaultVerticalAlignment:
+                          TableCellVerticalAlignment.middle,
+                      children: [
+                        TableRow(
+                          decoration: BoxDecoration(
+                            color: secondaryColor,
+                            border: Border(
+                              bottom: BorderSide(
+                                color: blackColor,
+                              ),
                             ),
                           ),
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 20, top: 20),
+                              child: Text(
+                                'Kategori',
+                                style: whiteTextStyle.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(bottom: 20, top: 20),
+                              child: Text(
+                                "Harga",
+                                style: whiteTextStyle.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
                         ),
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20, top: 20),
-                            child: Text(
-                              'Kategori',
-                              style: whiteTextStyle.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
+                        for (var item in _categoriesProvider
+                            .getCategoriesList.categories!)
+                          tableRowMasyarakat(
+                            category: item.name,
+                            price:
+                                '${NumberFormatPrice().formatPrice(item.price)}/bulan',
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20, top: 20),
-                            child: Text(
-                              "Harga",
-                              style: whiteTextStyle.copyWith(
-                                fontWeight: FontWeight.w600,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                      tableRowMasyarakat(
-                        category: 'Perumahan A',
-                        price: 'Rp. 5.000/bulan',
-                      ),
-                      tableRowMasyarakat(
-                        category: 'Perumahan B',
-                        price: 'Rp. 15.000/bulan',
-                      ),
-                      tableRowMasyarakat(
-                        category: 'Perumahan C',
-                        price: 'Rp. 25.000/bulan',
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

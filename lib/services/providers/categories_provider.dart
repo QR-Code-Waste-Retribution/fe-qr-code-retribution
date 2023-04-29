@@ -6,20 +6,21 @@ import 'package:qr_code_app/services/repositories/categories_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class CategoriesProvider extends GetxController {
-  final Rx<ListCategories> _categories = ListCategories().obs;
+  final Rx<ListCategories> _categories = ListCategories(categories: []).obs;
 
   final CategoriesRepositories _categoriesRepositories =
       CategoriesRepositories();
 
   ListCategories get getCategoriesList => _categories.value;
 
-  Future<void> getAllCategories({int? districtId}) async {
+  Future<void> getAllCategories({required int districtId}) async {
     try {
       ResponseAPI response =
-          await _categoriesRepositories.allCategories(districtId: districtId!);
+          await _categoriesRepositories.allCategories(districtId: districtId);
 
       _categories.value = ListCategories.fromJson(response.data);
 
+      print(_categories.toJson().toString());
       Get.snackbar(
         "Success",
         response.message,

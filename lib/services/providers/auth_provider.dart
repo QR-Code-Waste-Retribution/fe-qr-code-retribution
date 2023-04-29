@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user.dart';
-import 'package:qr_code_app/services/binding.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -28,6 +27,8 @@ class AuthProvider extends GetxController {
   AuthData get authData => _authData.value;
 
   int? get subDistrictId => _authData.value.user?.subDistrictId;
+  
+  int? get districtId => _authData.value.user?.districtId;
 
   bool? get isAuthenticated => _authData.value.accessToken.isNotEmpty;
 
@@ -60,7 +61,6 @@ class AuthProvider extends GetxController {
           borderRadius: 5,
         );
       }
-      AppBindings().dependencies();
       update();
     } catch (e) {
       Get.snackbar(
@@ -76,7 +76,7 @@ class AuthProvider extends GetxController {
   Future<void> logout() async {
     try {
       box.remove('authData');
-      Get.offAllNamed('/');
+      Get.toNamed('/');
       update();
     } catch (e) {
       Get.snackbar(
@@ -88,6 +88,17 @@ class AuthProvider extends GetxController {
     }
   }
 
+  @override
+  void onReady() {
+    // TODO: implement onReady
+    final authDataJson = box.read('authData');
+    if (authDataJson != null) {
+      _authData.value = AuthData.fromJson(jsonDecode(authDataJson));
+      update();
+    }
+    super.onReady();
+
+  }
   @override
   void onInit() {
     final authDataJson = box.read('authData');
