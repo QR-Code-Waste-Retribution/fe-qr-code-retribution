@@ -20,6 +20,27 @@ class InvoiceProvider extends GetxController {
 
   InvoiceList get getInvoice => _invoice.value;
 
+  List<Invoice> getInvoiceStatusUnPaid() {
+    List<Invoice> invoice = [];
+
+    void searchForUnpaidInvoices(List<Invoice> invoiceList) {
+      if (invoiceList.isEmpty) {
+        return;
+      }
+
+      Invoice currentInvoice = invoiceList.first;
+      if (currentInvoice.status == 0) {
+        invoice.add(currentInvoice);
+      }
+
+      searchForUnpaidInvoices(invoiceList.sublist(1));
+    }
+
+    searchForUnpaidInvoices(getInvoiceList.invoice);
+
+    return invoice;
+  }
+
   // [true] Sudah Bayar || [false] Belum Bayar
   bool getStatusInvoice() {
     int count = 0;
@@ -41,10 +62,12 @@ class InvoiceProvider extends GetxController {
     return NumberFormatPrice().formatPrice(count);
   }
 
-  Future<void> getInvoiceUserByUUIDandSubDistrict({String? uuid, int? subDistrictId}) async {
+  Future<void> getInvoiceUserByUUIDandSubDistrict(
+      {String? uuid, int? subDistrictId}) async {
     try {
-      ResponseAPI response = await _invoiceRepositories
-          .invoiceUserByUUIDandSubDistrict(subDistrictId: subDistrictId!, uuid: uuid);
+      ResponseAPI response =
+          await _invoiceRepositories.invoiceUserByUUIDandSubDistrict(
+              subDistrictId: subDistrictId!, uuid: uuid);
       _invoice.value = InvoiceList.fromJson(response.data);
 
       InvoiceList data = InvoiceList.fromJson(response.data);

@@ -17,7 +17,7 @@ class NonCashPage extends StatefulWidget {
 class _NonCashPageState extends State<NonCashPage> {
   List<bool>? isChecked;
   bool? isAll = false;
-  InvoiceList invoiceListChecked = InvoiceList(invoice: []);
+  List<Invoice> invoiceListChecked = [];
   final InvoiceProvider invoiceProvider = Get.find<InvoiceProvider>();
   bool? tagihan = false;
   Size device = const Size(0, 0);
@@ -30,16 +30,16 @@ class _NonCashPageState extends State<NonCashPage> {
     }
 
     if (value) {
-      invoiceListChecked = invoiceProvider.getInvoice;
+      invoiceListChecked = invoiceProvider.getInvoiceStatusUnPaid();
     } else {
-      invoiceListChecked = InvoiceList(invoice: []);
+      invoiceListChecked = [];
     }
   }
 
   @override
   void initState() {
     super.initState();
-    isChecked = List.filled(invoiceProvider.getInvoice.invoice.length, false);
+    isChecked = List.filled(invoiceProvider.getInvoiceStatusUnPaid().length, false);
   }
 
   @override
@@ -77,7 +77,7 @@ class _NonCashPageState extends State<NonCashPage> {
       body: Stack(
         children: [
           ListView(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,7 +105,7 @@ class _NonCashPageState extends State<NonCashPage> {
                     ],
                   ),
                   Text(
-                    '${invoiceListChecked.invoice.length} / ${invoiceProvider.getInvoice.invoice.length} Terpilih',
+                    '${invoiceListChecked.length} / ${invoiceProvider.getInvoiceStatusUnPaid().length} Terpilih',
                     style: primaryTextStyle.copyWith(
                       fontWeight: FontWeight.w500,
                       fontSize: 16,
@@ -122,9 +122,9 @@ class _NonCashPageState extends State<NonCashPage> {
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   physics: const NeverScrollableScrollPhysics(),
-                  itemCount: invoiceProvider.getInvoice.invoice.length,
+                  itemCount: invoiceProvider.getInvoiceStatusUnPaid().length,
                   itemBuilder: (context, index) {
-                    final item = invoiceProvider.getInvoice.invoice[index];
+                    final item = invoiceProvider.getInvoiceStatusUnPaid()[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -136,11 +136,11 @@ class _NonCashPageState extends State<NonCashPage> {
                                 setState(() {
                                   isChecked?[index] = value!;
                                   if (value!) {
-                                    invoiceListChecked.invoice.add(
+                                    invoiceListChecked.add(
                                         invoiceProvider
                                             .getInvoice.invoice[index]);
                                   } else {
-                                    invoiceListChecked.invoice.removeWhere(
+                                    invoiceListChecked.removeWhere(
                                         (element) =>
                                             element ==
                                             invoiceProvider
@@ -173,10 +173,10 @@ class _NonCashPageState extends State<NonCashPage> {
           Positioned(
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               width: device.width,
               decoration: BoxDecoration(
-                color: Color.fromARGB(255, 255, 255, 255),
+                color: const Color.fromARGB(255, 255, 255, 255),
                 boxShadow: [
                   BoxShadow(
                     color: shadowColor,
@@ -194,12 +194,12 @@ class _NonCashPageState extends State<NonCashPage> {
                 onPressed: () {
                   showModalBottomSheet<void>(
                     context: context,
-                    backgroundColor: Color.fromARGB(24, 0, 0, 0),
+                    backgroundColor: const Color.fromARGB(24, 0, 0, 0),
                     builder: (BuildContext context) {
                       return Container(
                         height: 200,
                         color: whiteColor,
-                        padding: EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
