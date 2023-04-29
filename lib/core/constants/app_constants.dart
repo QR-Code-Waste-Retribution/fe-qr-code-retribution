@@ -55,23 +55,38 @@ class AppConstants {
   static List<VirtualAccount> virtualAccountList = [
     VirtualAccount(
       name: 'BRI',
-      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+      icon: Image.asset(
+        'assets/icons/bri.png',
+        width: 30,
+      ),
     ),
     VirtualAccount(
       name: 'BNI',
-      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+      icon: Image.asset(
+        'assets/icons/bni.png',
+        width: 30,
+      ),
     ),
     VirtualAccount(
       name: 'Bank Mandiri',
-      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+      icon: Image.asset(
+        'assets/icons/mandiri.png',
+        width: 30,
+      ),
     ),
     VirtualAccount(
       name: 'CIMB',
-      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+      icon: Image.asset(
+        'assets/icons/cimb.png',
+        width: 30,
+      ),
     ),
     VirtualAccount(
       name: 'Danamon',
-      icon: Image.asset('assets/image/invoice_success_paid_off.png'),
+      icon: Image.asset(
+        'assets/icons/danamon.png',
+        width: 30,
+      ),
     ),
   ];
 }

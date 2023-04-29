@@ -42,17 +42,21 @@ class _VirtualAccountPageState extends State<VirtualAccountPage> {
           ),
         ),
         body: ListView.builder(
+          padding: const EdgeInsets.all(20),
           shrinkWrap: true,
           scrollDirection: Axis.vertical,
           physics: const NeverScrollableScrollPhysics(),
           itemCount: AppConstants.virtualAccountList.length,
           itemBuilder: (context, index) {
             VirtualAccount item = AppConstants.virtualAccountList[index];
-            return GestureDetector(
-              onTap: () {},
-              child: ArrowOptionCard(
-                text: item.name,
-                iconsLeading: item.icon,
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              child: GestureDetector(
+                onTap: () {},
+                child: ArrowOptionCard(
+                  text: item.name,
+                  iconsLeading: item.icon,
+                ),
               ),
             );
           },
