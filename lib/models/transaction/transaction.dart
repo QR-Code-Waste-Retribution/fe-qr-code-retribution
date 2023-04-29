@@ -6,7 +6,7 @@ import 'package:qr_code_app/models/user.dart';
 class Transaction {
   int? id;
   Price? price;
-  int? status;
+  String? status;
   String? date;
   String? type;
   String? referenceNumber;

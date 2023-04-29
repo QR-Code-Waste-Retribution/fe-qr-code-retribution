@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/date_format.dart';
 
 class HistoryPaymentMasyarakatPage extends StatefulWidget {
   const HistoryPaymentMasyarakatPage({super.key});
 
   @override
-  State<HistoryPaymentMasyarakatPage> createState() => _HistoryPaymentMasyarakatPageState();
+  State<HistoryPaymentMasyarakatPage> createState() =>
+      _HistoryPaymentMasyarakatPageState();
 }
 
-class _HistoryPaymentMasyarakatPageState extends State<HistoryPaymentMasyarakatPage> {
+class _HistoryPaymentMasyarakatPageState
+    extends State<HistoryPaymentMasyarakatPage> {
+  final TransactionProvider _transactionProvider =
+      Get.find<TransactionProvider>();
+
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
   Size device = const Size(0, 0);
+
+  @override
+  void initState() {
+    super.initState();
+    _transactionProvider.getTransactionByMasyarakatId(
+        masyarakatId: _authProvider.authData.user?.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     device = Size(
@@ -71,79 +90,83 @@ class _HistoryPaymentMasyarakatPageState extends State<HistoryPaymentMasyarakatP
                       color: secondaryTextColor,
                     ),
                   ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 15,
-                    itemBuilder: (context, index) {
-                      // final item = widget.invoiceList.invoice[index];
-                      return Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: whiteColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: shadowColor,
-                              blurRadius: 10,
-                              blurStyle: BlurStyle.outer,
-                              offset: const Offset(2, 0),
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Desember 2022',
-                                  style: primaryTextStyle.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                                Container(
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                    color: secondaryColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    'Tunai',
+                  Obx(
+                    () => ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _transactionProvider
+                          .getTransactionList.transaction?.length,
+                      itemBuilder: (context, index) {
+                        final item = _transactionProvider
+                            .getTransactionList.transaction?[index];
+                        return Container(
+                          margin: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                            color: whiteColor,
+                            boxShadow: [
+                              BoxShadow(
+                                color: shadowColor,
+                                blurRadius: 10,
+                                blurStyle: BlurStyle.outer,
+                                offset: const Offset(2, 0),
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    FormatDate().format(item?.date),
                                     style: primaryTextStyle.copyWith(
                                       fontWeight: FontWeight.w700,
-                                      color: whiteColor,
                                     ),
-                                    textAlign: TextAlign.center,
                                   ),
+                                  Container(
+                                    width: 60,
+                                    decoration: BoxDecoration(
+                                      color: secondaryColor,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Text(
+                                      '${item?.type}',
+                                      style: primaryTextStyle.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: whiteColor,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 4,
+                              ),
+                              Text(
+                                'Rp. ${item?.price?.formatedPrice}',
+                                style: blackTextStyle.copyWith(
+                                  fontWeight: FontWeight.w700,
                                 ),
-                              ],
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              'Rp. 20.000',
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w700,
                               ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              '12/11/2022',
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w400,
+                              const SizedBox(
+                                height: 4,
                               ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
+                              Text(
+                                '${item?.createdAt?.formatedDate}',
+                                style: blackTextStyle.copyWith(
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),

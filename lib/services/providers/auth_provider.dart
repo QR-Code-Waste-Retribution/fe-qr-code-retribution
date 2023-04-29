@@ -5,11 +5,13 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class AuthProvider extends GetxController {
   final AuthRepositories _authRepositories = AuthRepositories();
+  final PaginationProvider _paginationProvider = Get.find<PaginationProvider>();
 
   final box = GetStorage();
 
@@ -27,7 +29,7 @@ class AuthProvider extends GetxController {
   AuthData get authData => _authData.value;
 
   int? get subDistrictId => _authData.value.user?.subDistrictId;
-  
+
   int? get districtId => _authData.value.user?.districtId;
 
   bool? get isAuthenticated => _authData.value.accessToken.isNotEmpty;
@@ -77,6 +79,7 @@ class AuthProvider extends GetxController {
     try {
       box.remove('authData');
       Get.toNamed('/');
+      _paginationProvider.currentIndex.value = 0;
       update();
     } catch (e) {
       Get.snackbar(
@@ -97,8 +100,8 @@ class AuthProvider extends GetxController {
       update();
     }
     super.onReady();
-
   }
+
   @override
   void onInit() {
     final authDataJson = box.read('authData');
