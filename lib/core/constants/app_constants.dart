@@ -6,6 +6,8 @@ class AppConstants {
   static const String apiUrlServer = 'http://35.213.170.85/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
   static const int apiTimeout = 5000; // milliseconds
+  static const String dokuRedirectCheckout = 'qr_code_app//';
+  static const String dokuRedirectCheckoutCancel = 'qr_code_app//';
 
   static const Map<String, String> headerHome = {
     'pemungut':
@@ -59,6 +61,7 @@ class AppConstants {
         'assets/icons/bri.png',
         width: 30,
       ),
+      typeVA: 'BRI_VA',
     ),
     VirtualAccount(
       name: 'BNI',
@@ -66,6 +69,7 @@ class AppConstants {
         'assets/icons/bni.png',
         width: 30,
       ),
+      typeVA: 'BNI_VA',
     ),
     VirtualAccount(
       name: 'Bank Mandiri',
@@ -73,6 +77,7 @@ class AppConstants {
         'assets/icons/mandiri.png',
         width: 30,
       ),
+      typeVA: 'Mandiri_VA',
     ),
     VirtualAccount(
       name: 'CIMB',
@@ -80,6 +85,7 @@ class AppConstants {
         'assets/icons/cimb.png',
         width: 30,
       ),
+      typeVA: 'CIMB_VA',
     ),
     VirtualAccount(
       name: 'Danamon',
@@ -87,6 +93,7 @@ class AppConstants {
         'assets/icons/danamon.png',
         width: 30,
       ),
+      typeVA: 'Danamon_VA',
     ),
   ];
 }

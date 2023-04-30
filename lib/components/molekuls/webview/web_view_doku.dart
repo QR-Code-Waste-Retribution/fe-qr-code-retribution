@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/core/constants/app_constants.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -13,6 +15,8 @@ class WebViewDoku extends StatefulWidget {
 
 class _WebViewDokuState extends State<WebViewDoku> {
   late final WebViewController controller;
+  final TransactionProvider _transactionProvider =
+      Get.find<TransactionProvider>();
 
   @override
   void initState() {
@@ -20,9 +24,23 @@ class _WebViewDokuState extends State<WebViewDoku> {
     controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
       ..setBackgroundColor(const Color(0x00000000))
+      ..setNavigationDelegate(NavigationDelegate(
+        onProgress: (int progress) {},
+        onPageStarted: (String url) {},
+        onPageFinished: (String url) {},
+        onWebResourceError: (WebResourceError error) {},
+        onNavigationRequest: (NavigationRequest request) {
+          if (request.url
+              .startsWith('http://${AppConstants.dokuRedirectCheckout}')) {
+            _transactionProvider.updateStatusTransaction();
+            Get.toNamed('/home');
+            return NavigationDecision.prevent;
+          }
+          return NavigationDecision.navigate;
+        },
+      ))
       ..loadRequest(
-        Uri.parse(
-            widget.url),
+        Uri.parse(widget.url.replaceAll('"', '')),
       );
   }
 

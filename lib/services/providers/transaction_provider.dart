@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/molekuls/webview/web_view_doku.dart';
 import 'package:qr_code_app/models/response_api.dart';
+import 'package:qr_code_app/core/constants/storage.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/models/transaction/transaction_list.dart';
 import 'package:qr_code_app/models/transaction/transaction_store.dart';
@@ -96,7 +97,7 @@ class TransactionProvider extends GetxController {
   Future<void> getTransactionInvoiceMasyarakatVirtualAccount(
       {required TransactionStore transactionStore, required typeVA}) async {
     try {
-      final urlPaymentDoku = box.read('urlPaymentDoku');
+      final urlPaymentDoku = box.read(StorageKey.urlPaymentDoku);
       if (urlPaymentDoku != null) {
         Get.to(
           () => WebViewDoku(
@@ -115,7 +116,7 @@ class TransactionProvider extends GetxController {
               transactionStore: transactionStore);
 
       _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
-      box.write('urlPaymentDoku', jsonEncode(getURLPaymentDokuVA));
+      box.write(StorageKey.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
 
       Get.to(
         () => WebViewDoku(
@@ -141,10 +142,27 @@ class TransactionProvider extends GetxController {
     }
   }
 
+  Future<void> updateStatusTransaction() async {
+    try {
+      final urlPaymentDoku = box.read(StorageKey.urlPaymentDoku);
+      if (urlPaymentDoku != null) {
+        box.remove(StorageKey.urlPaymentDoku);
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to update transaction : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
+
   Future<void> getTransactionInvoiceMasyarakatQRIS(
       {required TransactionStore transactionStore}) async {
     try {
-      final urlPaymentDoku = box.read('urlPaymentDoku');
+      final urlPaymentDoku = box.read(StorageKey.urlPaymentDoku);
       if (urlPaymentDoku != null) {
         Get.to(
           () => WebViewDoku(
@@ -163,7 +181,7 @@ class TransactionProvider extends GetxController {
 
       _checkout.value = Checkout.fromJson(response.data);
 
-      box.write('urlPaymentDoku', jsonEncode(getURLPaymentDokuQRIS));
+      box.write(StorageKey.urlPaymentDoku, getURLPaymentDokuQRIS);
 
       Get.to(
         () => WebViewDoku(

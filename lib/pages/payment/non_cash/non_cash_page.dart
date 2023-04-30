@@ -50,7 +50,7 @@ class _NonCashPageState extends State<NonCashPage> {
         List.filled(invoiceProvider.getInvoiceStatusUnPaid().length, false);
   }
 
-  Future<void> transactionQRIS() async {
+  TransactionStore makeBodyTransaction() {
     List<int> invoiceId = [];
     double totalAmount = 0;
 
@@ -66,9 +66,14 @@ class _NonCashPageState extends State<NonCashPage> {
       invoiceId: invoiceId,
     );
 
+    return transactionStore;
+  }
+
+  Future<void> transactionQRIS() async {
     _transactionProvider.isLoading.value = true;
     _transactionProvider
-        .getTransactionInvoiceMasyarakatQRIS(transactionStore: transactionStore)
+        .getTransactionInvoiceMasyarakatQRIS(
+            transactionStore: makeBodyTransaction())
         .then((value) => {_transactionProvider.isLoading.value = false});
   }
 
@@ -165,13 +170,11 @@ class _NonCashPageState extends State<NonCashPage> {
                                 setState(() {
                                   isChecked?[index] = value!;
                                   if (value!) {
-                                    invoiceListChecked.add(invoiceProvider
-                                        .getInvoice.invoice[index]);
+                                    invoiceListChecked.add(invoiceProvider.getInvoiceStatusUnPaid()[index]);
                                   } else {
                                     invoiceListChecked.removeWhere((element) =>
                                         element ==
-                                        invoiceProvider
-                                            .getInvoice.invoice[index]);
+                                        invoiceProvider.getInvoiceStatusUnPaid()[index]);
                                   }
                                 });
                               },
@@ -257,7 +260,10 @@ class _NonCashPageState extends State<NonCashPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed('/virtual_account_page');
+                                Get.to('/virtual_account_page', arguments: {
+                                  'transaction_store':
+                                      makeBodyTransaction().toJson()
+                                });
                               },
                               child: const ArrowOptionCard(
                                 text: 'Virtual Account',
