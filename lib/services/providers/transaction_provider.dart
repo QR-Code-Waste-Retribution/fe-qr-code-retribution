@@ -36,7 +36,10 @@ class TransactionProvider extends GetxController {
 
   TransactionList get getTransactionList => _transactionList.value;
 
+  int? get getTransactionId => _checkout.value.transactionId;
+
   String? get getURLPaymentDokuQRIS => _checkout.value.response?.payment?.url;
+
   String? get getURLPaymentDokuVA =>
       _virtualAccoutnDoku.value.virtualAccountInfo?.howToPayPage;
 
@@ -97,11 +100,12 @@ class TransactionProvider extends GetxController {
   Future<void> getTransactionInvoiceMasyarakatVirtualAccount(
       {required TransactionStore transactionStore, required typeVA}) async {
     try {
-      final urlPaymentDoku = box.read(StorageKey.urlPaymentDoku);
+      final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
       if (urlPaymentDoku != null) {
         Get.to(
           () => WebViewDoku(
             url: urlPaymentDoku!,
+            transactionId: getTransactionId!,
           ),
         );
         return;
@@ -116,11 +120,13 @@ class TransactionProvider extends GetxController {
               transactionStore: transactionStore);
 
       _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
-      box.write(StorageKey.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
+      box.write(
+          StorageReferences.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
 
       Get.to(
         () => WebViewDoku(
           url: getURLPaymentDokuVA!,
+          transactionId: getTransactionId!,
         ),
       );
       Get.snackbar(
@@ -142,11 +148,12 @@ class TransactionProvider extends GetxController {
     }
   }
 
-  Future<void> updateStatusTransaction() async {
+  Future<void> updateStatusTransaction(
+      {required List<int> arrInvoiceId, required int transactionId}) async {
     try {
-      final urlPaymentDoku = box.read(StorageKey.urlPaymentDoku);
+      final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
       if (urlPaymentDoku != null) {
-        box.remove(StorageKey.urlPaymentDoku);
+        box.remove(StorageReferences.urlPaymentDoku);
       }
     } catch (e) {
       Get.snackbar(
@@ -162,11 +169,12 @@ class TransactionProvider extends GetxController {
   Future<void> getTransactionInvoiceMasyarakatQRIS(
       {required TransactionStore transactionStore}) async {
     try {
-      final urlPaymentDoku = box.read(StorageKey.urlPaymentDoku);
+      final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
       if (urlPaymentDoku != null) {
         Get.to(
           () => WebViewDoku(
             url: urlPaymentDoku!,
+            transactionId: getTransactionId!,
           ),
         );
         return;
@@ -181,11 +189,14 @@ class TransactionProvider extends GetxController {
 
       _checkout.value = Checkout.fromJson(response.data);
 
-      box.write(StorageKey.urlPaymentDoku, getURLPaymentDokuQRIS);
+      box.write(StorageReferences.urlPaymentDoku, getURLPaymentDokuQRIS);
+      box.write(
+          StorageReferences.invoiceId, transactionStore.invoiceId?.join(','));
 
       Get.to(
         () => WebViewDoku(
           url: getURLPaymentDokuQRIS!,
+          transactionId: getTransactionId!,
         ),
       );
 

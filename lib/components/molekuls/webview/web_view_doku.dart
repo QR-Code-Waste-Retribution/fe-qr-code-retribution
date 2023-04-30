@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
+import 'package:qr_code_app/core/constants/storage.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class WebViewDoku extends StatefulWidget {
   final String url;
-  const WebViewDoku({super.key, required this.url});
+  final int transactionId;
+
+  const WebViewDoku(
+      {super.key, required this.url, required this.transactionId});
 
   @override
   State<WebViewDoku> createState() => _WebViewDokuState();
@@ -32,8 +36,15 @@ class _WebViewDokuState extends State<WebViewDoku> {
         onNavigationRequest: (NavigationRequest request) {
           if (request.url
               .startsWith('http://${AppConstants.dokuRedirectCheckout}')) {
-            _transactionProvider.updateStatusTransaction();
+            List<int> arrInvoiceId =
+                StorageReferences().getInvoiceIdArrayFromLocalStorage();
+            int transactionId = widget.transactionId;
+
+            _transactionProvider.updateStatusTransaction(
+                arrInvoiceId: arrInvoiceId, transactionId: transactionId);
+
             Get.toNamed('/home');
+
             return NavigationDecision.prevent;
           }
           return NavigationDecision.navigate;

@@ -1,19 +1,21 @@
 class Checkout {
   List<String>? message;
+  int? transactionId;
   Response? response;
 
   Checkout({this.message, this.response});
 
   Checkout.fromJson(Map<String, dynamic> json) {
     message = json['message'].cast<String>();
-    response = json['response'] != null
-        ? Response.fromJson(json['response'])
-        : null;
+    transactionId = json['transaction_id'];
+    response =
+        json['response'] != null ? Response.fromJson(json['response']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
+    data['transaction_id'] = transactionId;
     if (response != null) {
       data['response'] = response!.toJson();
     }
@@ -28,20 +30,14 @@ class Response {
   double? uuid;
   Headers? headers;
 
-  Response(
-      {this.order,
-      this.payment,
-      this.customer,
-      this.uuid,
-      this.headers});
+  Response({this.order, this.payment, this.customer, this.uuid, this.headers});
 
   Response.fromJson(Map<String, dynamic> json) {
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     payment =
         json['payment'] != null ? Payment.fromJson(json['payment']) : null;
-    customer = json['customer'] != null
-        ? Customer.fromJson(json['customer'])
-        : null;
+    customer =
+        json['customer'] != null ? Customer.fromJson(json['customer']) : null;
     uuid = json['uuid'];
     headers =
         json['headers'] != null ? Headers.fromJson(json['headers']) : null;

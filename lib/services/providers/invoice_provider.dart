@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/core/constants/storage.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_page.dart';
@@ -8,11 +10,12 @@ import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/number_format_price.dart';
 
 class InvoiceProvider extends GetxController {
+  final box = GetStorage();
+
   final InvoiceRepositories _invoiceRepositories = InvoiceRepositories();
   // final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   final Rx<InvoiceList> _invoice = InvoiceList(invoice: [], user: null).obs;
-  final RxMap<String, String> _invoiceStatus = <String, String>{}.obs;
 
   InvoiceList get getInvoiceList => _invoice.value;
 
@@ -20,8 +23,11 @@ class InvoiceProvider extends GetxController {
 
   InvoiceList get getInvoice => _invoice.value;
 
+
   List<Invoice> getInvoiceStatusUnPaid() {
     List<Invoice> invoice = [];
+    // List<int> invoiceIdArray =
+    //     getInvoiceIdArrayFromLocalStorage(); // Retrieve invoice ID array from local storage
 
     void searchForUnpaidInvoices(List<Invoice> invoiceList) {
       if (invoiceList.isEmpty) {
@@ -29,6 +35,12 @@ class InvoiceProvider extends GetxController {
       }
 
       Invoice currentInvoice = invoiceList.first;
+      
+      // if (currentInvoice.status == 0 &&
+      //     !invoiceIdArray.contains(currentInvoice.id)) {
+      //   invoice.add(currentInvoice);
+      // }
+      
       if (currentInvoice.status == 0) {
         invoice.add(currentInvoice);
       }
