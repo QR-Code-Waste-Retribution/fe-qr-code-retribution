@@ -25,6 +25,22 @@ class TransactionRepositories extends GetxService {
     }
   }
 
+  Future transactionInvoiceMasyarakatNonCash(
+      {required TransactionStore transactionStore}) async {
+    try {
+      final response = await _client.post('/transaction/store/non-cash',
+          data: transactionStore.toJson());
+      final jsonDecodeResponse = jsonDecode(response.toString());
+
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioError catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } catch (e) {
+      throw Exception("Failed to get invoice user: $e");
+    }
+  }
+
   Future transactionByMasyarakatId({required int masyarakatId}) async {
     try {
       final response =

@@ -3,7 +3,10 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/invoice/invoice_card.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/transaction/transaction_store.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/molekuls/arrow_option_card.dart';
 
@@ -19,7 +22,11 @@ class _NonCashPageState extends State<NonCashPage> {
   bool? isAll = false;
   List<Invoice> invoiceListChecked = [];
   final InvoiceProvider invoiceProvider = Get.find<InvoiceProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+  final TransactionProvider _transactionProvider =
+      Get.find<TransactionProvider>();
   bool? tagihan = false;
+
   Size device = const Size(0, 0);
 
   void checkAllInvoice(bool value) {
@@ -39,7 +46,30 @@ class _NonCashPageState extends State<NonCashPage> {
   @override
   void initState() {
     super.initState();
-    isChecked = List.filled(invoiceProvider.getInvoiceStatusUnPaid().length, false);
+    isChecked =
+        List.filled(invoiceProvider.getInvoiceStatusUnPaid().length, false);
+  }
+
+  Future<void> transactionQRIS() async {
+    List<int> invoiceId = [];
+    double totalAmount = 0;
+
+    for (var item in invoiceListChecked) {
+      invoiceId.add(item.id);
+      totalAmount += item.price.normalPrice;
+    }
+
+    TransactionStore transactionStore = TransactionStore(
+      masyarakatId: _authProvider.authData.user?.id,
+      subDistrictId: _authProvider.authData.user?.subDistrictId,
+      totalAmount: totalAmount,
+      invoiceId: invoiceId,
+    );
+
+    _transactionProvider.isLoading.value = true;
+    _transactionProvider
+        .getTransactionInvoiceMasyarakatQRIS(transactionStore: transactionStore)
+        .then((value) => {_transactionProvider.isLoading.value = false});
   }
 
   @override
@@ -56,9 +86,7 @@ class _NonCashPageState extends State<NonCashPage> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
-              Get.back();
-            });
+            Get.back();
           }),
         ),
         centerTitle: true,
@@ -124,7 +152,8 @@ class _NonCashPageState extends State<NonCashPage> {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: invoiceProvider.getInvoiceStatusUnPaid().length,
                   itemBuilder: (context, index) {
-                    final item = invoiceProvider.getInvoiceStatusUnPaid()[index];
+                    final item =
+                        invoiceProvider.getInvoiceStatusUnPaid()[index];
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -136,15 +165,13 @@ class _NonCashPageState extends State<NonCashPage> {
                                 setState(() {
                                   isChecked?[index] = value!;
                                   if (value!) {
-                                    invoiceListChecked.add(
+                                    invoiceListChecked.add(invoiceProvider
+                                        .getInvoice.invoice[index]);
+                                  } else {
+                                    invoiceListChecked.removeWhere((element) =>
+                                        element ==
                                         invoiceProvider
                                             .getInvoice.invoice[index]);
-                                  } else {
-                                    invoiceListChecked.removeWhere(
-                                        (element) =>
-                                            element ==
-                                            invoiceProvider
-                                                .getInvoice.invoice[index]);
                                   }
                                 });
                               },
@@ -214,7 +241,9 @@ class _NonCashPageState extends State<NonCashPage> {
                               height: 10,
                             ),
                             GestureDetector(
-                              onTap: () {},
+                              onTap: () {
+                                transactionQRIS();
+                              },
                               child: const ArrowOptionCard(
                                 text: 'QRIS',
                                 iconsLeading: Icon(

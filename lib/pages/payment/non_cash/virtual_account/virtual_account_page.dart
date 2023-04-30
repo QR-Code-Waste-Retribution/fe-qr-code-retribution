@@ -4,6 +4,7 @@ import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/models/virtual_account.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/molekuls/arrow_option_card.dart';
+import 'package:qr_code_app/components/molekuls/webview/web_view_doku.dart';
 
 class VirtualAccountPage extends StatefulWidget {
   const VirtualAccountPage({super.key});
@@ -52,7 +53,11 @@ class _VirtualAccountPageState extends State<VirtualAccountPage> {
             return Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Get.to(
+                    () => const WebViewDoku(url: '',),
+                  );
+                },
                 child: ArrowOptionCard(
                   text: item.name,
                   iconsLeading: item.icon,
