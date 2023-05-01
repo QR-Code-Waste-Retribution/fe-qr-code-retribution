@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
+import 'package:qr_code_app/models/invoice/invoice_paid_unpaid.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/molekuls/input/search_input.dart';
@@ -15,10 +20,15 @@ class _RecapitulationPageState extends State<RecapitulationPage>
   late TabController tabController;
   Size device = const Size(0, 0);
 
+  final InvoiceProvider _invoiceProvider = Get.find<InvoiceProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
   @override
   void initState() {
     super.initState();
     tabController = TabController(length: 2, vsync: this);
+    _invoiceProvider.getAllUserForInvoicePaidAndUnpaid(
+        subDistrictId: _authProvider.subDistrictId);
   }
 
   @override
@@ -56,12 +66,25 @@ class _RecapitulationPageState extends State<RecapitulationPage>
           ),
         ),
       ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          ContainerTabsRecapitulation(device: device),
-          ContainerTabsRecapitulation(device: device),
-        ],
+      body: Obx(
+        () => _invoiceProvider.getIsLoading
+            ? const CustomLoading()
+            : TabBarView(
+                controller: tabController,
+                children: [
+                  ContainerTabsRecapitulation(
+                    device: device,
+                    usersPaidUnPaid:
+                        _invoiceProvider.getInvoicePaidUnPaid.usersPaid!,
+                  ),
+                  ContainerTabsRecapitulation(
+                    device: device,
+                    usersPaidUnPaid:
+                        _invoiceProvider.getInvoicePaidUnPaid.usersUnpaid!,
+                    type: "Belum Lunas",
+                  ),
+                ],
+              ),
       ),
     );
   }
@@ -71,9 +94,13 @@ class ContainerTabsRecapitulation extends StatelessWidget {
   const ContainerTabsRecapitulation({
     super.key,
     required this.device,
+    this.type = "sudah lunas",
+    required this.usersPaidUnPaid,
   });
 
   final Size device;
+  final String type;
+  final UsersPaidUnPaid usersPaidUnPaid;
 
   @override
   Widget build(BuildContext context) {
@@ -104,12 +131,12 @@ class ContainerTabsRecapitulation extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Total tagihan yang\nsudah lunas',
+                        'Total tagihan yang\n$type',
                         style: blackTextStyle,
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        '158',
+                        usersPaidUnPaid.count.toString(),
                         style: blackTextStyle.copyWith(
                           fontSize: 20,
                           fontWeight: bold,
@@ -127,7 +154,7 @@ class ContainerTabsRecapitulation extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                       Text(
-                        '158',
+                        usersPaidUnPaid.count.toString(),
                         style: blackTextStyle.copyWith(
                           fontSize: 20,
                           fontWeight: bold,
@@ -153,9 +180,9 @@ class ContainerTabsRecapitulation extends StatelessWidget {
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: 15,
+            itemCount: usersPaidUnPaid.records?.length,
             itemBuilder: (context, index) {
-              // final item = widget.invoiceList.invoice[index];
+              final item = usersPaidUnPaid.records?[index];
               return Container(
                 margin: const EdgeInsets.only(top: 10),
                 padding: const EdgeInsets.all(10),
@@ -174,13 +201,13 @@ class ContainerTabsRecapitulation extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Ahmad Sianipar',
+                      '${item?.name}',
                       style: blackTextStyle.copyWith(
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     Text(
-                      '08213672382',
+                      '${item?.phoneNumber}',
                       style: blackTextStyle.copyWith(
                         fontWeight: FontWeight.w400,
                       ),

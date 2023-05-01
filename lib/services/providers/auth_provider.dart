@@ -28,6 +28,8 @@ class AuthProvider extends GetxController {
 
   AuthData get authData => _authData.value;
 
+  String? get getUUID => _authData.value.user?.uuid;
+
   int? get subDistrictId => _authData.value.user?.subDistrictId;
 
   int? get districtId => _authData.value.user?.districtId;

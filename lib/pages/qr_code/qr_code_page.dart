@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
@@ -10,6 +12,8 @@ class QRCodeGeneratorPage extends StatefulWidget {
 }
 
 class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

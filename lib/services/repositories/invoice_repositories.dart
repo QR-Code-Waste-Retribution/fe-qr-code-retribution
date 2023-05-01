@@ -12,7 +12,7 @@ class InvoiceRepositories extends GetxService{
   Future invoiceUserByUUIDandSubDistrict({required int subDistrictId, String? uuid}) async {
     try {
       final response = await _client.post('/people/$uuid/invoice', data: {
-        "sub_district_id": 16,
+        "sub_district_id": subDistrictId,
       });
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
@@ -36,4 +36,20 @@ class InvoiceRepositories extends GetxService{
       throw Exception("Failed to get invoice user: $e");
     }
   }
+
+  
+  Future allUserForInvoicePaidAndUnpaid({required int subDistrictId}) async {
+    try { 
+      final response = await _client.get('/invoice/users/all/$subDistrictId');
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioError catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } catch (e) {
+      throw Exception("Failed to get invoice user: $e");
+    }
+  }
+
+
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:qr_code_app/core/constants/storage.dart';
+import 'package:qr_code_app/models/invoice/invoice_paid_unpaid.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_page.dart';
@@ -13,9 +13,16 @@ class InvoiceProvider extends GetxController {
   final box = GetStorage();
 
   final InvoiceRepositories _invoiceRepositories = InvoiceRepositories();
-  // final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   final Rx<InvoiceList> _invoice = InvoiceList(invoice: [], user: null).obs;
+  final Rx<InvoicePaidUnPaid> _invoicePaidUnpaid =
+      InvoicePaidUnPaid(usersPaid: null, usersUnpaid: null).obs;
+
+  RxBool isLoading = false.obs;
+
+  bool get getIsLoading => isLoading.value;
+
+  InvoicePaidUnPaid get getInvoicePaidUnPaid => _invoicePaidUnpaid.value;
 
   InvoiceList get getInvoiceList => _invoice.value;
 
@@ -23,24 +30,15 @@ class InvoiceProvider extends GetxController {
 
   InvoiceList get getInvoice => _invoice.value;
 
-
   List<Invoice> getInvoiceStatusUnPaid() {
     List<Invoice> invoice = [];
-    // List<int> invoiceIdArray =
-    //     getInvoiceIdArrayFromLocalStorage(); // Retrieve invoice ID array from local storage
-
     void searchForUnpaidInvoices(List<Invoice> invoiceList) {
       if (invoiceList.isEmpty) {
         return;
       }
 
       Invoice currentInvoice = invoiceList.first;
-      
-      // if (currentInvoice.status == 0 &&
-      //     !invoiceIdArray.contains(currentInvoice.id)) {
-      //   invoice.add(currentInvoice);
-      // }
-      
+
       if (currentInvoice.status == 0) {
         invoice.add(currentInvoice);
       }
@@ -115,6 +113,28 @@ class InvoiceProvider extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to get invoice by $userId : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
+
+  Future<void> getAllUserForInvoicePaidAndUnpaid(
+      {required int? subDistrictId}) async {
+    try {
+      isLoading.value = true;
+
+      ResponseAPI response = await _invoiceRepositories
+          .allUserForInvoicePaidAndUnpaid(subDistrictId: subDistrictId!);
+      _invoicePaidUnpaid.value = InvoicePaidUnPaid.fromJson(response.data);
+
+      isLoading.value = false;
+      update();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to get invoice : ${e.toString()}',
         backgroundColor: Colors.red,
         colorText: Colors.white,
         borderRadius: 5,

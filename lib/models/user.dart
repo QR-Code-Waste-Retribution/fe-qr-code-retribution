@@ -82,6 +82,7 @@ class CredentialToken {
 class User {
   User({
     required this.id,
+    required this.uuid,
     required this.name,
     required this.email,
     required this.username,
@@ -101,6 +102,7 @@ class User {
     required this.urbanVillage,
   });
   late final int id;
+  late final String uuid;
   late final String name;
   late final String email;
   late final String username;
@@ -121,6 +123,7 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    uuid = json['uuid'];
     name = json['name'];
     email = json['email'] ?? '';
     username = json['username'];
@@ -146,6 +149,7 @@ class User {
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
+    _data['uuid'] = uuid;
     _data['name'] = name;
     _data['email'] = email;
     _data['username'] = username;
