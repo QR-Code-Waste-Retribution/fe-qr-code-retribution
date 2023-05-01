@@ -36,6 +36,14 @@ class AuthProvider extends GetxController {
 
   String? get userRole => _authData.value.user?.role.name;
 
+  bool checkAuth() {
+    final authDataJson = box.read('authData');
+    if (authDataJson != null) {
+      return true;
+    }
+    return false;
+  }
+
   Future<void> login(
       {required String username, required String password}) async {
     try {
@@ -46,7 +54,7 @@ class AuthProvider extends GetxController {
       if (response.success) {
         _authData.value = AuthData.fromJson(response.data);
         box.write('authData', jsonEncode(authData.toJson()));
-        Get.toNamed('/home');
+        Get.offNamed('/home');
         Get.snackbar(
           "Success",
           response.message,

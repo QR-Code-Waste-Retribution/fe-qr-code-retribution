@@ -110,13 +110,6 @@ class InvoiceProvider extends GetxController {
           await _invoiceRepositories.invoiceUserByUserId(userId: userId!);
       _invoice.value = InvoiceList.fromJson(response.data);
 
-      Get.snackbar(
-        "Success",
-        response.message,
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
       update();
     } catch (e) {
       Get.snackbar(

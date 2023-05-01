@@ -78,13 +78,6 @@ class TransactionProvider extends GetxController {
 
       _transactionList.value = TransactionList.fromJson(response.data);
 
-      Get.snackbar(
-        "Success",
-        response.message,
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
       update();
     } catch (e) {
       Get.snackbar(

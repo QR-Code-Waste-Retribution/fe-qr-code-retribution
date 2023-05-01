@@ -1,6 +1,12 @@
 part of './init.dart';
 
 class Pages {
+  static const String loginPage = '/';
+  static const String homePage = '/home';
+  static const String recapitulationPage = '/home';
+  static const String invoicePage = '/invoice';
+  static const String scanQRCodePage = '/scan_qr_code';
+
   static final List<GetPage> pages = [
     GetPage(name: '/', page: () => const LoginPage()),
     GetPage(name: '/recapitulation', page: () => const RecapitulationPage()),

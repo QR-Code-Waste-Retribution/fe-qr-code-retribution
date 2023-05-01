@@ -21,6 +21,11 @@ class _LoginPageState extends State<LoginPage> {
   var passwordController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     emailController.dispose();

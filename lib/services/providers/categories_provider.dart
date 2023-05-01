@@ -20,7 +20,6 @@ class CategoriesProvider extends GetxController {
 
       _categories.value = ListCategories.fromJson(response.data);
 
-      print(_categories.toJson().toString());
       Get.snackbar(
         "Success",
         response.message,
