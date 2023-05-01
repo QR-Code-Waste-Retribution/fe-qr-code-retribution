@@ -36,14 +36,12 @@ class _WebViewDokuState extends State<WebViewDoku> {
         onNavigationRequest: (NavigationRequest request) {
           if (request.url
               .startsWith('http://${AppConstants.dokuRedirectCheckout}')) {
-            List<int> arrInvoiceId =
+            List<int?> arrInvoiceId =
                 StorageReferences().getInvoiceIdArrayFromLocalStorage();
             int transactionId = widget.transactionId;
 
             _transactionProvider.updateStatusTransaction(
                 arrInvoiceId: arrInvoiceId, transactionId: transactionId);
-
-            Get.toNamed('/home');
 
             return NavigationDecision.prevent;
           }

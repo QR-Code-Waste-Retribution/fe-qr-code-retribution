@@ -7,7 +7,7 @@ class Checkout {
 
   Checkout.fromJson(Map<String, dynamic> json) {
     message = json['message'].cast<String>();
-    transactionId = json['transaction_id'];
+    transactionId = json['merchant.transaction_id'];
     response =
         json['response'] != null ? Response.fromJson(json['response']) : null;
   }
@@ -15,7 +15,7 @@ class Checkout {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['message'] = message;
-    data['transaction_id'] = transactionId;
+    data['merchant.transaction_id'] = transactionId;
     if (response != null) {
       data['response'] = response!.toJson();
     }

@@ -8,18 +8,25 @@ class StorageReferences {
   // DOKU
   static const String urlPaymentDoku = 'urlPaymentDoku';
   static const String invoiceId = 'invoiceId';
+  static const String transactionId = 'transactionId';
 
-  List<int> getInvoiceIdArrayFromLocalStorage() {
-    List<int> arrInvoiceId = [];
+  List<int?> getInvoiceIdArrayFromLocalStorage() {
+    List<int?> arrInvoiceId = [];
     final invoiceIdSelected = box.read(invoiceId);
     if (invoiceIdSelected != null) {
+      String inv = invoiceIdSelected;
       RegExp digitRegex = RegExp(r'\d');
-      bool containsNumbers = digitRegex.hasMatch(invoiceIdSelected);
+      bool containsNumbers = digitRegex.hasMatch(inv);
 
       if (containsNumbers) {
-        arrInvoiceId = invoiceIdSelected.split(',').map(int.parse).toList();
+        arrInvoiceId = inv
+            .split(',')
+            .map((value) => int.tryParse(value))
+            .where((value) => value != null)
+            .toList();
       }
     }
+
     return arrInvoiceId;
   }
 }

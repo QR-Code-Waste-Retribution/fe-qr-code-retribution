@@ -149,12 +149,23 @@ class TransactionProvider extends GetxController {
   }
 
   Future<void> updateStatusTransaction(
-      {required List<int> arrInvoiceId, required int transactionId}) async {
+      {required List<int?> arrInvoiceId, required int transactionId}) async {
     try {
-      final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
-      if (urlPaymentDoku != null) {
+      final urlPaymentDokuStorage = box.read(StorageReferences.urlPaymentDoku);
+      final transactionIdStorage = box.read(StorageReferences.urlPaymentDoku);
+      if (urlPaymentDokuStorage != null || transactionIdStorage != null) {
+        box.remove(StorageReferences.urlPaymentDoku);
         box.remove(StorageReferences.urlPaymentDoku);
       }
+
+      Get.toNamed('/home');
+      Get.snackbar(
+        "Success",
+        "Terimakasih sudah melakukan pembayaran online",
+        backgroundColor: primaryColor,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -171,10 +182,11 @@ class TransactionProvider extends GetxController {
     try {
       final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
       if (urlPaymentDoku != null) {
+        final transactionId = box.read(StorageReferences.transactionId);
         Get.to(
           () => WebViewDoku(
             url: urlPaymentDoku!,
-            transactionId: getTransactionId!,
+            transactionId: transactionId!,
           ),
         );
         return;
@@ -190,6 +202,7 @@ class TransactionProvider extends GetxController {
       _checkout.value = Checkout.fromJson(response.data);
 
       box.write(StorageReferences.urlPaymentDoku, getURLPaymentDokuQRIS);
+      box.write(StorageReferences.transactionId, getTransactionId);
       box.write(
           StorageReferences.invoiceId, transactionStore.invoiceId?.join(','));
 
