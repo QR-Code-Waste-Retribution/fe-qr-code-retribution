@@ -63,7 +63,7 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
               height: 30,
             ),
             QrImage(
-              data: "95d08e5b-8f28-3ff1-af78-be1fdf6588d8",
+              data: _authProvider.getUUID!,
               version: QrVersions.auto,
               size: 320,
               padding: const EdgeInsets.all(0),
