@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/services/binding.dart';
 // import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -73,6 +74,8 @@ class AuthProvider extends GetxController {
           borderRadius: 5,
         );
       }
+
+      AppBindings().dependencies();
       update();
     } catch (e) {
       Get.snackbar(
@@ -88,8 +91,9 @@ class AuthProvider extends GetxController {
   Future<void> logout() async {
     try {
       box.remove('authData');
-      Get.toNamed('/');
-      // _paginationProvider.currentIndex.value = 0;
+      Get.offAllNamed('/');
+      Get.deleteAll();
+      Get.put(AuthProvider());
       update();
     } catch (e) {
       Get.snackbar(

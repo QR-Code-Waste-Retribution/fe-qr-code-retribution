@@ -146,6 +146,7 @@ class TransactionProvider extends GetxController {
     try {
       final urlPaymentDokuStorage = box.read(StorageReferences.urlPaymentDoku);
       final transactionIdStorage = box.read(StorageReferences.urlPaymentDoku);
+      
       if (urlPaymentDokuStorage != null || transactionIdStorage != null) {
         box.remove(StorageReferences.urlPaymentDoku);
         box.remove(StorageReferences.urlPaymentDoku);
