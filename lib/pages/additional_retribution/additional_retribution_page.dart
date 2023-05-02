@@ -20,14 +20,15 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
   final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
   final priceController = TextEditingController();
 
-  String dropdownValue = 'Pilih Category';
   final AuthProvider _authProvider = Get.find<AuthProvider>();
+  String dropdownValue = '';
 
   Size device = const Size(0, 0);
 
   @override
   void initState() {
-    // _categoriesProvider.getAllCategories(districtId: _authProvider.districtId!);
+    _categoriesProvider.getAllCategories(districtId: _authProvider.districtId!);
+    dropdownValue = _categoriesProvider.getCategoriesList.categories[0].name;
     super.initState();
   }
 
@@ -75,7 +76,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
                   });
                 },
                 items: _categoriesProvider.getCategoriesList.categories
-                    ?.map<DropdownMenuItem<String>>((Category category) {
+                    .map<DropdownMenuItem<String>>((Category category) {
                   return DropdownMenuItem(
                     enabled: category.name == dropdownValue ? false : true,
                     value: category.name,
