@@ -35,6 +35,7 @@ class Invoice {
   late final String address;
   late final String subDistrictName;
   late final String date;
+  late final List<int> variants;
   late final TimeStamp createdAt;
   late final TimeStamp updatedAt;
 
@@ -48,6 +49,7 @@ class Invoice {
       required this.address,
       required this.subDistrictName,
       required this.date,
+      required this.variants,
       required this.createdAt,
       required this.updatedAt});
 
@@ -63,6 +65,7 @@ class Invoice {
     address = json['address'];
     subDistrictName = json['sub_district_name'];
     date = json['date'];
+    variants = json['variants'].cast<int>();
     createdAt = (json['created_at'] != null
         ? TimeStamp.fromJson(json['created_at'])
         : null)!;
@@ -82,6 +85,7 @@ class Invoice {
     invoice['address'] = address;
     invoice['sub_district_name'] = subDistrictName;
     invoice['date'] = date;
+    invoice['variants'] = variants;
     invoice['created_at'] = createdAt.toJson();
     invoice['updated_at'] = updatedAt.toJson();
     return invoice;

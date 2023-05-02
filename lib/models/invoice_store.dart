@@ -5,16 +5,18 @@ import 'package:qr_code_app/models/user.dart';
 class InvoiceStore {
   User? user;
   Category? category;
+  int? variantsCount;
   Price? price;
   int? status;
 
-  InvoiceStore({this.user, this.category, this.price, this.status});
+  InvoiceStore(
+      {this.user, this.category, this.variantsCount, this.price, this.status});
 
   InvoiceStore.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? User.fromJson(json['user']) : null;
-    category = json['category'] != null
-        ? Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
+    variantsCount = json['variants.count'];
     price = json['price'] != null ? Price.fromJson(json['price']) : null;
     status = json['status'];
   }
@@ -30,6 +32,7 @@ class InvoiceStore {
     if (price != null) {
       data['price'] = price!.toJson();
     }
+    data['variants.count'] = variantsCount;
     data['status'] = status;
     return data;
   }

@@ -28,13 +28,16 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
   void initState() {
     super.initState();
     double total = 0;
-    List<int> invoiceID = [];
+
+    List<InvoicesId> invoicesId = [];
+
     for (var invoice in widget.invoiceList.invoice) {
       total += invoice.price.normalPrice;
 
-      invoiceID.add(invoice.id);
+      invoicesId.add(InvoicesId(parents: invoice.id, variants: invoice.variants));
     }
-    transactionStore.invoiceId = invoiceID;
+
+    transactionStore.invoicesId = invoicesId;
     transactionStore.totalAmount = total;
     transactionStore.masyarakatId = widget.invoiceList.user?.id;
     transactionStore.pemungutId = authProvider.authData.user?.id;

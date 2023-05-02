@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:dio/dio.dart';
+import 'package:qr_code_app/models/transaction/transaction_noncash.dart';
 import 'package:qr_code_app/models/transaction/transaction_store.dart';
 import 'package:qr_code_app/services/api_client.dart';
 
@@ -26,10 +27,10 @@ class TransactionRepositories extends GetxService {
   }
 
   Future transactionInvoiceMasyarakatNonCash(
-      {required TransactionStore transactionStore}) async {
+      {required TransactionNonCash transactionNonCash}) async {
     try {
       final response = await _client.post('/transaction/store/non-cash',
-          data: transactionStore.toJson());
+          data: transactionNonCash.toJson());
       final jsonDecodeResponse = jsonDecode(response.toString());
 
       return ResponseAPI.fromJson(jsonDecodeResponse);

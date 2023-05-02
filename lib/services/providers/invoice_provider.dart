@@ -69,7 +69,7 @@ class InvoiceProvider extends GetxController {
       if (item.status == 0) count += item.price.normalPrice;
     }
 
-    return NumberFormatPrice().formatPrice(count);
+    return NumberFormatPrice().formatPrice(price: count);
   }
 
   Future<void> getInvoiceUserByUUIDandSubDistrict(

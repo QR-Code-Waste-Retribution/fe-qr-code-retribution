@@ -139,7 +139,7 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
                           tableRowMasyarakat(
                             category: item.name,
                             price:
-                                '${NumberFormatPrice().formatPrice(item.price)}/bulan',
+                                '${NumberFormatPrice().formatPrice(price: item.price)}/bulan',
                           ),
                       ],
                     ),

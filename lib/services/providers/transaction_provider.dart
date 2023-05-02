@@ -12,6 +12,9 @@ import 'package:qr_code_app/models/doku/virtual_account/virtual_account_doku.dar
 import 'package:qr_code_app/models/doku/checkout/checkout.dart';
 import 'package:qr_code_app/services/repositories/transaction_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/models/transaction/transaction_noncash.dart';
+import 'package:qr_code_app/models/transaction/method.dart';
+
 
 class TransactionProvider extends GetxController {
   final box = GetStorage();
@@ -91,7 +94,7 @@ class TransactionProvider extends GetxController {
   }
 
   Future<void> getTransactionInvoiceMasyarakatVirtualAccount(
-      {required TransactionStore transactionStore, required typeVA}) async {
+      {required TransactionNonCash transactionNonCash, required typeVA}) async {
     try {
       final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
       if (urlPaymentDoku != null) {
@@ -104,13 +107,13 @@ class TransactionProvider extends GetxController {
         return;
       }
 
-      transactionStore.type = "NONCASH";
-      transactionStore.method =
+      transactionNonCash.type = "NONCASH";
+      transactionNonCash.method =
           Method(payments: 'VIRTUAL_ACCOUNT', type: typeVA);
 
       ResponseAPI response =
           await _transactionRepositories.transactionInvoiceMasyarakatNonCash(
-              transactionStore: transactionStore);
+              transactionNonCash: transactionNonCash);
 
       _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
       box.write(
@@ -172,7 +175,7 @@ class TransactionProvider extends GetxController {
   }
 
   Future<void> getTransactionInvoiceMasyarakatQRIS(
-      {required TransactionStore transactionStore}) async {
+      {required TransactionNonCash transactionNonCash}) async {
     try {
       final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
       if (urlPaymentDoku != null) {
@@ -186,19 +189,19 @@ class TransactionProvider extends GetxController {
         return;
       }
 
-      transactionStore.type = "NONCASH";
-      transactionStore.method = Method(payments: 'CHECKOUT', type: 'QRIS');
+      transactionNonCash.type = "NONCASH";
+      transactionNonCash.method = Method(payments: 'CHECKOUT', type: 'QRIS');
 
       ResponseAPI response =
           await _transactionRepositories.transactionInvoiceMasyarakatNonCash(
-              transactionStore: transactionStore);
+              transactionNonCash: transactionNonCash);
 
       _checkout.value = Checkout.fromJson(response.data);
 
       box.write(StorageReferences.urlPaymentDoku, getURLPaymentDokuQRIS);
       box.write(StorageReferences.transactionId, getTransactionId);
-      box.write(
-          StorageReferences.invoiceId, transactionStore.invoiceId?.join(','));
+      // box.write(
+      //     StorageReferences.invoiceId, transactionStore.invoiceId?.join(','));
 
       Get.to(
         () => WebViewDoku(

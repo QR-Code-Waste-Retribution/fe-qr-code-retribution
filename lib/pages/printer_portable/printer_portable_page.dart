@@ -41,10 +41,6 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
     TransactionInvoice transactionInvoice =
         _transactionProvider.getTransactionInvoice;
 
-    String category(String str) {
-      return str.length > 12 ? str.substring(0, 12) : str;
-    }
-
     List<String> splitStringByLength(String input, int length) {
       List<String> result = [];
       int startIndex = 0;
@@ -69,8 +65,14 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
         int index = 0;
         for (var item in parts) {
           if (index == 0) {
-            printer.printLeftRight(item,
-                NumberFormatPrice().formatPrice(invoice.category?.price), 0);
+            printer.printLeftRight(
+                item,
+                '[${invoice.variantsCount}] | ${NumberFormatPrice()
+                .formatPrice(
+                  price: invoice.price?.normalPrice,
+                  decimalDigits: 0,
+                )}',
+                0);
           } else {
             printer.printLeftRight(item, '', 0);
           }
