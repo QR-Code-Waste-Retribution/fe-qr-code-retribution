@@ -1,5 +1,5 @@
 import 'package:qr_code_app/models/categories/category.dart';
-import 'package:qr_code_app/models/price/price.dart';
+import 'package:qr_code_app/models/price.dart';
 import 'package:qr_code_app/models/user/user.dart';
 
 class InvoiceStore {

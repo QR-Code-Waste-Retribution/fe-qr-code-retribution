@@ -4,6 +4,9 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_payment_details.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/categories_provider.dart';
+import 'package:qr_code_app/models/categories/category.dart';
 
 class AdditionalRetributionPage extends StatefulWidget {
   const AdditionalRetributionPage({super.key});
@@ -14,8 +17,19 @@ class AdditionalRetributionPage extends StatefulWidget {
 }
 
 class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
-  String dropdownValue = 'Option 1';
+  final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
   final priceController = TextEditingController();
+
+  String dropdownValue = 'Pilih Category';
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
+  Size device = const Size(0, 0);
+
+  @override
+  void initState() {
+    // _categoriesProvider.getAllCategories(districtId: _authProvider.districtId!);
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -45,54 +59,40 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
               color: backgroundColor6,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: DropdownButton<String>(
-              alignment: Alignment.bottomCenter,
-              value: dropdownValue,
-              isExpanded: true,
-              icon: const Icon(Icons.arrow_drop_down_rounded),
-              iconSize: 24,
-              borderRadius: BorderRadius.circular(20),
-              underline: Container(height: 0),
-              style: const TextStyle(color: Colors.deepPurple),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue!;
-                });
-              },
-              items: <String>[
-                'Option 1',
-                'Option 2',
-                'Option 3',
-                'Option 4',
-                'Option 5',
-                'Option 6',
-                'Option 7',
-                'Option 8',
-                '',
-              ].map<DropdownMenuItem<String>>((String value) {
-                return DropdownMenuItem<String>(
-                  enabled:
-                      value == 'Pilih kategori retribusi sampah' ? false : true,
-                  value: value,
-                  child: Text(
-                    value,
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
+            child: Obx(
+              () => DropdownButton<String>(
+                alignment: Alignment.bottomCenter,
+                value: dropdownValue,
+                isExpanded: true,
+                icon: const Icon(Icons.arrow_drop_down_rounded),
+                iconSize: 24,
+                borderRadius: BorderRadius.circular(20),
+                underline: Container(height: 0),
+                style: const TextStyle(color: Colors.deepPurple),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                },
+                items: _categoriesProvider.getCategoriesList.categories
+                    ?.map<DropdownMenuItem<String>>((Category category) {
+                  return DropdownMenuItem(
+                    enabled: category.name == dropdownValue ? false : true,
+                    value: category.name,
+                    child: Text(
+                      category.name,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ],
       );
     }
-
-    // String formatPrice(String value) {
-    //   double price = double.parse(value);
-    //   String formattedPrice = NumberFormat('#,###.##', 'en_US').format(price);
-    //   return formattedPrice;
-    // }
 
     Widget priceInput() {
       return Container(

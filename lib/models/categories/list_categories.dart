@@ -1,15 +1,15 @@
 import 'package:qr_code_app/models/categories/category.dart';
 
 class ListCategories {
-  List<Category>? categories;
+  late final List<Category> categories;
 
-  ListCategories({this.categories});
+  ListCategories({required this.categories});
 
   ListCategories.fromJson(Map<String, dynamic> json) {
     if (json['categories'] != null) {
       categories = <Category>[];
       json['categories'].forEach((v) {
-        categories!.add(Category.fromJson(v));
+        categories.add(Category.fromJson(v));
       });
     }
   }
@@ -17,7 +17,7 @@ class ListCategories {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     if (categories != null) {
-      data['invoices'] = categories!.map((v) => v.toJson()).toList();
+      data['invoices'] = categories.map((v) => v.toJson()).toList();
     }
     return data;
   }
