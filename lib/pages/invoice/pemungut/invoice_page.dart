@@ -5,6 +5,7 @@ import 'package:qr_code_app/components/molekuls/invoice/invoice_card.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_total.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/components/molekuls/invoice/invoice_total_paid_status.dart';
 
 class InvoicePage extends StatefulWidget {
   final InvoiceList invoiceList;
@@ -73,126 +74,136 @@ class _InvoicePageState extends State<InvoicePage> {
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(
-            '${widget.invoiceList.user?.name}',
-            textAlign: TextAlign.center,
-            style: primaryTextStyle.copyWith(
-              fontWeight: FontWeight.w700,
-              fontSize: 20,
-            ),
-          ),
-          const SizedBox(
-            height: 7,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Checkbox(
-                    value: isAll,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        isAll = value!;
-                        checkAllInvoice(value);
-                      });
-                    },
-                  ),
-                  Text(
-                    'Pilih Semua',
-                    textAlign: TextAlign.right,
-                    style: primaryTextStyle.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: priceColor,
-                    ),
-                  ),
-                ],
+      body: widget.invoiceList.invoice.isEmpty
+          ? Container(
+              padding: const EdgeInsets.all(20),
+              child: InvoiceTotalPaidStatus(
+                masyarakatName: widget.invoiceList.user?.name,
               ),
-              Text(
-                '${invoiceListChecked.invoice.length} / ${widget.invoiceList.invoice.length} Terpilih',
-                style: primaryTextStyle.copyWith(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16,
-                  color: alertColor,
+            )
+          : ListView(
+              padding: const EdgeInsets.all(20),
+              children: [
+                Text(
+                  '${widget.invoiceList.user?.name}',
+                  textAlign: TextAlign.center,
+                  style: primaryTextStyle.copyWith(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 20,
+                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 7,
-          ),
-          SizedBox(
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.vertical,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: widget.invoiceList.invoice.length,
-              itemBuilder: (context, index) {
-                final item = widget.invoiceList.invoice[index];
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                const SizedBox(
+                  height: 7,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Row(
                       children: [
                         Checkbox(
-                          value: isChecked?[index],
+                          value: isAll,
                           onChanged: (bool? value) {
                             setState(() {
-                              isChecked?[index] = value!;
-                              if (value!) {
-                                invoiceListChecked.invoice
-                                    .add(widget.invoiceList.invoice[index]);
-                              } else {
-                                invoiceListChecked.invoice.removeWhere((element) =>
-                                    element == widget.invoiceList.invoice[index]);
-                              }
+                              isAll = value!;
+                              checkAllInvoice(value);
                             });
                           },
                         ),
                         Text(
-                          'Tagihan ${index + 1}',
-                          style: blackTextStyle.copyWith(
-                            fontWeight: FontWeight.w600,
+                          'Pilih Semua',
+                          textAlign: TextAlign.right,
+                          style: primaryTextStyle.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: priceColor,
                           ),
                         ),
                       ],
                     ),
-                    InvoiceCard(
-                      invoice: item,
+                    Text(
+                      '${invoiceListChecked.invoice.length} / ${widget.invoiceList.invoice.length} Terpilih',
+                      style: primaryTextStyle.copyWith(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                        color: alertColor,
+                      ),
                     ),
                   ],
-                );
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 15,
-          ),
-          Text(
-            'Apakah masyarakat ingin membayar retribusi sampah secara tunai sekarang?',
-            style: primaryTextStyle.copyWith(),
-          ),
-          CustomButton(
-            title: 'Bayar',
-            width: 220,
-            margin: const EdgeInsets.only(
-              top: 30,
-              bottom: 80,
-            ),
-            onPressed: () {
-              Get.to(
-                () => InvoiceTotal(
-                  invoiceList: invoiceListChecked,
                 ),
-              );
-            },
-          ),
-        ],
-      ),
+                const SizedBox(
+                  height: 7,
+                ),
+                SizedBox(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: widget.invoiceList.invoice.length,
+                    itemBuilder: (context, index) {
+                      final item = widget.invoiceList.invoice[index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Checkbox(
+                                value: isChecked?[index],
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isChecked?[index] = value!;
+                                    if (value!) {
+                                      invoiceListChecked.invoice.add(
+                                          widget.invoiceList.invoice[index]);
+                                    } else {
+                                      invoiceListChecked.invoice.removeWhere(
+                                          (element) =>
+                                              element ==
+                                              widget
+                                                  .invoiceList.invoice[index]);
+                                    }
+                                  });
+                                },
+                              ),
+                              Text(
+                                'Tagihan ${index + 1}',
+                                style: blackTextStyle.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                          InvoiceCard(
+                            invoice: item,
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Text(
+                  'Apakah masyarakat ingin membayar retribusi sampah secara tunai sekarang?',
+                  style: primaryTextStyle.copyWith(),
+                ),
+                CustomButton(
+                  title: 'Bayar',
+                  width: 220,
+                  margin: const EdgeInsets.only(
+                    top: 30,
+                    bottom: 80,
+                  ),
+                  onPressed: () {
+                    Get.to(
+                      () => InvoiceTotal(
+                        invoiceList: invoiceListChecked,
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
     );
   }
 }

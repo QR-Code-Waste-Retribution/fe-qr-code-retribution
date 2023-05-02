@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
-class InvoicePaidCard extends StatefulWidget {
-  const InvoicePaidCard({super.key, required this.categoryName});
-  final String categoryName;
+class InvoiceTotalPaidStatus extends StatefulWidget {
+  const InvoiceTotalPaidStatus({super.key, required this.masyarakatName});
+  final String? masyarakatName;
 
   @override
-  State<InvoicePaidCard> createState() => _InvoicePaidCardState();
+  State<InvoiceTotalPaidStatus> createState() => _InvoiceTotalPaidStatusState();
 }
 
-class _InvoicePaidCardState extends State<InvoicePaidCard> {
+class _InvoiceTotalPaidStatusState extends State<InvoiceTotalPaidStatus> {
   Size device = const Size(0, 0);
   @override
   Widget build(BuildContext context) {
@@ -22,21 +23,6 @@ class _InvoicePaidCardState extends State<InvoicePaidCard> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Kategori',
-                style: blackTextStyle,
-              ),
-              Text(
-                widget.categoryName,
-                style: primaryTextStyle.copyWith(
-                  fontWeight: bold,
-                ),
-              ),
-            ],
-          ),
           Container(
             decoration: BoxDecoration(
               color: whiteColor,
@@ -64,7 +50,7 @@ class _InvoicePaidCardState extends State<InvoicePaidCard> {
                     ),
                     children: <TextSpan>[
                       TextSpan(
-                        text: 'Tagihan ${widget.categoryName} Anda ',
+                        text: 'Tagihan ${widget.masyarakatName} ',
                         style: blackTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
@@ -94,10 +80,15 @@ class _InvoicePaidCardState extends State<InvoicePaidCard> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      'Lihat history >',
-                      textAlign: TextAlign.right,
-                      style: priceTextStyle.copyWith(),
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Text(
+                        'Kembali >',
+                        textAlign: TextAlign.right,
+                        style: priceTextStyle.copyWith(),
+                      ),
                     ),
                   ],
                 ),

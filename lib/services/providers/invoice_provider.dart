@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/invoice/invoice_paid_unpaid.dart';
 import 'package:qr_code_app/models/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
+import 'package:qr_code_app/models/user.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_page.dart';
 import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -29,6 +30,8 @@ class InvoiceProvider extends GetxController {
   int get getInvoiceLength => _invoice.value.invoice.length;
 
   InvoiceList get getInvoice => _invoice.value;
+
+  User? get getInvoiceUser => _invoice.value.user;
 
   List<Invoice> getInvoiceStatusUnPaid() {
     List<Invoice> invoice = [];
@@ -81,7 +84,15 @@ class InvoiceProvider extends GetxController {
       _invoice.value = InvoiceList.fromJson(response.data);
 
       InvoiceList data = InvoiceList.fromJson(response.data);
-      Get.to(() => InvoicePage(invoiceList: data));
+
+      Get.to(
+        () => InvoicePage(
+          invoiceList: InvoiceList(
+            invoice: getInvoiceStatusUnPaid(),
+            user: getInvoiceUser,
+          ),
+        ),
+      );
 
       Get.snackbar(
         "Success",
