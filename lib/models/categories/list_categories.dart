@@ -1,4 +1,4 @@
-import 'package:qr_code_app/models/category.dart';
+import 'package:qr_code_app/models/categories/category.dart';
 
 class ListCategories {
   List<Category>? categories;

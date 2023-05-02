@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/molekuls/invoice/invoice_card.dart';
 import 'package:qr_code_app/components/molekuls/invoice/invoice_paid_card.dart';
-import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';

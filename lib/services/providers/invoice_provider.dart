@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/invoice/invoice_paid_unpaid.dart';
-import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_page.dart';
 import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -83,7 +83,7 @@ class InvoiceProvider extends GetxController {
               subDistrictId: subDistrictId!, uuid: uuid);
       _invoice.value = InvoiceList.fromJson(response.data);
 
-      InvoiceList data = InvoiceList.fromJson(response.data);
+      print(_invoice.value.toJson().toString());
 
       Get.to(
         () => InvoicePage(

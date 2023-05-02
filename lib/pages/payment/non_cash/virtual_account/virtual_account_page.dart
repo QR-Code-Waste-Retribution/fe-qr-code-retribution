@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
-import 'package:qr_code_app/models/virtual_account.dart';
+import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/molekuls/arrow_option_card.dart';
 import 'package:qr_code_app/components/molekuls/webview/web_view_doku.dart';

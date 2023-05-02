@@ -1,7 +1,7 @@
-import 'package:qr_code_app/models/category.dart';
+import 'package:qr_code_app/models/categories/category.dart';
 import 'package:qr_code_app/models/timestamp.dart';
-import 'package:qr_code_app/models/price.dart';
-import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/models/price/price.dart';
+import 'package:qr_code_app/models/user/user.dart';
 
 class InvoiceList {
   late final List<Invoice> invoice;

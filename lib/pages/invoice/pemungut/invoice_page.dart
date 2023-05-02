@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/invoice/invoice_card.dart';
-import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_total.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/molekuls/invoice/invoice_total_paid_status.dart';
@@ -78,7 +78,8 @@ class _InvoicePageState extends State<InvoicePage> {
           ? Container(
               padding: const EdgeInsets.all(20),
               child: InvoiceTotalPaidStatus(
-                masyarakatName: widget.invoiceList.user?.name,
+                masyarakatName:
+                    '${widget.invoiceList.user?.name} / ${widget.invoiceList.invoice.length}',
               ),
             )
           : ListView(

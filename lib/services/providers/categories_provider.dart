@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_app/models/categories/list_invoices.dart';
+import 'package:qr_code_app/models/categories/list_categories.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/repositories/categories_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';

@@ -1,5 +1,5 @@
-import 'package:qr_code_app/models/district.dart';
-import 'package:qr_code_app/models/sub_district.dart';
+import 'package:qr_code_app/models/geographic/district.dart';
+import 'package:qr_code_app/models/geographic/sub_district.dart';
 
 class AuthData {
   AuthData({

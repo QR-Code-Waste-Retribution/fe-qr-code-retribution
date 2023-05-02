@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/molekuls/home_menu_grid.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
-import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/pages/home/home_body.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';

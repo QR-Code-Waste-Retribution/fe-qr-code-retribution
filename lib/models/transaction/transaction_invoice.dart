@@ -1,4 +1,4 @@
-import 'package:qr_code_app/models/invoice_store.dart';
+import 'package:qr_code_app/models/invoice/invoice_store.dart';
 import 'package:qr_code_app/models/transaction/transaction.dart';
 
 class TransactionInvoice {

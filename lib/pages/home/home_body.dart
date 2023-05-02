@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/pages/home/masyarakat/masyarakat_home.dart';
 import 'package:qr_code_app/pages/home/pemungut/pemungut_home.dart';
 

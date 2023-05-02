@@ -1,5 +1,5 @@
 import 'package:qr_code_app/models/timestamp.dart';
-import 'package:qr_code_app/models/district.dart';
+import 'package:qr_code_app/models/geographic/district.dart';
 
 class Category {
   late final int id;

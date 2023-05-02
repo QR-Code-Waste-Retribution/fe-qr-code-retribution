@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/models/payment_method_page.dart';
-import 'package:qr_code_app/models/virtual_account.dart';
+import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 
 class AppConstants {
   static const String apiUrlServer = 'http://35.213.170.85/api';

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/services/binding.dart';
 // import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/data/home_menu.dart';
-import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class HomeMenuGrid extends StatelessWidget {

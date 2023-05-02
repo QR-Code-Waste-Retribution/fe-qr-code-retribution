@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
-import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/models/transaction/transaction_store.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/models/response_api.dart';
-import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/services/repositories/user_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 

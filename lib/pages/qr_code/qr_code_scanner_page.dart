@@ -36,7 +36,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
 
   Future<void> scanQrCode(String? uuid) async {
     await qrViewController!.pauseCamera();
-    await _invoiceProvider.getInvoiceUserByUUIDandSubDistrict(
+    _invoiceProvider.getInvoiceUserByUUIDandSubDistrict(
         uuid: uuid, subDistrictId: _authProvider.authData.user?.subDistrictId);
   }
 

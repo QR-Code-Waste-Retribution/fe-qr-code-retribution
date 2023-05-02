@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_app/models/invoice_model.dart';
+import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class InvoiceCard extends StatelessWidget {
