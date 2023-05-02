@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/input/search_input.dart';
+import 'package:qr_code_app/models/user.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class ManageUserPage extends StatefulWidget {
@@ -13,6 +16,70 @@ class ManageUserPage extends StatefulWidget {
 
 class _ManageUserPageState extends State<ManageUserPage> {
   bool isSwitched = false;
+  final UsersProvider _usersProvider = Get.find<UsersProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
+  List<TableRow> makeTableRows({required List<User> users}) {
+    final List<TableRow> tableRows = [
+      TableRow(
+        decoration: BoxDecoration(
+          border: Border(
+            bottom: BorderSide(
+              color: blackColor,
+            ),
+          ),
+        ),
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text(
+              'No',
+              style: primaryTextStyle.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text(
+              'Nama',
+              style: primaryTextStyle.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Text(
+              "Aksi",
+              style: primaryTextStyle.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ];
+    for (var index = 0; index < users.length; index++) {
+      var item = users[index];
+      tableRows.add(
+        tableRowMasyarakat(
+          name: item.name,
+          id: index + 1,
+          category: "Kios",
+        ),
+      );
+    }
+    return tableRows;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _usersProvider.getAllMasyarakatBySubDistrictId(
+        subDistrictId: _authProvider.authData.user?.subDistrictId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,62 +117,24 @@ class _ManageUserPageState extends State<ManageUserPage> {
               Get.toNamed('/add_user');
             },
           ),
-          Table(
-            textDirection: TextDirection.ltr,
-            columnWidths: const {
-              0: FixedColumnWidth(30),
-              1: FixedColumnWidth(165)
-            },
-            defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-            children: [
-              TableRow(
-                decoration: BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: blackColor,
-                    ),
-                  ),
-                ),
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      'No',
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      'Nama',
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      "Aksi",
-                      style: primaryTextStyle.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              tableRowMasyarakat(),
-              tableRowMasyarakat(),
-            ],
+          Obx(
+            () => Table(
+              textDirection: TextDirection.ltr,
+              columnWidths: const {
+                0: FixedColumnWidth(30),
+                1: FixedColumnWidth(165)
+              },
+              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+              children: makeTableRows(users: _usersProvider.getUserList),
+            ),
           ),
         ],
       ),
     );
   }
 
-  TableRow tableRowMasyarakat() {
+  TableRow tableRowMasyarakat(
+      {required String name, required int id, required String category}) {
     return TableRow(
       decoration: BoxDecoration(
         border: Border(
@@ -118,7 +147,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
         Padding(
           padding: const EdgeInsets.only(bottom: 10, top: 15),
           child: Text(
-            '1',
+            id.toString(),
             style: blackTextStyle,
           ),
         ),
@@ -128,7 +157,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Ahmad Sianipars Parapatsss sadasd',
+                name,
                 style: blackTextStyle.copyWith(
                   fontWeight: FontWeight.w600,
                 ),

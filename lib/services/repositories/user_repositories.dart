@@ -8,9 +8,9 @@ import 'package:qr_code_app/services/api_client.dart';
 class UserRepositories extends GetxService{
   final Dio _client = Client().init();
 
-  Future getAllUser() async {
+  Future getAllUser({ required int subDistrictId }) async {
     try {
-      final response = await _client.get('/login');
+      final response = await _client.get('/user/all/$subDistrictId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {
