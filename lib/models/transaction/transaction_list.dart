@@ -2,8 +2,9 @@ import 'package:qr_code_app/models/transaction/transaction.dart';
 
 class TransactionList {
   List<Transaction>? transaction;
+  int? totalAmount;
 
-  TransactionList({this.transaction});
+  TransactionList({this.transaction, this.totalAmount});
 
   TransactionList.fromJson(Map<String, dynamic> json) {
     if (json['transaction'] != null) {
@@ -12,6 +13,7 @@ class TransactionList {
         transaction!.add(Transaction.fromJson(v));
       });
     }
+    totalAmount = json['total_amount'];
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,8 @@ class TransactionList {
     if (transaction != null) {
       data['transaction'] = transaction!.map((v) => v.toJson()).toList();
     }
+    data['total_amount'] = totalAmount;
+
     return data;
   }
 }

@@ -107,6 +107,26 @@ class TransactionProvider extends GetxController {
     }
   }
 
+  Future<void> getAllTransactionByPemungutId({required int? pemungutId}) async {
+    try {
+      ResponseAPI response = await _transactionRepositories
+          .allTransactionByPemungutId(pemungutId: pemungutId!);
+
+      _transactionList.value = TransactionList.fromJson(response.data);
+      isLoading.value = false;
+
+      update();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to store transaction : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
+
   Future<void> getTransactionByMasyarakatId({int? masyarakatId}) async {
     try {
       ResponseAPI response = await _transactionRepositories

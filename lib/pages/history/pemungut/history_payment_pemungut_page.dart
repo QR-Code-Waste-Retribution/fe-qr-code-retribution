@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/number_format_price.dart';
 
 class HistoryPaymentPemungutPage extends StatefulWidget {
   const HistoryPaymentPemungutPage({super.key});
@@ -12,7 +16,20 @@ class HistoryPaymentPemungutPage extends StatefulWidget {
 
 class _HistoryPaymentPemungutPageState
     extends State<HistoryPaymentPemungutPage> {
+  final TransactionProvider _transactionProvider =
+      Get.find<TransactionProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
   Size device = const Size(0, 0);
+
+  @override
+  void initState() {
+    super.initState();
+    _transactionProvider.isLoading.value = true;
+    _transactionProvider.getAllTransactionByPemungutId(
+        pemungutId: _authProvider.authData.user?.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     device = Size(
@@ -31,9 +48,7 @@ class _HistoryPaymentPemungutPageState
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
-              Get.back();
-            });
+            Get.back();
           }),
         ),
         title: Text(
@@ -49,142 +64,147 @@ class _HistoryPaymentPemungutPageState
       backgroundColor: secondaryColor,
       body: Column(
         children: [
-          const SizedBox(
-            height: 20,
-          ),
           Expanded(
             child: Container(
               margin: const EdgeInsets.only(top: 20),
               decoration: BoxDecoration(
                 color: whiteColor,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
               ),
-              child: ListView(
-                padding: const EdgeInsets.all(20),
-                children: [
-                  Container(
+              child: Obx(
+                () {
+                  if (_transactionProvider.isLoading.value) {
+                    return CustomLoading(
+                      textColor: secondaryColor,
+                      loadingColor: secondaryColor,
+                    );
+                  }
+                  return ListView(
                     padding: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: greenThin,
-                      boxShadow: [
-                        BoxShadow(
-                          color: shadowColor,
-                          blurRadius: 5,
-                          offset: const Offset(2, 3.5),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Tagihan di bulan ini :',
-                          style: blackTextStyle,
-                        ),
-                        Text(
-                          'Rp. 10.640.000 -,',
-                          style: blackTextStyle.copyWith(
-                            fontSize: 20,
-                            fontWeight: bold,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Text(
-                    'Riwayat Pembayaran',
-                    style: primaryTextStyle.copyWith(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 20,
-                    ),
-                  ),
-                  Text(
-                    'Data di urutkan berdasarkan tanggal yang terbaru',
-                    style: primaryTextStyle.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13,
-                      color: secondaryTextColor,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 15,
-                    itemBuilder: (context, index) {
-                      // final item = widget.invoiceList.invoice[index];
-                      return Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        padding: const EdgeInsets.all(10),
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: whiteColor,
+                          color: greenThin,
                           boxShadow: [
                             BoxShadow(
                               color: shadowColor,
-                              blurRadius: 10,
-                              blurStyle: BlurStyle.outer,
-                              offset: const Offset(2, 0),
+                              blurRadius: 5,
+                              offset: const Offset(2, 3.5),
                             ),
                           ],
                         ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Desember 2022',
-                                  style: primaryTextStyle.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                            Text(
+                              'Total Tagihan di bulan ini :',
+                              style: blackTextStyle,
+                            ),
+                            Text(
+                              NumberFormatPrice().formatPrice(
+                                  price: _transactionProvider
+                                      .getTransactionList.totalAmount),
+                              style: blackTextStyle.copyWith(
+                                fontSize: 20,
+                                fontWeight: bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        'Riwayat Pembayaran',
+                        style: primaryTextStyle.copyWith(
+                          fontWeight: FontWeight.w700,
+                          fontSize: 20,
+                        ),
+                      ),
+                      Text(
+                        'Data di urutkan berdasarkan tanggal yang terbaru',
+                        style: primaryTextStyle.copyWith(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 13,
+                          color: secondaryTextColor,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 15,
+                        itemBuilder: (context, index) {
+                          final item = _transactionProvider
+                              .getTransactionList.transaction?[index];
+                          return Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              color: whiteColor,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: shadowColor,
+                                  blurRadius: 10,
+                                  blurStyle: BlurStyle.outer,
+                                  offset: const Offset(2, 0),
                                 ),
-                                Container(
-                                  width: 60,
-                                  decoration: BoxDecoration(
-                                    color: secondaryColor,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    'Tunai',
-                                    style: primaryTextStyle.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: whiteColor,
+                              ],
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      'Rp. ${item?.price?.formatedPrice}',
+                                      style: blackTextStyle.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
-                                    textAlign: TextAlign.center,
+                                    Container(
+                                      width: 60,
+                                      decoration: BoxDecoration(
+                                        color: secondaryColor,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: Text(
+                                        '${item?.type}',
+                                        style: primaryTextStyle.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          color: whiteColor,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(
+                                  height: 4,
+                                ),
+                                Text(
+                                  '${item?.updatedAt?.formatedDate}',
+                                  style: blackTextStyle.copyWith(
+                                    fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              'Rp. 20.000',
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              '12/11/2022',
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               ),
             ),
           ),

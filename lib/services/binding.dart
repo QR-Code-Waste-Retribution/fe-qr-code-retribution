@@ -14,18 +14,18 @@ import 'package:qr_code_app/services/repositories/user_repositories.dart';
 class AppBindings extends Bindings {
   @override
   void dependencies() {
-    Get.put<AuthProvider>(AuthProvider());
-    Get.put<InvoiceProvider>(InvoiceProvider());
-    Get.put<TransactionProvider>(TransactionProvider());
-    Get.put<CategoriesProvider>(CategoriesProvider());
-    Get.put<UsersProvider>(UsersProvider());
+    Get.lazyPut<AuthProvider>(() => AuthProvider(), fenix: true);
+    Get.lazyPut<InvoiceProvider>(() => InvoiceProvider(), fenix: true);
+    Get.lazyPut<TransactionProvider>(() => TransactionProvider(), fenix: true);
+    Get.lazyPut<CategoriesProvider>(() => CategoriesProvider(), fenix: true);
+    Get.lazyPut<UsersProvider>(() => UsersProvider(), fenix: true);
 
-    Get.lazyPut<PaginationProvider>(() => PaginationProvider());
+    Get.lazyPut<PaginationProvider>(() => PaginationProvider(), fenix: true);
 
-    Get.put<AuthRepositories>(AuthRepositories());
-    Get.put<UserRepositories>(UserRepositories());
-    Get.put<InvoiceRepositories>(InvoiceRepositories());
-    Get.put<TransactionRepositories>(TransactionRepositories());
-    Get.put<CategoriesRepositories>(CategoriesRepositories());
+    Get.lazyPut<AuthRepositories>(() => AuthRepositories(), fenix: true);
+    Get.lazyPut<UserRepositories>(() => UserRepositories(), fenix: true);
+    Get.lazyPut<InvoiceRepositories>(() => InvoiceRepositories(), fenix: true);
+    Get.lazyPut<TransactionRepositories>(() => TransactionRepositories(), fenix: true);
+    Get.lazyPut<CategoriesRepositories>(() => CategoriesRepositories(), fenix: true);
   }
 }
