@@ -84,7 +84,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: 20,
                         ),
                         Text(
-                          'Ahmad Sianipar',
+                          '${_authProvider.authData.user?.name}',
                           style: primaryTextStyle.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           width: 20,
                         ),
                         Text(
-                          '0821676636382',
+                          '${_authProvider.authData.user?.phoneNumber}',
                           style: primaryTextStyle.copyWith(
                             fontWeight: FontWeight.w600,
                             fontSize: 16,
@@ -140,7 +140,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Container(
                           width: device.width * 0.6,
                           child: Text(
-                            'Toko Trisno, Pasar I Parsoburan Kecamatan Habinsaran, Kabupaten Toba',
+                            '${_authProvider.authData.user?.address}',
                             style: primaryTextStyle.copyWith(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
