@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/data/home_menu.dart';
 
 import 'package:qr_code_app/pages/help/help_page.dart';
 import 'package:qr_code_app/pages/history/masyarakat/history_payment_masyarakat_page.dart';
@@ -17,6 +18,8 @@ class PaginationProvider extends GetxController {
   void updateCurrentIndex(int index) {
     currentIndex.value = index;
   }
+
+  late Map<String, List<HomeMenu>> listHomeMenu;
 
   RxMap<String, List<Widget>> rolePages = {
     'pemungut': [
@@ -105,6 +108,90 @@ class PaginationProvider extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    listHomeMenu = {
+      'pemungut': [
+        HomeMenu(
+            iconText: 'Riwayat Pembayaran',
+            iconImage: Icons.list,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              Get.toNamed('/history_payment_pemungut');
+            }),
+        HomeMenu(
+            iconText: 'Tagih',
+            iconImage: Icons.money,
+            href: '/',
+            onClick: () {
+              updateCurrentIndex(2);
+            }),
+        HomeMenu(
+            iconText: 'Rekapitulasi',
+            iconImage: Icons.assignment,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              updateCurrentIndex(3);
+            }),
+        HomeMenu(
+            iconText: 'Tambah Akun',
+            iconImage: Icons.person_add,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              Get.toNamed('/add_user');
+            }),
+        HomeMenu(
+            iconText: 'Akun Masyarakat',
+            iconImage: Icons.people_sharp,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              updateCurrentIndex(1);
+            }),
+        HomeMenu(
+            iconText: 'Profile',
+            iconImage: Icons.person,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              updateCurrentIndex(4);
+            }),
+      ],
+      'masyarakat': [
+        HomeMenu(
+            iconText: 'Bantuan',
+            iconImage: Icons.help,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              updateCurrentIndex(1);
+            }),
+        HomeMenu(
+            iconText: 'Bayar',
+            iconImage: Icons.payment,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              updateCurrentIndex(2);
+            }),
+        HomeMenu(
+            iconText: 'History',
+            iconImage: Icons.history,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              updateCurrentIndex(3);
+            }),
+        HomeMenu(
+            iconText: 'Daftar Kategori',
+            iconImage: Icons.menu_book,
+            href: '/list_categories',
+            onClick: () {
+              Get.toNamed('/list_categories');
+            }),
+        HomeMenu(
+            iconText: 'Profile',
+            iconImage: Icons.person,
+            href: '/history_payment_pemungut',
+            onClick: () {
+              updateCurrentIndex(4);
+            }),
+      ],
+    }.obs;
   }
 
   @override

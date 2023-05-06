@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_app/data/home_menu.dart';
 import 'package:qr_code_app/models/user/user.dart';
+import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class HomeMenuGrid extends StatelessWidget {
-  const HomeMenuGrid({
+  HomeMenuGrid({
     Key? key,
     required this.device,
     required this.authProvider,
@@ -13,6 +13,7 @@ class HomeMenuGrid extends StatelessWidget {
 
   final Size device;
   final AuthData authProvider;
+  final PaginationProvider _paginationProvider = Get.find<PaginationProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +47,10 @@ class HomeMenuGrid extends StatelessWidget {
         padding: const EdgeInsets.only(
           top: 0,
         ),
-        itemCount: listHomeMenu[role]?.length,
+        itemCount: _paginationProvider.listHomeMenu[role]?.length,
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {
-              Get.toNamed(listHomeMenu[role]![index].href);
-            },
+            onTap: _paginationProvider.listHomeMenu[role]![index].onClick,
             child: Center(
               child: SizedBox(
                 width: device.width,
@@ -72,7 +71,7 @@ class HomeMenuGrid extends StatelessWidget {
                         ],
                       ),
                       child: Icon(
-                        listHomeMenu[role]![index].iconImage,
+                        _paginationProvider.listHomeMenu[role]![index].iconImage,
                         color: primaryColor,
                       ),
                     ),
@@ -82,7 +81,7 @@ class HomeMenuGrid extends StatelessWidget {
                     Wrap(
                       children: [
                         Text(
-                          listHomeMenu[role]![index].iconText,
+                          _paginationProvider.listHomeMenu[role]![index].iconText,
                           textAlign: TextAlign.center,
                           style: primaryTextStyle.copyWith(
                             fontSize: 12.5,
