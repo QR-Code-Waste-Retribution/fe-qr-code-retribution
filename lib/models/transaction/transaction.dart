@@ -41,8 +41,8 @@ class Transaction {
     transactionNumber = json['transaction_number'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     pemungutId = json['pemungut_id'];
-    category = json['category_id'] != null
-        ? Category.fromJson(json['category_id'])
+    category = json['category'] != null
+        ? Category.fromJson(json['category'])
         : null;
     createdAt = json['created_at'] != null
         ? TimeStamp.fromJson(json['created_at'])
@@ -68,7 +68,7 @@ class Transaction {
     }
     data['pemungut_id'] = pemungutId;
     if (category != null) {
-      data['category_id'] = category!.toJson();
+      data['category'] = category!.toJson();
     }
     if (createdAt != null) {
       data['created_at'] = createdAt!.toJson();

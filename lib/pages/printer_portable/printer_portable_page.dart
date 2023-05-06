@@ -59,24 +59,33 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
     }
 
     void categoryInvoiceName() {
-      for (var invoice in transactionInvoice.invoice!) {
-        List<String> parts =
-            splitStringByLength(invoice.category?.name ?? '', 15);
-        int index = 0;
-        for (var item in parts) {
-          if (index == 0) {
-            printer.printLeftRight(
-                item,
-                '[${invoice.variantsCount}] | ${NumberFormatPrice()
-                .formatPrice(
-                  price: invoice.price?.normalPrice,
-                  decimalDigits: 0,
-                )}',
-                0);
-          } else {
-            printer.printLeftRight(item, '', 0);
+      if (transactionInvoice.invoice!.isEmpty) {
+        printer.printLeftRight(
+            '${transactionInvoice.transaction?.category?.name}',
+            '[1] | ${NumberFormatPrice().formatPrice(
+              price: transactionInvoice.transaction?.price?.normalPrice,
+              decimalDigits: 0,
+            )}',
+            0);
+      } else {
+        for (var invoice in transactionInvoice.invoice!) {
+          List<String> parts =
+              splitStringByLength(invoice.category?.name ?? '', 15);
+          int index = 0;
+          for (var item in parts) {
+            if (index == 0) {
+              printer.printLeftRight(
+                  item,
+                  '[${invoice.variantsCount}] | ${NumberFormatPrice().formatPrice(
+                    price: invoice.price?.normalPrice,
+                    decimalDigits: 0,
+                  )}',
+                  0);
+            } else {
+              printer.printLeftRight(item, '', 0);
+            }
+            index++;
           }
-          index++;
         }
       }
     }
@@ -135,49 +144,47 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
           ),
         ),
       ),
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: <Widget>[
-              ListView.builder(
-                shrinkWrap: true,
-                itemBuilder: (context, position) => ListTile(
-                  onTap: () {
-                    setState(() {
-                      selected_device = _devices[position];
-                    });
-                  },
-                  selectedColor: Colors.amber,
-                  style: ListTileStyle.drawer,
-                  leading: const Icon(Icons.print),
-                  title: Text(_devices[position].name!),
-                  subtitle: Text(_devices[position].address!),
-                ),
-                itemCount: _devices.length,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  printer.connect(selected_device!);
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView(
+          children: <Widget>[
+            ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (context, position) => ListTile(
+                onTap: () {
+                  setState(() {
+                    selected_device = _devices[position];
+                  });
                 },
-                child: Text('Connect'),
+                selectedColor: Colors.amber,
+                style: ListTileStyle.drawer,
+                leading: const Icon(Icons.print),
+                title: Text(_devices[position].name!),
+                subtitle: Text(_devices[position].address!),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  printer.disconnect();
-                },
-                child: Text('Disconnect'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  if ((await printer.isConnected)!) {
-                    printInvoice();
-                  }
-                },
-                child: Text('Print'),
-              ),
-            ],
-          ),
+              itemCount: _devices.length,
+            ),
+            ElevatedButton(
+              onPressed: () {
+                printer.connect(selected_device!);
+              },
+              child: const Text('Connect'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                printer.disconnect();
+              },
+              child: const Text('Disconnect'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                if ((await printer.isConnected)!) {
+                  printInvoice();
+                }
+              },
+              child: const Text('Print'),
+            ),
+          ],
         ),
       ),
     );

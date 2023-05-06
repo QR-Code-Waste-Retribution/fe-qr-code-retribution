@@ -68,7 +68,7 @@ class _RecapitulationPageState extends State<RecapitulationPage>
       ),
       body: Obx(
         () => _invoiceProvider.getIsLoading
-            ? const CustomLoading()
+            ? CustomLoading()
             : TabBarView(
                 controller: tabController,
                 children: [

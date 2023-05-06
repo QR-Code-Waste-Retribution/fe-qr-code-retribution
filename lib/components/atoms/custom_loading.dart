@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class CustomLoading extends StatelessWidget {
-  const CustomLoading({super.key});
+  Color loadingColor;
+  Color textColor;
+
+  CustomLoading(
+      {super.key,
+      this.loadingColor = Colors.white,
+      this.textColor = Colors.white});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +17,7 @@ class CustomLoading extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(
-            color: whiteColor,
+            color: loadingColor,
           ),
           const SizedBox(height: 10.0),
           Text(
@@ -19,6 +25,7 @@ class CustomLoading extends StatelessWidget {
             style: whiteTextStyle.copyWith(
               fontWeight: FontWeight.w700,
               wordSpacing: 1.5,
+              color: textColor,
             ),
           ),
         ],

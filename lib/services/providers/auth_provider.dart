@@ -27,6 +27,8 @@ class AuthProvider extends GetxController {
 
   bool get getLoading => isLoading.value;
 
+  int? get getUserId => _authData.value.user?.id;
+
   AuthData get authData => _authData.value;
 
   String? get getUUID => _authData.value.user?.uuid;

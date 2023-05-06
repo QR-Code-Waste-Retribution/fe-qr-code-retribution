@@ -78,8 +78,7 @@ class _InvoicePageState extends State<InvoicePage> {
           ? Container(
               padding: const EdgeInsets.all(20),
               child: InvoiceTotalPaidStatus(
-                masyarakatName:
-                    '${widget.invoiceList.user?.name} / ${widget.invoiceList.invoice.length}',
+                masyarakatName: '${widget.invoiceList.user?.name}',
               ),
             )
           : ListView(

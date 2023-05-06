@@ -122,7 +122,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 20),
                                   child: Text(
-                                    '${transactionInvoice.invoice?[0].category?.name}',
+                                    '${transactionInvoice.invoice != null && transactionInvoice.invoice!.isNotEmpty ? transactionInvoice.invoice![0].category?.name : transactionInvoice.transaction?.category?.name}',
                                     style: blackTextStyle.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),

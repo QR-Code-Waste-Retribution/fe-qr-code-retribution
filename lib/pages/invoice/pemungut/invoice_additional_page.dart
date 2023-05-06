@@ -2,79 +2,77 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
-import 'package:qr_code_app/models/invoice/invoice_model.dart';
+import 'package:qr_code_app/models/categories/category.dart';
 import 'package:qr_code_app/models/transaction/transaction_store.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:intl/intl.dart';
+import 'package:qr_code_app/utils/number_format_price.dart';
 
-class InvoiceTotal extends StatefulWidget {
-  final InvoiceList invoiceList;
-  const InvoiceTotal({Key? key, required this.invoiceList}) : super(key: key);
+class InvoiceAdditionalPage extends StatefulWidget {
+  const InvoiceAdditionalPage({Key? key}) : super(key: key);
 
   @override
-  State<InvoiceTotal> createState() => _InvoiceTotalState();
+  State<InvoiceAdditionalPage> createState() => _InvoiceAdditionalPageState();
 }
 
-class _InvoiceTotalState extends State<InvoiceTotal> {
+class _InvoiceAdditionalPageState extends State<InvoiceAdditionalPage> {
   double totalPrice = 0;
-  TransactionStore transactionStore = TransactionStore();
-  final AuthProvider authProvider = Get.find<AuthProvider>();
+
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
+
+  final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
+  TransactionStore transactionStore = TransactionStore();
 
   @override
   void initState() {
     super.initState();
-    double total = 0;
 
-    List<InvoicesId> invoicesId = [];
-
-    for (var invoice in widget.invoiceList.invoice) {
-      total += invoice.price.normalPrice;
-
-      invoicesId.add(InvoicesId(parents: invoice.id, variants: invoice.variants));
-    }
-
-    transactionStore.invoicesId = invoicesId;
-    transactionStore.totalAmount = total;
-    transactionStore.masyarakatId = widget.invoiceList.user?.id;
-    transactionStore.pemungutId = authProvider.authData.user?.id;
-    transactionStore.subDistrictId = authProvider.authData.user?.subDistrictId;
-    transactionStore.categoryId = 1;
+    transactionStore.invoicesId = [
+      InvoicesId(
+        parents: _categoriesProvider.getCategorySelected?.id,
+        variants: [],
+      )
+    ];
+    transactionStore.totalAmount =
+        _categoriesProvider.getCategorySelected?.price.toDouble();
+    transactionStore.masyarakatId = 1;
+    transactionStore.pemungutId = _authProvider.getUserId;
+    transactionStore.subDistrictId = _authProvider.subDistrictId;
+    transactionStore.categoryId = _categoriesProvider.getCategorySelected?.id;
     transactionStore.type = 'CASH';
-    setState(() {
-      totalPrice = total;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     Future<void> storeTransaction() async {
       _transactionProvider.isLoading.value = true;
-      await _transactionProvider
-          .storeTransactionInvoiceMasyarakat(transactionStore: transactionStore)
-          .then((value) => {_transactionProvider.isLoading.value = false});
+      await _transactionProvider.storeTransactionAdditionalMasyarakat(
+          transactionStore: transactionStore);
     }
 
-    Container invoiceListDetail(Invoice invoice, index) {
+    Container invoiceListDetail(Category category, index) {
       return Container(
         margin: const EdgeInsets.only(bottom: 20),
         child: Column(
           children: [
-            Row(
+            Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Tagihan $index',
+                  'Kategori',
                   style: blackTextStyle.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
                   ),
                 ),
                 Text(
-                  'Rp. ${invoice.price.formatedPrice}',
+                  category.name,
                   style: blackTextStyle.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
@@ -89,15 +87,15 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Tagihan bulan',
+                  'Bayar Tunai',
                   style: blackTextStyle.copyWith(
-                    fontSize: 12,
+                    fontSize: 16,
                   ),
                 ),
                 Text(
-                  invoice.date,
+                  NumberFormatPrice().formatPrice(price: category.price),
                   style: primaryTextStyle.copyWith(
-                    fontSize: 12,
+                    fontSize: 16,
                   ),
                 ),
               ],
@@ -117,9 +115,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
-              Get.back();
-            });
+            Get.back();
           }),
         ),
         title: Text(
@@ -170,7 +166,8 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                     Text(
                       NumberFormat.currency(
                               locale: 'id_ID', symbol: 'Rp ', decimalDigits: 2)
-                          .format(totalPrice),
+                          .format(
+                              _categoriesProvider.getCategorySelected?.price),
                       style: blackTextStyle.copyWith(
                         fontSize: 30,
                       ),
@@ -185,14 +182,9 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
                     const SizedBox(
                       height: 10,
                     ),
-                    SizedBox(
-                      height: 300,
-                      child: ListView.builder(
-                          itemCount: widget.invoiceList.invoice.length,
-                          itemBuilder: (context, index) {
-                            return invoiceListDetail(
-                                widget.invoiceList.invoice[index], index + 1);
-                          }),
+                    invoiceListDetail(
+                      _categoriesProvider.getCategorySelected!,
+                      1,
                     )
                   ],
                 ),

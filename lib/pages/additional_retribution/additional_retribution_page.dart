@@ -1,7 +1,8 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_app/pages/invoice/pemungut/invoice_payment_details.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
+import 'package:qr_code_app/pages/invoice/pemungut/invoice_additional_page.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
@@ -27,11 +28,14 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
 
   @override
   void initState() {
+    _categoriesProvider.isLoading.value = true;
     _categoriesProvider
         .getAllCategories(districtId: _authProvider.districtId!)
         .then((value) {
       dropdownValue =
           _categoriesProvider.getCategoriesList.categories[0].id.toString();
+      priceController.text =
+          _categoriesProvider.getCategoriesList.categories[0].price.toString();
     });
     super.initState();
   }
@@ -80,7 +84,8 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
                 _categoriesProvider.priceSelectedCategories(
                   idSelected: int.parse(newValue!),
                 );
-                priceController.text = _categoriesProvider.getPriceSelectedCategory;
+                priceController.text =
+                    _categoriesProvider.getPriceSelectedCategory;
               },
               items: _categoriesProvider.getCategoriesList.categories
                   .map<DropdownMenuItem<String>>((Category category) {
@@ -194,33 +199,41 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
         ),
       ),
       body: Obx(
-        () => ListView(
-          padding: const EdgeInsets.all(20),
-          children: [
-            dropdownChooseCategory(),
-            priceInput(),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Apakah masyarakat ingin membayar retribusi sampah secara tunai sekarang?',
-              style: primaryTextStyle,
-            ),
-            CustomButton(
-              title: 'Bayar',
-              width: 120,
-              margin: const EdgeInsets.only(
-                top: 30,
-                bottom: 80,
+        () {
+          if (_categoriesProvider.isLoading.value) {
+            return CustomLoading(
+              textColor: secondaryColor,
+              loadingColor: secondaryColor,
+            );
+          }
+          return ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              dropdownChooseCategory(),
+              priceInput(),
+              const SizedBox(
+                height: 10,
               ),
-              onPressed: () {
-                Get.to(
-                  () => const PaymentDetails(),
-                );
-              },
-            ),
-          ],
-        ),
+              Text(
+                'Apakah masyarakat ingin membayar retribusi sampah secara tunai sekarang?',
+                style: primaryTextStyle,
+              ),
+              CustomButton(
+                title: 'Bayar',
+                width: 120,
+                margin: const EdgeInsets.only(
+                  top: 30,
+                  bottom: 80,
+                ),
+                onPressed: () {
+                  Get.to(
+                    () => const InvoiceAdditionalPage(),
+                  );
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }

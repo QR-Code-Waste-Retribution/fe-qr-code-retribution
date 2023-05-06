@@ -3,9 +3,9 @@ import 'package:qr_code_app/models/transaction/transaction.dart';
 
 class TransactionInvoice {
   Transaction? transaction;
-  List<InvoiceStore>? invoice;
+  late List<InvoiceStore>? invoice;
 
-  TransactionInvoice({this.transaction, this.invoice});
+  TransactionInvoice({this.transaction, required this.invoice});
 
   TransactionInvoice.fromJson(Map<String, dynamic> json) {
     transaction = json['transaction'] != null
@@ -14,7 +14,7 @@ class TransactionInvoice {
     if (json['invoice'] != null) {
       invoice = <InvoiceStore>[];
       json['invoice'].forEach((v) {
-        invoice!.add(InvoiceStore.fromJson(v));
+        invoice?.add(InvoiceStore.fromJson(v));
       });
     }
   }
@@ -25,7 +25,7 @@ class TransactionInvoice {
       data['transaction'] = transaction!.toJson();
     }
     if (invoice != null) {
-      data['invoice'] = invoice!.map((v) => v.toJson()).toList();
+      data['invoice'] = invoice?.map((v) => v.toJson()).toList();
     }
     return data;
   }

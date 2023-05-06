@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/models/categories/category.dart';
 import 'package:qr_code_app/models/categories/list_categories.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/repositories/categories_repositories.dart';
@@ -15,12 +16,19 @@ class CategoriesProvider extends GetxController {
 
   RxInt priceSelected = 0.obs;
 
+  RxBool isLoading = false.obs;
+
+  Rx<Category?> categorySelected = Rx<Category?>(null);
+
+  Category? get getCategorySelected => categorySelected.value;
+
   String get getPriceSelectedCategory => priceSelected.value.toString();
 
   void priceSelectedCategories({required int idSelected}) {
     for (var category in getCategoriesList.categories) {
       if (category.id == idSelected) {
         priceSelected.value = category.price;
+        categorySelected.value = category;
       }
     }
   }
@@ -31,6 +39,7 @@ class CategoriesProvider extends GetxController {
           await _categoriesRepositories.allCategories(districtId: districtId);
 
       _categories.value = ListCategories.fromJson(response.data);
+      isLoading.value = false;
 
       Get.snackbar(
         "Success",
