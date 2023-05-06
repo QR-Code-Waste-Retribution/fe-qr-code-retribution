@@ -13,6 +13,18 @@ class CategoriesProvider extends GetxController {
 
   ListCategories get getCategoriesList => _categories.value;
 
+  RxInt priceSelected = 0.obs;
+
+  String get getPriceSelectedCategory => priceSelected.value.toString();
+
+  void priceSelectedCategories({required int idSelected}) {
+    for (var category in getCategoriesList.categories) {
+      if (category.id == idSelected) {
+        priceSelected.value = category.price;
+      }
+    }
+  }
+
   Future<void> getAllCategories({required int districtId}) async {
     try {
       ResponseAPI response =

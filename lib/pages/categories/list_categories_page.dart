@@ -134,7 +134,7 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
                           ],
                         ),
                         for (var item in _categoriesProvider
-                            .getCategoriesList.categories!)
+                            .getCategoriesList.categories)
                           tableRowMasyarakat(
                             category: item.name,
                             price:
