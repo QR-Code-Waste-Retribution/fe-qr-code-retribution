@@ -3,37 +3,43 @@ part of './init.dart';
 class Pages {
   static const String loginPage = '/';
   static const String homePage = '/home';
-  static const String recapitulationPage = '/home';
+  static const String recapitulationPage = '/recapitulation';
   static const String invoicePage = '/invoice';
   static const String scanQRCodePage = '/scan_qr_code';
+  static const String generateQRCodePage = '/generate_qr_code';
+  static const String additionalRetributionPage = '/additional_retribution';
+  static const String manageUserPage = '/manage_user_page';
+  static const String nonCashPaymentPage = '/non_cash_payment';
+  static const String virtualAccountPage = '/virtual_account_page';
+  static const String printerPortablePage = '/printer_portable_page';
+  static const String invoicePaymentsDetailsPage = '/invoice_payments_details';
+  static const String addUserPage = '/add_user';
+  static const String editUserPage = '/edit_user';
+  static const String historyPaymentPemungutPage = '/history_payment_pemungut';
+  static const String changePasswordPage = '/change_password';
+  static const String editProfilePage = '/edit_profile';
+  static const String forgetPasswordPage = '/forget_password';
+  static const String listCategoriesPage = '/list_categories';
 
   static final List<GetPage> pages = [
-    GetPage(name: '/', page: () => const LoginPage()),
-    GetPage(name: '/recapitulation', page: () => const RecapitulationPage()),
-    GetPage(name: '/home', page: () => const HomePagination()),
-    GetPage(name: '/invoice', page: () => const InvoicePeoplePage()),
-    GetPage(name: '/scan_qr_code', page: () => const QRCodeScannerPage()),
-    GetPage(name: '/generate_qr_code', page: () => const QRCodeGeneratorPage()),
-    GetPage(
-        name: '/additional_retribution',
-        page: () => const AdditionalRetributionPage()),
-    GetPage(name: '/manage_user_page', page: () => const ManageUserPage()),
-    GetPage(name: '/non_cash_payment', page: () => const NonCashPage()),
-    GetPage(
-        name: '/virtual_account_page', page: () => const VirtualAccountPage()),
-    GetPage(
-        name: '/printer_portable_page',
-        page: () => const PrinterPortablePage()),
-    GetPage(
-        name: '/invoice_payments_details', page: () => const PaymentDetails()),
-    GetPage(name: '/add_user', page: () => const AddUserPage()),
-    GetPage(name: '/edit_user', page: () => const EditUserPage()),
-    GetPage(
-        name: '/history_payment_pemungut',
-        page: () => const HistoryPaymentPemungutPage()),
-    GetPage(name: '/change_password', page: () => const ChangePasswordPage()),
-    GetPage(name: '/edit_profile', page: () => const EditProfilePage()),
-    GetPage(name: '/forget_password', page: () => const ForgetPasswordPage()),
-    GetPage(name: '/list_categories', page: () => const ListCategoriesPage()),
+    GetPage(name: loginPage, page: () => const LoginPage()),
+    GetPage(name: homePage, page: () => const HomePagination()),
+    GetPage(name: recapitulationPage, page: () => const RecapitulationPage()),
+    GetPage(name: invoicePage, page: () => const InvoicePeoplePage()),
+    GetPage(name: scanQRCodePage, page: () => const QRCodeScannerPage()),
+    GetPage(name: generateQRCodePage, page: () => const QRCodeGeneratorPage()),
+    GetPage(name: additionalRetributionPage, page: () => const AdditionalRetributionPage()),
+    GetPage(name: manageUserPage, page: () => const ManageUserPage()),
+    GetPage(name: nonCashPaymentPage, page: () => const NonCashPage()),
+    GetPage(name: virtualAccountPage, page: () => const VirtualAccountPage()),
+    GetPage(name: printerPortablePage, page: () => const PrinterPortablePage()),
+    GetPage(name: invoicePaymentsDetailsPage, page: () => const PaymentDetails()),
+    GetPage(name: addUserPage, page: () => const AddUserPage()),
+    GetPage(name: editUserPage, page: () => const EditUserPage()),
+    GetPage(name: historyPaymentPemungutPage, page: () => const HistoryPaymentPemungutPage()),
+    GetPage(name: changePasswordPage, page: () => const ChangePasswordPage()),
+    GetPage(name: editProfilePage, page: () => const EditProfilePage()),
+    GetPage(name: forgetPasswordPage, page: () => const ForgetPasswordPage()),
+    GetPage(name: listCategoriesPage, page: () => const ListCategoriesPage()),
   ];
 }
