@@ -139,7 +139,8 @@ class _HistoryPaymentPemungutPageState
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 15,
+                        itemCount: _transactionProvider
+                              .getTransactionList.transaction?.length,
                         itemBuilder: (context, index) {
                           final item = _transactionProvider
                               .getTransactionList.transaction?[index];

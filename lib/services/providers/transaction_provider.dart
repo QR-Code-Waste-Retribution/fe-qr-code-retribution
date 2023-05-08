@@ -51,21 +51,21 @@ class TransactionProvider extends GetxController {
   Future<void> storeTransactionInvoiceMasyarakat(
       {required TransactionStore transactionStore}) async {
     try {
-      ResponseAPI response = await _transactionRepositories
-          .transactionInvoiceMasyarakat(transactionStore: transactionStore);
+    ResponseAPI response = await _transactionRepositories
+        .transactionInvoiceMasyarakat(transactionStore: transactionStore);
 
-      _transactionInvoice.value = TransactionInvoice.fromJson(response.data);
-      isLoading.value = false;
+    _transactionInvoice.value = TransactionInvoice.fromJson(response.data);
+    isLoading.value = false;
 
-      Get.toNamed('/invoice_payments_details');
-      Get.snackbar(
-        "Success",
-        response.message,
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
-      update();
+    Get.toNamed('/invoice_payments_details');
+    Get.snackbar(
+      "Success",
+      response.message,
+      backgroundColor: primaryColor,
+      colorText: Colors.white,
+      borderRadius: 5,
+    );
+    update();
     } catch (e) {
       Get.snackbar(
         'Error',

@@ -34,7 +34,8 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
     for (var invoice in widget.invoiceList.invoice) {
       total += invoice.price.normalPrice;
 
-      invoicesId.add(InvoicesId(parents: invoice.id, variants: invoice.variants));
+      invoicesId
+          .add(InvoicesId(parents: invoice.id, variants: invoice.variants));
     }
 
     transactionStore.invoicesId = invoicesId;
