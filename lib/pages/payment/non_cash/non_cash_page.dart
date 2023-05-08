@@ -266,7 +266,7 @@ class _NonCashPageState extends State<NonCashPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.to('/virtual_account_page', arguments: {
+                                Get.toNamed('/virtual_account_page', arguments: {
                                   'transaction_store':
                                       makeBodyTransaction().toJson()
                                 });

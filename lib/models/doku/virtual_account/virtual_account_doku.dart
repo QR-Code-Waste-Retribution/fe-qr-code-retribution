@@ -15,7 +15,7 @@ class VirtualAccountDoku {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (order != null) {
       data['order'] = order!.toJson();
     }
