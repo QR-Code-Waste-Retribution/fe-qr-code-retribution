@@ -228,6 +228,17 @@ class _NonCashPageState extends State<NonCashPage> {
                 fontSize: 14,
                 defaultRadiusButton: 10,
                 onPressed: () {
+                  if (invoiceListChecked.isEmpty) {
+                    Get.snackbar(
+                      'Error',
+                      'Pilih setidaknya satu tagihan yang akan dibayar',
+                      backgroundColor: Colors.red,
+                      colorText: Colors.white,
+                      borderRadius: 5,
+                    );
+                    return;
+                  }
+
                   showModalBottomSheet<void>(
                     context: context,
                     backgroundColor: const Color.fromARGB(24, 0, 0, 0),
@@ -266,10 +277,11 @@ class _NonCashPageState extends State<NonCashPage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Get.toNamed('/virtual_account_page', arguments: {
-                                  'transaction_store':
-                                      makeBodyTransaction().toJson()
-                                });
+                                Get.toNamed('/virtual_account_page',
+                                    arguments: {
+                                      'transaction_store':
+                                          makeBodyTransaction().toJson()
+                                    });
                               },
                               child: const ArrowOptionCard(
                                 text: 'Virtual Account',

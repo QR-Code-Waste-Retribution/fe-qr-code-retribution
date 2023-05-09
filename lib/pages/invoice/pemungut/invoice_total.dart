@@ -53,6 +53,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
   @override
   Widget build(BuildContext context) {
     Future<void> storeTransaction() async {
+      print(transactionStore.toJson().toString());
       _transactionProvider.isLoading.value = true;
       await _transactionProvider
           .storeTransactionInvoiceMasyarakat(transactionStore: transactionStore)

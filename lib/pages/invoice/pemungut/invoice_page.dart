@@ -18,7 +18,7 @@ class InvoicePage extends StatefulWidget {
 class _InvoicePageState extends State<InvoicePage> {
   List<bool>? isChecked;
   bool? isAll = false;
-  InvoiceList invoiceListChecked = InvoiceList(invoice: []);
+  late InvoiceList invoiceListChecked;
   bool? tagihan = false;
   Size device = const Size(0, 0);
 
@@ -26,6 +26,7 @@ class _InvoicePageState extends State<InvoicePage> {
   void initState() {
     super.initState();
     isChecked = List.filled(widget.invoiceList.invoice.length, false);
+    invoiceListChecked = InvoiceList(invoice: [], user: widget.invoiceList.user);
   }
 
   void checkAllInvoice(bool value) {
@@ -38,7 +39,7 @@ class _InvoicePageState extends State<InvoicePage> {
     if (value) {
       invoiceListChecked = widget.invoiceList;
     } else {
-      invoiceListChecked = InvoiceList(invoice: []);
+      invoiceListChecked = InvoiceList(invoice: [], user: widget.invoiceList.user);
     }
   }
 
@@ -195,6 +196,17 @@ class _InvoicePageState extends State<InvoicePage> {
                     bottom: 80,
                   ),
                   onPressed: () {
+                    if (invoiceListChecked.invoice.isEmpty) {
+                      Get.snackbar(
+                        'Error',
+                        'Pilih setidaknya satu tagihan yang akan dibayar',
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                        borderRadius: 5,
+                      );
+                      return;
+                    }
+
                     Get.to(
                       () => InvoiceTotal(
                         invoiceList: invoiceListChecked,

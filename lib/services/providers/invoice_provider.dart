@@ -81,15 +81,14 @@ class InvoiceProvider extends GetxController {
       ResponseAPI response =
           await _invoiceRepositories.invoiceUserByUUIDandSubDistrict(
               subDistrictId: subDistrictId!, uuid: uuid);
-      _invoice.value = InvoiceList.fromJson(response.data);
 
-      print(_invoice.value.toJson().toString());
+      _invoice.value = InvoiceList.fromJson(response.data);
 
       Get.to(
         () => InvoicePage(
           invoiceList: InvoiceList(
             invoice: getInvoiceStatusUnPaid(),
-            user: getInvoiceUser,
+            user: _invoice.value.user,
           ),
         ),
       );
