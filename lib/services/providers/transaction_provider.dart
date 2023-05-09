@@ -51,21 +51,21 @@ class TransactionProvider extends GetxController {
   Future<void> storeTransactionInvoiceMasyarakat(
       {required TransactionStore transactionStore}) async {
     try {
-    ResponseAPI response = await _transactionRepositories
-        .transactionInvoiceMasyarakat(transactionStore: transactionStore);
+      ResponseAPI response = await _transactionRepositories
+          .transactionInvoiceMasyarakat(transactionStore: transactionStore);
 
-    _transactionInvoice.value = TransactionInvoice.fromJson(response.data);
-    isLoading.value = false;
+      _transactionInvoice.value = TransactionInvoice.fromJson(response.data);
+      isLoading.value = false;
 
-    Get.toNamed('/invoice_payments_details');
-    Get.snackbar(
-      "Success",
-      response.message,
-      backgroundColor: primaryColor,
-      colorText: Colors.white,
-      borderRadius: 5,
-    );
-    update();
+      Get.toNamed('/invoice_payments_details');
+      Get.snackbar(
+        "Success",
+        response.message,
+        backgroundColor: primaryColor,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+      update();
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -200,6 +200,10 @@ class TransactionProvider extends GetxController {
   Future<void> updateStatusTransaction(
       {required List<int?> arrInvoiceId, required int transactionId}) async {
     try {
+      ResponseAPI response =
+          await _transactionRepositories.updateNonCashStatusAfterPayment(
+              transactionId: transactionId, invoiceId: arrInvoiceId);
+
       final urlPaymentDokuStorage = box.read(StorageReferences.urlPaymentDoku);
       final transactionIdStorage = box.read(StorageReferences.urlPaymentDoku);
 
@@ -211,7 +215,7 @@ class TransactionProvider extends GetxController {
       Get.toNamed('/home');
       Get.snackbar(
         "Success",
-        "Terimakasih sudah melakukan pembayaran online",
+        response.message,
         backgroundColor: primaryColor,
         colorText: Colors.white,
         borderRadius: 5,
@@ -253,6 +257,8 @@ class TransactionProvider extends GetxController {
 
       box.write(StorageReferences.urlPaymentDoku, getURLPaymentDokuQRIS);
       box.write(StorageReferences.transactionId, getTransactionId);
+      box.write(StorageReferences.invoiceId,
+          transactionNonCash.lineItems?.map((e) => e.invoiceId).join(','));
 
       Get.to(
         () => WebViewDoku(

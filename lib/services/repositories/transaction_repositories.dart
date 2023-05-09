@@ -25,12 +25,12 @@ class TransactionRepositories extends GetxService {
       throw Exception("Failed to get invoice user: $e");
     }
   }
-  
+
   Future transactionAdditionalMasyarakat(
       {required TransactionStore transactionStore}) async {
     try {
-      final response =
-          await _client.post('/transaction/store/additional', data: transactionStore.toJson());
+      final response = await _client.post('/transaction/store/additional',
+          data: transactionStore.toJson());
       final jsonDecodeResponse = jsonDecode(response.toString());
 
       return ResponseAPI.fromJson(jsonDecodeResponse);
@@ -75,8 +75,24 @@ class TransactionRepositories extends GetxService {
 
   Future allTransactionByPemungutId({required int pemungutId}) async {
     try {
-      final response =
-          await _client.get('/transaction/pemungut/$pemungutId');
+      final response = await _client.get('/transaction/pemungut/$pemungutId');
+      final jsonDecodeResponse = jsonDecode(response.toString());
+
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioError catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } catch (e) {
+      throw Exception("Failed to get invoice user: $e");
+    }
+  }
+
+  Future updateNonCashStatusAfterPayment(
+      {required int transactionId, required List<int?> invoiceId}) async {
+    try {
+      final response = await _client.put(
+          '/transaction/update/non-cash/status/$transactionId',
+          data: {"invoice_id": invoiceId});
       final jsonDecodeResponse = jsonDecode(response.toString());
 
       return ResponseAPI.fromJson(jsonDecodeResponse);
