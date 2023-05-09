@@ -136,7 +136,7 @@ class _PemungutHomeState extends State<PemungutHome> {
               ),
               Container(
                 margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
@@ -153,19 +153,65 @@ class _PemungutHomeState extends State<PemungutHome> {
                     Expanded(
                       child: SizedBox(
                         width: widget.device.width * 0.45,
-                        child: Text(
-                          'Semua tagihan iuran retribusi sampah sudah lunas dan sudah disetor',
-                          style: blackTextStyle.copyWith(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
-                          ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Tagihan iuran retribusi sampah yang sudah disetor bulan ini',
+                              style: blackTextStyle.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              NumberFormatPrice().formatPrice(
+                                  price: _pemungutTransactionProvider
+                                      .alreadyDeposited.value),
+                              style: blackTextStyle.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                     const SizedBox(
                       width: 10,
                     ),
-                    Image.asset('assets/image/status_image.png'),
+                    Expanded(
+                      child: SizedBox(
+                        width: widget.device.width * 0.45,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Tagihan iuran retribusi sampah yang belum disetor bulan ini',
+                              style: blackTextStyle.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14,
+                                color: Colors.red,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              NumberFormatPrice().formatPrice(
+                                  price: _pemungutTransactionProvider
+                                      .notYetDeposited.value),
+                              style: blackTextStyle.copyWith(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
