@@ -240,11 +240,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                       ),
                       CustomButton(
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            '/home',
-                            (route) => false,
-                          );
+                          Get.toNamed('/home');
                         },
                         backgroundColor: redColor,
                         title: 'Kembali',
