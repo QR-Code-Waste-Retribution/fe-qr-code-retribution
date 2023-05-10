@@ -54,7 +54,10 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({
+
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
+  HomeContent({
     Key? key,
     required this.device,
     required this.authData,
@@ -98,7 +101,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    '${AppConstants.headerHome[authData?.user?.role.name]}',
+                    '${AppConstants.headerHome[authData?.user?.role.name]} ${_authProvider.authData.user?.district.name}',
                     style: primaryTextStyle.copyWith(
                       color: whiteColor,
                       fontWeight: FontWeight.w700,

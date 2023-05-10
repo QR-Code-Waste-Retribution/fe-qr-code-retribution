@@ -11,8 +11,8 @@ class AppConstants {
 
   static const Map<String, String> headerHome = {
     'pemungut':
-        'Selamat datang sebagai petugas di Aplikasi Retribusi Sampah Kabupaten Toba',
-    'masyarakat': 'Selamat datang di Aplikasi Retribusi Sampah Kabupaten Toba',
+        'Selamat datang sebagai petugas di Aplikasi Retribusi Sampah Kabupaten',
+    'masyarakat': 'Selamat datang di Aplikasi Retribusi Sampah Kabupaten',
   };
 
   static PrefPaymentMethodPage preferencesPaymentMethodPage =
