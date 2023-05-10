@@ -21,16 +21,22 @@ class AppBindings extends Bindings {
     Get.lazyPut<TransactionProvider>(() => TransactionProvider(), fenix: true);
     Get.lazyPut<CategoriesProvider>(() => CategoriesProvider(), fenix: true);
     Get.lazyPut<UsersProvider>(() => UsersProvider(), fenix: true);
-    Get.lazyPut<PemungutTransactionProvider>(() => PemungutTransactionProvider(), fenix: true);
+    Get.lazyPut<PemungutTransactionProvider>(
+        () => PemungutTransactionProvider(),
+        fenix: true);
 
     // Pagination
-    Get.lazyPut<PaginationProvider>(() => PaginationProvider(), fenix: true);
+    Get.put<PaginationProvider>(PaginationProvider());
 
     Get.lazyPut<AuthRepositories>(() => AuthRepositories(), fenix: true);
     Get.lazyPut<UserRepositories>(() => UserRepositories(), fenix: true);
     Get.lazyPut<InvoiceRepositories>(() => InvoiceRepositories(), fenix: true);
-    Get.lazyPut<TransactionRepositories>(() => TransactionRepositories(), fenix: true);
-    Get.lazyPut<CategoriesRepositories>(() => CategoriesRepositories(), fenix: true);
-    Get.lazyPut<PemungutTransactionRepositories>(() => PemungutTransactionRepositories(), fenix: true);
+    Get.lazyPut<TransactionRepositories>(() => TransactionRepositories(),
+        fenix: true);
+    Get.lazyPut<CategoriesRepositories>(() => CategoriesRepositories(),
+        fenix: true);
+    Get.lazyPut<PemungutTransactionRepositories>(
+        () => PemungutTransactionRepositories(),
+        fenix: true);
   }
 }

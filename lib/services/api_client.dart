@@ -4,7 +4,7 @@ import 'package:qr_code_app/core/constants/app_constants.dart';
 class Client {
   Dio init() {
     Dio dio = Dio();
-    dio.options.baseUrl = AppConstants.apiUrlLocal;
+    dio.options.baseUrl = AppConstants.apiUrlServer;
     dio.options.contentType = 'application/json';
     return dio;
   }
