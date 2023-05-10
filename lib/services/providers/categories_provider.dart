@@ -59,4 +59,31 @@ class CategoriesProvider extends GetxController {
       );
     }
   }
+
+  Future<void> getAllAddtionalCategories({required int districtId}) async {
+    try {
+      ResponseAPI response =
+          await _categoriesRepositories.allAdditionalCategoriesByDistrictId(districtId: districtId);
+
+      _categories.value = ListCategories.fromJson(response.data);
+      isLoading.value = false;
+
+      Get.snackbar(
+        "Success",
+        response.message,
+        backgroundColor: primaryColor,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+      update();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to get all categories : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
 }

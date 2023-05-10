@@ -30,12 +30,15 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
   void initState() {
     _categoriesProvider.isLoading.value = true;
     _categoriesProvider
-        .getAllCategories(districtId: _authProvider.districtId!)
+        .getAllAddtionalCategories(districtId: _authProvider.districtId!)
         .then((value) {
       dropdownValue =
           _categoriesProvider.getCategoriesList.categories[0].id.toString();
       priceController.text =
           _categoriesProvider.getCategoriesList.categories[0].price.toString();
+      _categoriesProvider.priceSelectedCategories(
+        idSelected: _categoriesProvider.getCategoriesList.categories[0].id,
+      );
     });
     super.initState();
   }
@@ -44,6 +47,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
   void dispose() {
     super.dispose();
     priceController.dispose();
+    _categoriesProvider.dispose();
   }
 
   @override
