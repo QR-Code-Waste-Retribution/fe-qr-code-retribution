@@ -28,7 +28,7 @@ class TransactionProvider extends GetxController {
       TransactionInvoice(invoice: [], transaction: null).obs;
 
   final Rx<TransactionList> _transactionList =
-      TransactionList(transaction: []).obs;
+      TransactionList(transaction: [], totalAmount: 0).obs;
 
   final Rx<VirtualAccountDoku> _virtualAccoutnDoku =
       VirtualAccountDoku(order: null, virtualAccountInfo: null).obs;
@@ -133,7 +133,7 @@ class TransactionProvider extends GetxController {
           .transactionByMasyarakatId(masyarakatId: masyarakatId!);
 
       _transactionList.value = TransactionList.fromJson(response.data);
-
+      isLoading.value = false;
       update();
     } catch (e) {
       Get.snackbar(
@@ -171,7 +171,7 @@ class TransactionProvider extends GetxController {
       _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
       box.write(
           StorageReferences.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
-
+      isLoading.value = false;
       Get.to(
         () => WebViewDoku(
           url: getURLPaymentDokuVA!,
@@ -211,6 +211,8 @@ class TransactionProvider extends GetxController {
         box.remove(StorageReferences.urlPaymentDoku);
         box.remove(StorageReferences.urlPaymentDoku);
       }
+
+      isLoading.value = false;
 
       Get.toNamed('/home');
       Get.snackbar(
@@ -254,6 +256,7 @@ class TransactionProvider extends GetxController {
               transactionNonCash: transactionNonCash);
 
       _checkout.value = Checkout.fromJson(response.data);
+      isLoading.value = false;
 
       box.write(StorageReferences.urlPaymentDoku, getURLPaymentDokuQRIS);
       box.write(StorageReferences.transactionId, getTransactionId);
