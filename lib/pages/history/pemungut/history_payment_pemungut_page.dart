@@ -24,7 +24,7 @@ class _HistoryPaymentPemungutPageState
 
   @override
   void initState() {
-    _transactionProvider.isLoading.value = true;
+    // _transactionProvider.isLoading.value = true;
     _transactionProvider.getAllTransactionByPemungutId(
         pemungutId: _authProvider.authData.user?.id);
     super.initState();
