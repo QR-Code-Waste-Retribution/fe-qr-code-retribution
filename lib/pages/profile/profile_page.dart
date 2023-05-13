@@ -137,7 +137,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(
                           width: 20,
                         ),
-                        Container(
+                        SizedBox(
                           width: device.width * 0.6,
                           child: Text(
                             '${_authProvider.authData.user?.address}',

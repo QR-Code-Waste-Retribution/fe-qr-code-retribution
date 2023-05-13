@@ -2,13 +2,13 @@ import 'dart:io';
 import 'dart:developer';
 
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class QRCodeScannerPage extends StatefulWidget {
   const QRCodeScannerPage({super.key});
@@ -25,6 +25,41 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
   QRViewController? qrViewController;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
 
+  late IO.Socket socket;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void initSocketIO({ required String uuid }) {
+    socket = IO.io('http://localhost:8081', <String, dynamic>{
+      'transports': ['websocket'],
+      'autoConnect': false,
+      'query': {'uuid': uuid},
+    });
+
+    socket.onConnect((_) {
+      socket.emit('join', {
+        'name': 'Pemungut',
+      });
+    });
+
+    socket.on('message', (data) {
+      print('${data['user']}: ${data['text']}');
+      Get.snackbar(
+        "Success",
+        '${data['user']}: ${data['text']}',
+        backgroundColor: primaryColor,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    });
+
+    // Connect to the server
+    socket.connect();
+  }
+
   @override
   void reassemble() {
     super.reassemble();
@@ -36,6 +71,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
 
   Future<void> scanQrCode(String? uuid) async {
     await qrViewController!.pauseCamera();
+    initSocketIO(uuid: uuid!);
     _invoiceProvider.getInvoiceUserByUUIDandSubDistrict(
         uuid: uuid, subDistrictId: _authProvider.authData.user?.subDistrictId);
   }
@@ -71,7 +107,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded( 
+          Expanded(
             flex: 1,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

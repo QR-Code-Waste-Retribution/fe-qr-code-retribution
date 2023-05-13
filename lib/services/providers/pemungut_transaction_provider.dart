@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/transaction/transaction_pemungut.dart';
-import 'package:qr_code_app/models/transaction/deposit_calculation.dart';
 import 'package:qr_code_app/services/repositories/pemungut_transaction_repositories.dart';
 
 class PemungutTransactionProvider extends GetxController {

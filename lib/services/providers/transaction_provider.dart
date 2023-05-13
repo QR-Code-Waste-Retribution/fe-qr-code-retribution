@@ -22,8 +22,6 @@ class TransactionProvider extends GetxController {
   final TransactionRepositories _transactionRepositories =
       TransactionRepositories();
 
-  final Rx<Transaction?> _transaction = Rx<Transaction?>(null);
-
   final Rx<TransactionInvoice> _transactionInvoice =
       TransactionInvoice(invoice: [], transaction: null).obs;
 

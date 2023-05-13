@@ -16,9 +16,7 @@ class ListCategories {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (categories != null) {
-      data['invoices'] = categories.map((v) => v.toJson()).toList();
-    }
+    data['invoices'] = categories.map((v) => v.toJson()).toList();
     return data;
   }
 }
