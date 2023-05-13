@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "459918802475",
+    "project_id": "qr-code-retribution",
+    "storage_bucket": "qr-code-retribution.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:459918802475:android:812ea17c69aa4c5be9346e",
+        "android_client_info": {
+          "package_name": "com.example.qr_code_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "459918802475-t8h4cpk6nvdg1dm814h2rfpq0ktg9l9i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.qr_code_app",
+            "certificate_hash": "b987672309465e618ebae475a442bee887991599"
+          }
+        },
+        {
+          "client_id": "459918802475-8gtl8tlrliv586vv20jdadsmcjvvo9th.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsPaH252eNIJurxnSRcrZa34io9k5smoA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "459918802475-8gtl8tlrliv586vv20jdadsmcjvvo9th.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

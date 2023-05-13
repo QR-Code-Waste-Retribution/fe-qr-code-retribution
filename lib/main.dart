@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/binding.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
