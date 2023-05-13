@@ -5,6 +5,7 @@ import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/molekuls/arrow_option_card.dart';
 import 'package:qr_code_app/components/molekuls/webview/web_view_doku.dart';
+import 'package:qr_code_app/utils/alert_dialog_custom.dart';
 
 class VirtualAccountPage extends StatefulWidget {
   const VirtualAccountPage({super.key});
@@ -14,6 +15,11 @@ class VirtualAccountPage extends StatefulWidget {
 }
 
 class _VirtualAccountPageState extends State<VirtualAccountPage> {
+
+  Future<void> transaction() async {
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,8 +60,11 @@ class _VirtualAccountPageState extends State<VirtualAccountPage> {
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: GestureDetector(
                 onTap: () {
-                  Get.to(
-                    () => const WebViewDoku(url: '', transactionId: 1,),
+                  AlertDialogCustom.showAlertDialog(
+                    context: context,
+                    onYes: transaction,
+                    title: "Pembayaran ${item.name}",
+                    content: 'Apakah anda yakin?',
                   );
                 },
                 child: ArrowOptionCard(
