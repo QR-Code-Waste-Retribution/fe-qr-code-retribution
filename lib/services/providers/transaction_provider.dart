@@ -45,6 +45,9 @@ class TransactionProvider extends GetxController {
 
   String? get getURLPaymentDokuVA =>
       _virtualAccoutnDoku.value.virtualAccountInfo?.howToPayPage;
+  
+  String? get getURLPaymentAPIDokuVA =>
+      _virtualAccoutnDoku.value.virtualAccountInfo?.howToPayApi;
 
   Future<void> storeTransactionInvoiceMasyarakat(
       {required TransactionStore transactionStore}) async {
@@ -167,9 +170,11 @@ class TransactionProvider extends GetxController {
               transactionNonCash: transactionNonCash);
 
       _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
+
       box.write(
           StorageReferences.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
       isLoading.value = false;
+
       Get.to(
         () => WebViewDoku(
           url: getURLPaymentDokuVA!,

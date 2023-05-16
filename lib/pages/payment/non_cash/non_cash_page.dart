@@ -308,7 +308,7 @@ class _NonCashPageState extends State<NonCashPage> {
                                   onTap: () {
                                     AlertDialogCustom.showAlertDialog(
                                       context: context,
-                                      onYes: transactionQRIS,
+                                      onYes: () => transactionQRIS(),
                                       title: "Pembayaran QRIS",
                                       content: 'Apakah anda yakin?',
                                     );

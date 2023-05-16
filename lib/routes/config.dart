@@ -10,7 +10,7 @@ class Pages {
   static const String additionalRetributionPage = '/additional_retribution';
   static const String manageUserPage = '/manage_user_page';
   static const String nonCashPaymentPage = '/non_cash_payment';
-  static const String virtualAccountPage = '/virtual_account_page';
+  static const String virtualAccountListPage = '/virtual_account_page';
   static const String printerPortablePage = '/printer_portable_page';
   static const String invoicePaymentsDetailsPage = '/invoice_payments_details';
   static const String addUserPage = '/add_user';
@@ -20,6 +20,7 @@ class Pages {
   static const String editProfilePage = '/edit_profile';
   static const String forgetPasswordPage = '/forget_password';
   static const String listCategoriesPage = '/list_categories';
+  static const String virtualAccountPayPage = '/virtual_account_pay_page';
 
   static final List<GetPage> pages = [
     GetPage(name: loginPage, page: () => const LoginPage()),
@@ -31,7 +32,7 @@ class Pages {
     GetPage(name: additionalRetributionPage, page: () => const AdditionalRetributionPage()),
     GetPage(name: manageUserPage, page: () => const ManageUserPage()),
     GetPage(name: nonCashPaymentPage, page: () => const NonCashPage()),
-    GetPage(name: virtualAccountPage, page: () => const VirtualAccountPage()),
+    GetPage(name: virtualAccountListPage, page: () => const VirtualAccountListPage()),
     GetPage(name: printerPortablePage, page: () => const PrinterPortablePage()),
     GetPage(name: invoicePaymentsDetailsPage, page: () => const PaymentDetails()),
     GetPage(name: addUserPage, page: () => const AddUserPage()),
@@ -41,5 +42,6 @@ class Pages {
     GetPage(name: editProfilePage, page: () => const EditProfilePage()),
     GetPage(name: forgetPasswordPage, page: () => const ForgetPasswordPage()),
     GetPage(name: listCategoriesPage, page: () => const ListCategoriesPage()),
+    GetPage(name: virtualAccountPayPage, page: () => const VirtualAccountPayPage()),
   ];
 }

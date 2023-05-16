@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class AlertDialogCustom {
-
   static Future<void> showAlertDialog(
       {required BuildContext context,
-      required void Function()? onYes,
+      required Future<void> Function()? onYes,
       required String title,
       required String content}) async {
     return showDialog<void>(
@@ -39,7 +38,9 @@ class AlertDialogCustom {
               },
             ),
             TextButton(
-              onPressed: onYes,
+              onPressed: () {
+                onYes!();
+              },
               child: Text(
                 'Ya',
                 style: blackTextStyle,
@@ -50,5 +51,4 @@ class AlertDialogCustom {
       },
     );
   }
-  
 }

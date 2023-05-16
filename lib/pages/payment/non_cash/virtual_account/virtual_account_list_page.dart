@@ -1,23 +1,40 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
+import 'package:qr_code_app/models/transaction/transaction.dart';
+import 'package:qr_code_app/models/transaction/transaction_noncash.dart';
+import 'package:qr_code_app/models/transaction/transaction_store.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/molekuls/arrow_option_card.dart';
-import 'package:qr_code_app/components/molekuls/webview/web_view_doku.dart';
 import 'package:qr_code_app/utils/alert_dialog_custom.dart';
 
-class VirtualAccountPage extends StatefulWidget {
-  const VirtualAccountPage({super.key});
+class VirtualAccountListPage extends StatefulWidget {
+  const VirtualAccountListPage({super.key});
 
   @override
-  State<VirtualAccountPage> createState() => _VirtualAccountPageState();
+  State<VirtualAccountListPage> createState() => _VirtualAccountListPageState();
 }
 
-class _VirtualAccountPageState extends State<VirtualAccountPage> {
+class _VirtualAccountListPageState extends State<VirtualAccountListPage> {
+  final TransactionProvider _transactionProvider =
+      Get.find<TransactionProvider>();
 
-  Future<void> transaction() async {
+  Future<void> transaction({required String typeVA}) async {
+    print(Get.arguments);
+    return;
+    TransactionNonCash transactionNonCash =
+        TransactionNonCash.fromJson(Get.arguments);
 
+    print(transactionNonCash.toJson().toString());
+    return;
+    // _transactionProvider.isLoading.value = true;
+    // _transactionProvider
+    //     .getTransactionInvoiceMasyarakatQRIS(transactionNonCash: arguments)
+    //     .then((value) => {_transactionProvider.isLoading.value = false});
   }
 
   @override
@@ -30,9 +47,7 @@ class _VirtualAccountPageState extends State<VirtualAccountPage> {
               size: 20,
             ),
             onPressed: (() {
-              setState(() {
-                Get.back();
-              });
+              Get.back();
             }),
           ),
           centerTitle: true,
@@ -62,7 +77,7 @@ class _VirtualAccountPageState extends State<VirtualAccountPage> {
                 onTap: () {
                   AlertDialogCustom.showAlertDialog(
                     context: context,
-                    onYes: transaction,
+                    onYes: () => transaction(typeVA: item.typeVA),
                     title: "Pembayaran ${item.name}",
                     content: 'Apakah anda yakin?',
                   );
