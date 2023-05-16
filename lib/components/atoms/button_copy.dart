@@ -9,7 +9,7 @@ class ButtonCopy extends StatelessWidget {
   const ButtonCopy({super.key, required this.textToCopy});
 
   void _copyToClipboard(BuildContext context) {
-    Clipboard.setData(const ClipboardData(text: '1236260000011822'));
+    Clipboard.setData(ClipboardData(text: textToCopy));
     Get.snackbar(
       "Success",
       'Sukses salin nomor virtual account',

@@ -5,12 +5,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/molekuls/webview/web_view_doku.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
-import 'package:qr_code_app/models/transaction/transaction.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/models/transaction/transaction_list.dart';
 import 'package:qr_code_app/models/transaction/transaction_store.dart';
 import 'package:qr_code_app/models/doku/virtual_account/virtual_account_doku.dart';
 import 'package:qr_code_app/models/doku/checkout/checkout.dart';
+import 'package:qr_code_app/pages/payment/non_cash/virtual_account/virtual_account_pay_page.dart';
 import 'package:qr_code_app/services/repositories/transaction_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/models/transaction/transaction_noncash.dart';
@@ -147,47 +147,34 @@ class TransactionProvider extends GetxController {
     }
   }
 
-  Future<void> getTransactionInvoiceMasyarakatVirtualAccount(
+  Future<void> storeTransactionInvoiceMasyarakatVirtualAccount(
       {required TransactionNonCash transactionNonCash, required typeVA}) async {
     try {
-      final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
-      if (urlPaymentDoku != null) {
-        Get.to(
-          () => WebViewDoku(
-            url: urlPaymentDoku!,
-            transactionId: getTransactionId!,
-          ),
-        );
-        return;
-      }
-
       transactionNonCash.type = "NONCASH";
       transactionNonCash.method =
           Method(payments: 'VIRTUAL_ACCOUNT', type: typeVA);
 
-      ResponseAPI response =
-          await _transactionRepositories.transactionInvoiceMasyarakatNonCash(
-              transactionNonCash: transactionNonCash);
+      // ResponseAPI response =
+      //     await _transactionRepositories.transactionInvoiceMasyarakatNonCash(
+      //         transactionNonCash: transactionNonCash);
 
-      _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
+      // _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
 
-      box.write(
-          StorageReferences.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
-      isLoading.value = false;
+      // box.write(
+      //     StorageReferences.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
+      // isLoading.value = false;
 
       Get.to(
-        () => WebViewDoku(
-          url: getURLPaymentDokuVA!,
-          transactionId: getTransactionId!,
-        ),
+        () => const VirtualAccountPayPage(),
       );
-      Get.snackbar(
-        "Success",
-        response.message,
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+
+      // Get.snackbar(
+      //   "Success",
+      //   response.message,
+      //   backgroundColor: primaryColor,
+      //   colorText: Colors.white,
+      //   borderRadius: 5,
+      // );
       update();
     } catch (e) {
       Get.snackbar(
@@ -236,7 +223,7 @@ class TransactionProvider extends GetxController {
     }
   }
 
-  Future<void> getTransactionInvoiceMasyarakatQRIS(
+  Future<void> storeTransactionInvoiceMasyarakatQRIS(
       {required TransactionNonCash transactionNonCash}) async {
     try {
       final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);

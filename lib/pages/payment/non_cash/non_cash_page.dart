@@ -89,7 +89,7 @@ class _NonCashPageState extends State<NonCashPage> {
   Future<void> transactionQRIS() async {
     _transactionProvider.isLoading.value = true;
     _transactionProvider
-        .getTransactionInvoiceMasyarakatQRIS(
+        .storeTransactionInvoiceMasyarakatQRIS(
             transactionNonCash: makeBodyTransaction())
         .then((value) => {_transactionProvider.isLoading.value = false});
   }
@@ -326,11 +326,10 @@ class _NonCashPageState extends State<NonCashPage> {
                                 ),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed('/virtual_account_page',
-                                        arguments: {
-                                          'transaction_store':
-                                              makeBodyTransaction().toJson()
-                                        });
+                                    Get.toNamed(
+                                      '/virtual_account_page',
+                                      arguments: makeBodyTransaction().toJson(),
+                                    );
                                   },
                                   child: const ArrowOptionCard(
                                     text: 'Virtual Account',
