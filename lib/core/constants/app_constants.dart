@@ -62,6 +62,7 @@ class AppConstants {
         width: 30,
       ),
       typeVA: 'BRI_VA',
+      fullName: 'Bank Rakyat Indonesia',
     ),
     VirtualAccount(
       name: 'BNI',
@@ -70,6 +71,7 @@ class AppConstants {
         width: 30,
       ),
       typeVA: 'BNI_VA',
+      fullName: 'Bank Negara Indonesia',
     ),
     VirtualAccount(
       name: 'Bank Mandiri',
@@ -78,6 +80,7 @@ class AppConstants {
         width: 30,
       ),
       typeVA: 'Mandiri_VA',
+      fullName: 'Bank Mandiri',
     ),
     VirtualAccount(
       name: 'CIMB',
@@ -86,6 +89,7 @@ class AppConstants {
         width: 30,
       ),
       typeVA: 'CIMB_VA',
+      fullName: 'Bank CIMB Niaga',
     ),
     VirtualAccount(
       name: 'Danamon',
@@ -94,6 +98,7 @@ class AppConstants {
         width: 30,
       ),
       typeVA: 'Danamon_VA',
+      fullName: 'Bank Danamon',
     ),
   ];
 }

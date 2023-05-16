@@ -40,7 +40,7 @@ class DokuProvider extends GetxController {
   }
 
   Future<void> getApiPayDokuDirectVirtualAccount({required String url}) async {
-    // try {
+    try {
     var response =
         await _dokuRepositories.apiPayDokuDirectVirtualAccount(url: url);
 
@@ -49,14 +49,14 @@ class DokuProvider extends GetxController {
     isLoading.value = false;
 
     update();
-    // } catch (e) {
-    //   Get.snackbar(
-    //     'Error',
-    //     'Failed to get api : ${e.toString()}',
-    //     backgroundColor: Colors.red,
-    //     colorText: Colors.white,
-    //     borderRadius: 5,
-    //   );
-    // }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to get api : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
   }
 }

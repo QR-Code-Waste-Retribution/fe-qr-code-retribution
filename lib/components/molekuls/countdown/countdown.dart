@@ -5,7 +5,8 @@ import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class CountDown extends StatefulWidget {
-  const CountDown({super.key});
+  final String? expiredDateAPI;
+  const CountDown({super.key, required this.expiredDateAPI });
 
   @override
   State<CountDown> createState() => _CountDownState();

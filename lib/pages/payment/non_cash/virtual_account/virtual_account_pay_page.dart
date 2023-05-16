@@ -29,7 +29,7 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
     _dokuProvider
         .getApiPayDokuDirectVirtualAccount(
             url:
-                'https://api-sandbox.doku.com/bri-virtual-account/v2/how-to-pay-api/1236260000011849/FXdbWPTDUGUMRMGY7l-bdUz02JwbvaoCRkDWxBOEpDQ')
+                'https://api-sandbox.doku.com/bri-virtual-account/v2/how-to-pay-api/1236260000011862/FD7bUPeTTc3GAmi1oFNODCzVcwJXTkKddYfzkrYVFUg')
         .then((value) => _dokuProvider.isLoading.value = false);
   }
 
@@ -61,18 +61,23 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
         ),
         body: Obx(() {
           if (_dokuProvider.isLoading.value) {
-            return CustomLoading();
+            return CustomLoading(
+              textColor: primaryColor,
+              loadingColor: primaryColor,
+            );
           }
           return ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
             children: [
               Container(
-                margin: const EdgeInsets.only(top: 15),
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
                   color: countDownBackgroundColor,
                 ),
-                child: const CountDown(),
+                child: CountDown(
+                  expiredDateAPI: _dokuProvider
+                      .getVirtualAccountPayment.virtualAccountInfo?.expiredDate,
+                ),
               ),
               const SizedBox(
                 height: 20,
@@ -117,16 +122,46 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
               child: ListTile(
                 title: Text(
                   '${item.channel}',
-                  style: blackTextStyle,
+                  style: blackTextStyle.copyWith(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             );
           },
-          body: ListTile(
-            title: Text(
-              'Test',
-              style: blackTextStyle,
-            ),
+          body: ListView.builder(
+            padding: const EdgeInsets.only(left: 15, right: 15, bottom: 15),
+            shrinkWrap: true,
+            scrollDirection: Axis.vertical,
+            physics: const NeverScrollableScrollPhysics(),
+            itemCount: item.step?.length,
+            itemBuilder: (context, index) {
+              final step = item.step?[index];
+              return Container(
+                width: 200,
+                margin: const EdgeInsets.only(top: 5),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${index + 1}. ',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 14,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        step!,
+                        style: blackTextStyle.copyWith(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
           ),
           isExpanded: item.isExpanded!,
         );

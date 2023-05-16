@@ -24,7 +24,7 @@ class _VirtualAccountListPageState extends State<VirtualAccountListPage> {
   final TransactionNonCash _transactionNonCash =
       TransactionNonCash.fromJson(Get.arguments);
 
-  Future<void> transaction({required String typeVA}) async {
+  Future<void> transaction({required String typeVA, required String bankFullName}) async {
     _transactionProvider.isLoading.value = true;
     _transactionProvider
         .storeTransactionInvoiceMasyarakatVirtualAccount(
@@ -80,7 +80,7 @@ class _VirtualAccountListPageState extends State<VirtualAccountListPage> {
                   onTap: () {
                     AlertDialogCustom.showAlertDialog(
                       context: context,
-                      onYes: () => transaction(typeVA: item.typeVA),
+                      onYes: () => transaction(typeVA: item.typeVA, bankFullName: item.fullName),
                       title: "Pembayaran ${item.name}",
                       content: 'Apakah anda yakin?',
                     );
