@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/button_copy.dart';
 import 'package:qr_code_app/components/molekuls/countdown/countdown.dart';
-import 'package:qr_code_app/models/doku/virtual_account/api/virtual_account_payment.dart';
-import 'package:qr_code_app/services/providers/doku_provider.dart';
-import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
+
+import 'package:qr_code_app/models/doku/virtual_account/api/virtual_account_payment.dart';
+
+import 'package:qr_code_app/services/providers/doku_provider.dart';
+import 'package:qr_code_app/services/providers/transaction_provider.dart';
+
 import 'package:qr_code_app/utils/number_format_price.dart';
+import 'package:qr_code_app/shared/theme/init.dart';
 
 class VirtualAccountPayPage extends StatefulWidget {
   const VirtualAccountPayPage({super.key});
@@ -21,15 +24,14 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
 
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
+      
   @override
   void initState() {
     super.initState();
-
     _dokuProvider.isLoading.value = true;
     _dokuProvider
         .getApiPayDokuDirectVirtualAccount(
-            url:
-                'https://api-sandbox.doku.com/bri-virtual-account/v2/how-to-pay-api/1236260000011862/FD7bUPeTTc3GAmi1oFNODCzVcwJXTkKddYfzkrYVFUg')
+            url: _transactionProvider.getURLPaymentAPIDokuVA!)
         .then((value) => _dokuProvider.isLoading.value = false);
   }
 
@@ -50,7 +52,7 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
           backgroundColor: secondaryColor,
           automaticallyImplyLeading: false,
           title: Text(
-            "Pembayaran Virtual Account BRI",
+            "Pembayaran Virtual Account",
             style: primaryTextStyle.copyWith(
               fontWeight: FontWeight.w600,
               letterSpacing: 1,
@@ -75,8 +77,8 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
                   color: countDownBackgroundColor,
                 ),
                 child: CountDown(
-                  expiredDateAPI: _dokuProvider
-                      .getVirtualAccountPayment.virtualAccountInfo?.expiredDate,
+                  expiredDateAPI: _dokuProvider.getVirtualAccountPayment
+                      .virtualAccountInfo?.createdDateUtc,
                 ),
               ),
               const SizedBox(
@@ -198,7 +200,7 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
                     ),
                   ),
                   Text(
-                    'Bank Rakyat Indonesia',
+                    '${_transactionProvider.getBankVAName?.fullName}',
                     style: blackTextStyle.copyWith(
                       fontWeight: FontWeight.w600,
                     ),

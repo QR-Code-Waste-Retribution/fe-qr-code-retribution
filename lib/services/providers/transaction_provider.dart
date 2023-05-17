@@ -28,26 +28,35 @@ class TransactionProvider extends GetxController {
   final Rx<TransactionList> _transactionList =
       TransactionList(transaction: [], totalAmount: 0).obs;
 
-  final Rx<VirtualAccountDoku> _virtualAccoutnDoku =
+  final Rx<VirtualAccountDoku> _virtualAccountDoku =
       VirtualAccountDoku(order: null, virtualAccountInfo: null).obs;
 
   final Rx<Checkout> _checkout = Checkout(message: [], response: null).obs;
 
   final RxBool isLoading = false.obs;
 
+  VirtualAccountDoku get getVirtualAccountDoku => _virtualAccountDoku.value;
+
   TransactionInvoice get getTransactionInvoice => _transactionInvoice.value;
 
   TransactionList get getTransactionList => _transactionList.value;
+
+  Bank? get getBankVAPurchase => _virtualAccountDoku.value.bank;
+
+  BankName? get getBankVAName => _virtualAccountDoku.value.bank?.bankName;
 
   int? get getTransactionId => _checkout.value.transactionId;
 
   String? get getURLPaymentDokuQRIS => _checkout.value.response?.payment?.url;
 
   String? get getURLPaymentDokuVA =>
-      _virtualAccoutnDoku.value.virtualAccountInfo?.howToPayPage;
-  
+      _virtualAccountDoku.value.virtualAccountInfo?.howToPayPage;
+
   String? get getURLPaymentAPIDokuVA =>
-      _virtualAccoutnDoku.value.virtualAccountInfo?.howToPayApi;
+      _virtualAccountDoku.value.virtualAccountInfo?.howToPayApi;
+
+  bool get checkURLPaymentDokuExist =>
+      _virtualAccountDoku.value.virtualAccountInfo?.howToPayApi != null;
 
   Future<void> storeTransactionInvoiceMasyarakat(
       {required TransactionStore transactionStore}) async {
@@ -150,31 +159,33 @@ class TransactionProvider extends GetxController {
   Future<void> storeTransactionInvoiceMasyarakatVirtualAccount(
       {required TransactionNonCash transactionNonCash, required typeVA}) async {
     try {
-      transactionNonCash.type = "NONCASH";
-      transactionNonCash.method =
-          Method(payments: 'VIRTUAL_ACCOUNT', type: typeVA);
+      if (!checkURLPaymentDokuExist) {
+        transactionNonCash.type = "NONCASH";
+        transactionNonCash.method =
+            Method(payments: 'VIRTUAL_ACCOUNT', type: typeVA);
 
-      // ResponseAPI response =
-      //     await _transactionRepositories.transactionInvoiceMasyarakatNonCash(
-      //         transactionNonCash: transactionNonCash);
+        ResponseAPI response =
+            await _transactionRepositories.transactionInvoiceMasyarakatNonCash(
+                transactionNonCash: transactionNonCash);
 
-      // _virtualAccoutnDoku.value = VirtualAccountDoku.fromJson(response.data);
+        _virtualAccountDoku.value = VirtualAccountDoku.fromJson(response.data);
 
-      // box.write(
-      //     StorageReferences.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
-      // isLoading.value = false;
+        await box.write(
+            StorageReferences.urlPaymentDoku, jsonEncode(getURLPaymentDokuVA));
+
+        await box.write(
+            StorageReferences.dokuBankVA, jsonEncode(getBankVAPurchase));
+
+        await box.write(StorageReferences.expiredAtVA,
+            getVirtualAccountDoku.virtualAccountInfo?.expiredDateUtc);
+      }
+
+      isLoading.value = false;
 
       Get.to(
         () => const VirtualAccountPayPage(),
       );
 
-      // Get.snackbar(
-      //   "Success",
-      //   response.message,
-      //   backgroundColor: primaryColor,
-      //   colorText: Colors.white,
-      //   borderRadius: 5,
-      // );
       update();
     } catch (e) {
       Get.snackbar(
@@ -277,5 +288,31 @@ class TransactionProvider extends GetxController {
         borderRadius: 5,
       );
     }
+  }
+
+  @override
+  void onInit() {
+    final urlPaymentDoku = box.read(StorageReferences.urlPaymentDoku);
+    final dokuBankVA = box.read(StorageReferences.dokuBankVA);
+    final expiredVA = box.read(StorageReferences.expiredAtVA);
+
+    print(urlPaymentDoku);
+    print(dokuBankVA);
+    print(expiredVA);
+
+    if (dokuBankVA != null) {
+      _virtualAccountDoku.value.virtualAccountInfo?.createdDateUtc = expiredVA;
+    }
+
+    if (dokuBankVA != null) {
+      _virtualAccountDoku.value.bank = Bank.fromJson(jsonDecode(dokuBankVA));
+    }
+
+    if (urlPaymentDoku != null) {
+      _virtualAccountDoku.value.virtualAccountInfo?.howToPayApi =
+          urlPaymentDoku;
+    }
+    update();
+    super.onInit();
   }
 }

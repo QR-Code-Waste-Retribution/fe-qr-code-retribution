@@ -94,13 +94,17 @@ class VirtualAccountInfo {
   String? createdDate;
   String? expiredDate;
   String? expiredIn;
+  String? createdDateUtc;
+  String? expiredDateUtc;
 
   VirtualAccountInfo(
       {this.virtualAccountNumber,
       this.status,
       this.createdDate,
       this.expiredDate,
-      this.expiredIn});
+      this.expiredIn,
+      this.createdDateUtc,
+      this.expiredDateUtc});
 
   VirtualAccountInfo.fromJson(Map<String, dynamic> json) {
     virtualAccountNumber = json['virtual_account_number'];
@@ -108,6 +112,8 @@ class VirtualAccountInfo {
     createdDate = json['created_date'];
     expiredDate = json['expired_date'];
     expiredIn = json['expired_in'];
+    createdDateUtc = json['created_date_utc'];
+    expiredDateUtc = json['expired_date_utc'];
   }
 
   Map<String, dynamic> toJson() {
@@ -117,6 +123,8 @@ class VirtualAccountInfo {
     data['created_date'] = createdDate;
     data['expired_date'] = expiredDate;
     data['expired_in'] = expiredIn;
+    data['created_date_utc'] = createdDateUtc;
+    data['expired_date_utc'] = expiredDateUtc;
     return data;
   }
 }

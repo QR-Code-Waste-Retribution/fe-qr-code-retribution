@@ -7,6 +7,10 @@ class StorageReferences {
 
   // DOKU
   static const String urlPaymentDoku = 'urlPaymentDoku';
+  static const String dokuBankVA = 'dokuBankVA';
+  static const String expiredAtVA = 'VA_expiredAt';
+
+  // Transaction
   static const String invoiceId = 'invoiceId';
   static const String transactionId = 'transactionId';
 

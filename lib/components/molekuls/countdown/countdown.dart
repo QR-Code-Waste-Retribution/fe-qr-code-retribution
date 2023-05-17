@@ -2,11 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/core/constants/storage.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class CountDown extends StatefulWidget {
   final String? expiredDateAPI;
-  const CountDown({super.key, required this.expiredDateAPI });
+  const CountDown({super.key, required this.expiredDateAPI});
 
   @override
   State<CountDown> createState() => _CountDownState();
@@ -14,7 +15,7 @@ class CountDown extends StatefulWidget {
 
 class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
   late Timer countdownTimer;
-  late DateTime expiredDate;
+  DateTime expiredDate = DateTime.now().add(const Duration(seconds: 1));
 
   String countdownText = '';
 
@@ -38,17 +39,18 @@ class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.paused ||
         state == AppLifecycleState.inactive) {
-      await box.write('expired_date', expiredDate.toString());
+      await box.write(StorageReferences.expiredAtVA, expiredDate.toString());
     }
   }
 
   void startCountdown() {
-    String? expiredDateString = box.read('expired_date');
+    String? expiredDateString = box.read(StorageReferences.expiredAtVA);
+    if (widget.expiredDateAPI != null) {
+      expiredDateString = widget.expiredDateAPI;
+    }
+
     if (expiredDateString != null) {
       expiredDate = DateTime.parse(expiredDateString);
-    } else {
-      expiredDate = DateTime.now().add(const Duration(days: 30));
-      box.write('expired_date', expiredDate.toString());
     }
 
     Duration remainingDuration = expiredDate.difference(DateTime.now());

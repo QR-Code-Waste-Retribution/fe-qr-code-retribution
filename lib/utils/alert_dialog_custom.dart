@@ -39,6 +39,7 @@ class AlertDialogCustom {
             ),
             TextButton(
               onPressed: () {
+                Navigator.of(context).pop();
                 onYes!();
               },
               child: Text(

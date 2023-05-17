@@ -14,6 +14,7 @@ class PaymentMethod extends StatefulWidget {
 
 class _PaymentMethodState extends State<PaymentMethod> {
   final AuthProvider authProvider = Get.find<AuthProvider>();
+
   late RolePayment _rolePayment;
 
   @override
