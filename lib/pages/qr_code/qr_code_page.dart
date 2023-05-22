@@ -26,7 +26,10 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
     socket = IO.io('http://localhost:6001', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
-      'query': {'uuid': _authProvider.authData.user?.uuid},
+      'query': {
+        'uuid': _authProvider.authData.user?.uuid,
+        'role': _authProvider.authData.user?.role.name
+      },
     });
     socket.onConnect((_) {
       socket.emit('join', {
@@ -35,11 +38,11 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
     });
 
     socket.on('message', (data) {
-      print('${data['user']}: ${data['text']}');
+      print('${data['status']} ${data['user']}: ${data['text']}');
 
       Get.snackbar(
         "Success",
-        '${data['user']}: ${data['text']}',
+        '${data['status']} ${data['user']}: ${data['text']}',
         backgroundColor: primaryColor,
         colorText: Colors.white,
         borderRadius: 5,
@@ -57,6 +60,7 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
   @override
   void dispose() {
     // TODO: implement dispose
+    socket.disconnect();
     super.dispose();
   }
 

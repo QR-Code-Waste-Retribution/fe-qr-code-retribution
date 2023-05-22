@@ -32,11 +32,11 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
     super.initState();
   }
 
-  void initSocketIO({ required String uuid }) {
-    socket = IO.io('http://localhost:8081', <String, dynamic>{
+  void initSocketIO({required String uuid}) {
+    socket = IO.io('http://localhost:6001', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
-      'query': {'uuid': uuid},
+      'query': {'uuid': uuid, 'role': _authProvider.authData.user?.role.name},
     });
 
     socket.onConnect((_) {
@@ -58,6 +58,13 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
 
     // Connect to the server
     socket.connect();
+  }
+
+  @override
+  void dispose() {
+    qrViewController?.dispose();
+    socket.disconnect();
+    super.dispose();
   }
 
   @override
@@ -175,9 +182,4 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
     }
   }
 
-  @override
-  void dispose() {
-    qrViewController?.dispose();
-    super.dispose();
-  }
 }

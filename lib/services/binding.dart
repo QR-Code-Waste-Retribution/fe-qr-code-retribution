@@ -12,6 +12,7 @@ import 'package:qr_code_app/services/repositories/categories_repositories.dart';
 import 'package:qr_code_app/services/repositories/doku_repositories.dart';
 import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
 import 'package:qr_code_app/services/repositories/pemungut_transaction_repositories.dart';
+import 'package:qr_code_app/services/repositories/socket_repositories.dart';
 import 'package:qr_code_app/services/repositories/transaction_repositories.dart';
 import 'package:qr_code_app/services/repositories/user_repositories.dart';
 
@@ -45,6 +46,9 @@ class AppBindings extends Bindings {
         fenix: true);
     Get.lazyPut<DokuRepositories>(
         () => DokuRepositories(),
+        fenix: true);
+    Get.lazyPut<SocketRepositories>(
+        () => SocketRepositories(),
         fenix: true);
   }
 }
