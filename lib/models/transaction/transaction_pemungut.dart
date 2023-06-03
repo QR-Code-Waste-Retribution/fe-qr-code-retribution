@@ -1,4 +1,5 @@
 import 'package:qr_code_app/models/price.dart';
+import 'package:qr_code_app/models/timestamp.dart';
 
 class TransactionPemungut {
   List<Deposit>? deposit;
@@ -25,14 +26,16 @@ class TransactionPemungut {
 
 class Deposit {
   Price? price;
-  String? date;
+  TimeStamp? date;
   int? status;
 
   Deposit({this.price, this.date, this.status});
 
   Deposit.fromJson(Map<String, dynamic> json) {
     price = json['price'] != null ? Price.fromJson(json['price']) : null;
-    date = json['date'];
+    date = json['date'] != null
+        ? TimeStamp.fromJson(json['date'])
+        : null;
     status = json['status'];
   }
 
@@ -41,7 +44,9 @@ class Deposit {
     if (price != null) {
       data['price'] = price!.toJson();
     }
-    data['date'] = date;
+    if (date != null) {
+      data['date'] = date!.toJson();
+    }
     data['status'] = status;
     return data;
   }

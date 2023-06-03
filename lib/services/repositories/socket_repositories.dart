@@ -14,7 +14,7 @@ class SocketRepositories extends GetxService {
   }
 
   void connect({required Map<String, dynamic>? query}) {
-    socket = IO.io(AppConstants.urlSocket, <String, dynamic>{
+    socket = IO.io(AppConstants.urlSocketLocal, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
       'query': query!,

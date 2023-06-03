@@ -12,6 +12,27 @@ class EditUserPage extends StatefulWidget {
 }
 
 class _EditUserPageState extends State<EditUserPage> {
+  var nameController = TextEditingController();
+  var usernameController = TextEditingController();
+  var nikController = TextEditingController();
+  var phoneNumberController = TextEditingController();
+  var categoryController = TextEditingController();
+  var subDistrictController = TextEditingController();
+  var addressController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    nameController.dispose();
+    usernameController.dispose();
+    nikController.dispose();
+    phoneNumberController.dispose();
+    categoryController.dispose();
+    subDistrictController.dispose();
+    addressController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,26 +63,38 @@ class _EditUserPageState extends State<EditUserPage> {
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
-          const InputGroup(
-            hintText: "Nama *",
+          InputGroup(
+            hintText: "Nama",
+            required: true,
+            inputController: nameController,
           ),
-          const InputGroup(
-            hintText: "Username/Email *",
+          InputGroup(
+            hintText: "Username/Email",
+            required: true,
+            inputController: usernameController,
           ),
-          const InputGroup(
-            hintText: "NIK *",
+          InputGroup(
+            hintText: "NIK",
+            inputController: nikController,
           ),
-          const InputGroup(
-            hintText: "No. Telepon *",
+          InputGroup(
+            hintText: "No. Telepon",
+            required: true,
+            inputController: phoneNumberController,
           ),
-          const InputGroup(
-            hintText: "Kategori *",
+          InputGroup(
+            hintText: "Kategori",
+            required: true,
+            inputController: categoryController,
           ),
-          const InputGroup(
-            hintText: "Kecamatan *",
+          InputGroup(
+            hintText: "Kecamatan",
+            required: true,
+            inputController: subDistrictController,
           ),
-          const InputGroup(
-            hintText: "Alamat *",
+          InputGroup(
+            hintText: "Alamat",
+            inputController: addressController,
           ),
           const SizedBox(
             height: 20,

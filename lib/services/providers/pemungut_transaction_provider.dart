@@ -19,12 +19,17 @@ class PemungutTransactionProvider extends GetxController {
   final RxInt alreadyDeposited = 0.obs;
   final RxInt notYetDeposited = 0.obs;
 
+  TransactionPemungut get getAllDeposit => depositList.value;
+
   int get getTotalIncome => alreadyDeposited.value + notYetDeposited.value;
+
+  bool get getDataExist =>
+      depositList.value.deposit?.length != null ? true : false;
 
   void depositCalc() {
     alreadyDeposited.value = 0;
     notYetDeposited.value = 0;
-    
+
     for (var deposit in depositList.value.deposit!) {
       if (deposit.status == 1) {
         alreadyDeposited.value += deposit.price?.normalPrice as int;

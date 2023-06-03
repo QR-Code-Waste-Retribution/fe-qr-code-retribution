@@ -13,6 +13,19 @@ class ChangePasswordPage extends StatefulWidget {
 }
 
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
+  var oldPasswordController = TextEditingController();
+  var newPasswordController = TextEditingController();
+  var confirmPasswordController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    oldPasswordController.dispose();
+    newPasswordController.dispose();
+    confirmPasswordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,17 +64,23 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
           const SizedBox(
             height: 20,
           ),
-          const InputGroup(
+          InputGroup(
             hintText: "Kata Sandi Lama",
             obscure: true,
+            required: true,
+            inputController: oldPasswordController,
           ),
-          const InputGroup(
+          InputGroup(
             hintText: "Kata Sandi Baru",
             obscure: true,
+            required: true,
+            inputController: newPasswordController,
           ),
-          const InputGroup(
+          InputGroup(
             hintText: "Konfirmasi Kata Sandi Baru",
             obscure: true,
+            required: true,
+            inputController: confirmPasswordController,
           ),
           const SizedBox(
             height: 20,

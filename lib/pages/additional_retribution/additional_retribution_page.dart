@@ -8,7 +8,6 @@ import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/models/categories/category.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class AdditionalRetributionPage extends StatefulWidget {
   const AdditionalRetributionPage({super.key});
@@ -26,7 +25,6 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
   String dropdownValue = '';
 
   Size device = const Size(0, 0);
-  late IO.Socket socket;
 
   @override
   void initState() {
@@ -43,39 +41,8 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
       );
     });
     super.initState();
-    initSocketIO();
   }
 
-  void initSocketIO() {
-    socket = IO.io('http://localhost:8081', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-      'query': {'uuid': '37128-283891-273729'},
-    });
-
-    // Listen for 'message' events from the server
-    socket.onConnect((_) {
-      socket.emit('join', {
-        'name': 'Pemungut',
-        'room': 'room2',
-      });
-    }); 
-
-    // Listen for messages
-    socket.on('message', (data) {
-      print('${data['user']}: ${data['text']}');
-      Get.snackbar(
-        "Success",
-        '${data['user']}: ${data['text']}',
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
-    });
-
-    // Connect to the server
-    socket.connect();
-  }
 
   @override
   void dispose() {

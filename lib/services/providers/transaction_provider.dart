@@ -94,7 +94,6 @@ class TransactionProvider extends GetxController {
           .transactionAdditionalMasyarakat(transactionStore: transactionStore);
 
       _transactionInvoice.value = TransactionInvoice.fromJson(response.data);
-      _transactionInvoice.value.invoice = [];
       isLoading.value = false;
 
       Get.toNamed('/invoice_payments_details');

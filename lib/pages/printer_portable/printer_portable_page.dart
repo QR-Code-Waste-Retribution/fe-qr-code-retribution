@@ -76,7 +76,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
             if (index == 0) {
               printer.printLeftRight(
                   item,
-                  '[${invoice.variantsCount}] | ${NumberFormatPrice().formatPrice(
+                  '[${invoice.variantsCount ?? 1}] | ${NumberFormatPrice().formatPrice(
                     price: invoice.price?.normalPrice,
                     decimalDigits: 0,
                   )}',

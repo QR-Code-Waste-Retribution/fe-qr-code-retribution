@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
-import 'package:qr_code_app/services/providers/transaction_provider.dart';
+import 'package:qr_code_app/services/providers/pemungut_transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/number_format_price.dart';
 
@@ -15,17 +15,18 @@ class HistoryPaymentPemungutPage extends StatefulWidget {
 
 class _HistoryPaymentPemungutPageState
     extends State<HistoryPaymentPemungutPage> {
-  final TransactionProvider _transactionProvider =
-      Get.find<TransactionProvider>();
+  final PemungutTransactionProvider _pemungutTransactionProvider =
+      Get.find<PemungutTransactionProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   Size device = const Size(0, 0);
 
   @override
   void initState() {
-    // _transactionProvider.isLoading.value = true;
-    _transactionProvider.getAllTransactionByPemungutId(
-        pemungutId: _authProvider.authData.user?.id);
+    if (_pemungutTransactionProvider.getDataExist) {
+      _pemungutTransactionProvider.getAllPemungutTransactionByPemungutId(
+          pemungutId: _authProvider.authData.user?.id);
+    }
     super.initState();
   }
 
@@ -100,8 +101,8 @@ class _HistoryPaymentPemungutPageState
                             ),
                             Text(
                               NumberFormatPrice().formatPrice(
-                                  price: _transactionProvider
-                                      .getTransactionList.totalAmount),
+                                  price: _pemungutTransactionProvider
+                                      .getTotalIncome),
                               style: blackTextStyle.copyWith(
                                 fontSize: 20,
                                 fontWeight: bold,
@@ -133,11 +134,11 @@ class _HistoryPaymentPemungutPageState
                         shrinkWrap: true,
                         scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: _transactionProvider
-                            .getTransactionList.transaction?.length,
+                        itemCount: _pemungutTransactionProvider
+                            .getAllDeposit.deposit?.length,
                         itemBuilder: (context, index) {
-                          final item = _transactionProvider
-                              .getTransactionList.transaction?[index];
+                          final item = _pemungutTransactionProvider
+                              .getAllDeposit.deposit?[index];
                           return Container(
                             margin: const EdgeInsets.only(top: 10),
                             padding: const EdgeInsets.all(10),
@@ -173,7 +174,7 @@ class _HistoryPaymentPemungutPageState
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                       child: Text(
-                                        '${item?.type}',
+                                        'CASH',
                                         style: primaryTextStyle.copyWith(
                                           fontWeight: FontWeight.w700,
                                           color: whiteColor,
@@ -187,7 +188,7 @@ class _HistoryPaymentPemungutPageState
                                   height: 4,
                                 ),
                                 Text(
-                                  '${item?.updatedAt?.formatedDate}',
+                                  '${item?.date?.formatedDate}',
                                   style: blackTextStyle.copyWith(
                                     fontWeight: FontWeight.w400,
                                   ),

@@ -13,6 +13,17 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  var phoneNumberController = TextEditingController();
+  var addressController = TextEditingController();
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    phoneNumberController.dispose();
+    addressController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,16 +96,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
           const SizedBox(
             height: 20,
           ),
-          const InputGroup(
+          InputGroup(
             hintText: "No Telepon",
             subLabel: 'Cth : 082167663638',
             obscure: true,
+            inputController: phoneNumberController,
           ),
-          const InputGroup(
+          InputGroup(
             hintText: "Alamat",
             subLabel:
                 'Cth : Toko Trisno, Pasar I Parsoburan Kecamatan Habinsaran, Kabupaten Toba',
             obscure: true,
+            inputController: addressController,
           ),
           const SizedBox(
             height: 20,
