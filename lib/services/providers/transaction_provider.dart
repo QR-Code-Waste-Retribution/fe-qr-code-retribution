@@ -295,10 +295,6 @@ class TransactionProvider extends GetxController {
     final dokuBankVA = box.read(StorageReferences.dokuBankVA);
     final expiredVA = box.read(StorageReferences.expiredAtVA);
 
-    print(urlPaymentDoku);
-    print(dokuBankVA);
-    print(expiredVA);
-
     if (dokuBankVA != null) {
       _virtualAccountDoku.value.virtualAccountInfo?.createdDateUtc = expiredVA;
     }

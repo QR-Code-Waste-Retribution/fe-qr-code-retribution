@@ -41,6 +41,8 @@ class AuthProvider extends GetxController {
 
   String? get userRole => _authData.value.user?.role.name;
 
+  String? get userName => _authData.value.user?.name;
+
   bool checkAuth() {
     final authDataJson = box.read('authData');
     if (authDataJson != null) {

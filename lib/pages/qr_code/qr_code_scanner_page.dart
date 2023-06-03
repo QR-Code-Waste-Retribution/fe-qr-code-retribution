@@ -8,6 +8,7 @@ import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class QRCodeScannerPage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
   }
 
   void initSocketIO({required String uuid}) {
-    socket = IO.io('http://localhost:6001', <String, dynamic>{
+    socket = IO.io(AppConstants.urlSocketServer, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
       'query': {'uuid': uuid, 'role': _authProvider.authData.user?.role.name},

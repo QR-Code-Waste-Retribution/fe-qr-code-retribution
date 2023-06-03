@@ -5,6 +5,7 @@ import 'package:qr_code_app/services/providers/doku_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/providers/pemungut_transaction_provider.dart';
+import 'package:qr_code_app/services/providers/socket_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
@@ -29,6 +30,9 @@ class AppBindings extends Bindings {
         fenix: true);
     Get.lazyPut<DokuProvider>(
         () => DokuProvider(),
+        fenix: true);
+    Get.lazyPut<SocketProvider>(
+        () => SocketProvider(),
         fenix: true);
 
     // Pagination

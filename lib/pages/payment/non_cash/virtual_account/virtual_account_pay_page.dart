@@ -5,12 +5,15 @@ import 'package:qr_code_app/components/molekuls/countdown/countdown.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 
 import 'package:qr_code_app/models/doku/virtual_account/api/virtual_account_payment.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 
 import 'package:qr_code_app/services/providers/doku_provider.dart';
+import 'package:qr_code_app/services/providers/socket_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 
 import 'package:qr_code_app/utils/number_format_price.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class VirtualAccountPayPage extends StatefulWidget {
   const VirtualAccountPayPage({super.key});
@@ -22,9 +25,15 @@ class VirtualAccountPayPage extends StatefulWidget {
 class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
   final DokuProvider _dokuProvider = Get.find<DokuProvider>();
 
+  final SocketProvider _socketProvider = Get.find<SocketProvider>();
+
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
-      
+
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
+  late IO.Socket socket;
+
   @override
   void initState() {
     super.initState();
@@ -33,6 +42,16 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
         .getApiPayDokuDirectVirtualAccount(
             url: _transactionProvider.getURLPaymentAPIDokuVA!)
         .then((value) => _dokuProvider.isLoading.value = false);
+
+    _socketProvider.initSocketIO(
+      uuid: _authProvider.getUUID,
+      typeOfChannel: 'va',
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -71,14 +90,26 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
           return ListView(
             padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
             children: [
-              Container(
-                padding: const EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: countDownBackgroundColor,
-                ),
-                child: CountDown(
-                  expiredDateAPI: _dokuProvider.getVirtualAccountPayment
-                      .virtualAccountInfo?.createdDateUtc,
+              Obx(
+                () => Container(
+                  padding: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: _socketProvider.getVAStatus
+                        ? secondaryColor
+                        : countDownBackgroundColor,
+                  ),
+                  child: _socketProvider.getVAStatus
+                      ? Text(
+                          'Pembayaran Berhasil',
+                          style: whiteTextStyle.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        )
+                      : CountDown(
+                          expiredDateAPI: _dokuProvider.getVirtualAccountPayment
+                              .virtualAccountInfo?.createdDateUtc,
+                        ),
                 ),
               ),
               const SizedBox(
@@ -324,7 +355,7 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
             height: 10,
           ),
           Text(
-            '${_dokuProvider.getVirtualAccountPayment.customer?.email}',
+            _dokuProvider.getVirtualAccountPayment.customer?.email ?? '-',
             style: secondaryTextStyle.copyWith(
               color: secondaryTextColor,
             ),

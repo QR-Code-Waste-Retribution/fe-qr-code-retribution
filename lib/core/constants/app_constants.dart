@@ -5,12 +5,13 @@ import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 class AppConstants {
   static const String apiUrlServer = 'http://35.213.170.85/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
-  
+
+  static const String wbServerPort = '6001';
   static const String urlSocketLocal = 'http://localhost:6001/';
   static const String urlSocketServer = 'http://35.213.170.85:6001/';
-  
+
   static const int apiTimeout = 5000; // milliseconds
-  
+
   static const String dokuRedirectCheckout = 'qr_code_app//';
   static const String dokuRedirectCheckoutCancel = 'qr_code_app//';
 
