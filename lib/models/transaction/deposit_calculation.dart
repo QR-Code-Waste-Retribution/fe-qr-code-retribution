@@ -1,11 +1,8 @@
 class DepositCalculation {
-  late int alreadyDeposited;
-  late int notYetDeposited;
+  int? alreadyDeposited;
+  int? notYetDeposited;
 
-  DepositCalculation({
-    required this.alreadyDeposited,
-    required this.notYetDeposited,
-  });
+  DepositCalculation({this.alreadyDeposited, this.notYetDeposited});
 
   DepositCalculation.fromJson(Map<String, dynamic> json) {
     alreadyDeposited = json['already_deposited'];

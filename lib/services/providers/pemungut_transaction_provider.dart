@@ -11,32 +11,25 @@ class PemungutTransactionProvider extends GetxController {
   final PemungutTransactionRepositories _transactionRepositories =
       PemungutTransactionRepositories();
 
-  final Rx<TransactionPemungut> depositList =
-      TransactionPemungut(deposit: []).obs;
+  final Rx<TransactionPemungut> depositList = TransactionPemungut(
+          deposits: [], depositArreas: '', depositCalculation: null)
+      .obs;
 
   final RxBool isLoading = false.obs;
 
-  final RxInt alreadyDeposited = 0.obs;
-  final RxInt notYetDeposited = 0.obs;
-
   TransactionPemungut get getAllDeposit => depositList.value;
 
-  int get getTotalIncome => alreadyDeposited.value + notYetDeposited.value;
+  int get getTotalIncome => getAlreadyDeposited()! + getNotYetDeposited()!;
 
   bool get getDataExist =>
-      depositList.value.deposit?.length != null ? true : false;
+      depositList.value.deposits?.length != null ? true : false;
 
-  void depositCalc() {
-    alreadyDeposited.value = 0;
-    notYetDeposited.value = 0;
+  int? getAlreadyDeposited() {
+    return depositList.value.depositCalculation?.alreadyDeposited!;
+  }
 
-    for (var deposit in depositList.value.deposit!) {
-      if (deposit.status == 1) {
-        alreadyDeposited.value += deposit.price?.normalPrice as int;
-        continue;
-      }
-      notYetDeposited.value += deposit.price?.normalPrice as int;
-    }
+  int? getNotYetDeposited() {
+    return depositList.value.depositCalculation?.notYetDeposited!;
   }
 
   Future<void> getAllPemungutTransactionByPemungutId(
@@ -46,7 +39,6 @@ class PemungutTransactionProvider extends GetxController {
           .allPemungutTransactionByPemungutId(pemungutId: pemungutId!);
 
       depositList.value = TransactionPemungut.fromJson(response.data);
-      depositCalc();
       isLoading.value = false;
       update();
     } catch (e) {

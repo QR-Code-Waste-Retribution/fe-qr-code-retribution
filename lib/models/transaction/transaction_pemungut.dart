@@ -1,41 +1,50 @@
 import 'package:qr_code_app/models/price.dart';
 import 'package:qr_code_app/models/timestamp.dart';
+import 'package:qr_code_app/models/transaction/deposit_calculation.dart';
 
 class TransactionPemungut {
-  List<Deposit>? deposit;
+  List<Deposits>? deposits;
+  DepositCalculation? depositCalculation;
+  String? depositArreas;
 
-  TransactionPemungut({this.deposit});
+  TransactionPemungut({this.deposits, this.depositArreas, this.depositCalculation});
 
   TransactionPemungut.fromJson(Map<String, dynamic> json) {
-    if (json['deposit'] != null) {
-      deposit = <Deposit>[];
-      json['deposit'].forEach((v) {
-        deposit!.add(Deposit.fromJson(v));
+    if (json['deposits'] != null) {
+      deposits = <Deposits>[];
+      json['deposits'].forEach((v) {
+        deposits!.add(Deposits.fromJson(v));
       });
     }
+    depositCalculation = json['deposit_status'] != null
+        ? DepositCalculation.fromJson(json['deposit_status'])
+        : null;
+    depositArreas = json['deposit_arreas'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (deposit != null) {
-      data['deposit'] = deposit!.map((v) => v.toJson()).toList();
+    if (deposits != null) {
+      data['deposits'] = deposits!.map((v) => v.toJson()).toList();
     }
+    if (depositCalculation != null) {
+      data['deposit_status'] = depositCalculation!.toJson();
+    }
+    data['deposit_arreas'] = depositArreas;
     return data;
   }
 }
 
-class Deposit {
+class Deposits {
   Price? price;
   TimeStamp? date;
   int? status;
 
-  Deposit({this.price, this.date, this.status});
+  Deposits({this.price, this.date, this.status});
 
-  Deposit.fromJson(Map<String, dynamic> json) {
+  Deposits.fromJson(Map<String, dynamic> json) {
     price = json['price'] != null ? Price.fromJson(json['price']) : null;
-    date = json['date'] != null
-        ? TimeStamp.fromJson(json['date'])
-        : null;
+    date = json['date'] != null ? TimeStamp.fromJson(json['date']) : null;
     status = json['status'];
   }
 

@@ -135,10 +135,10 @@ class _HistoryPaymentPemungutPageState
                         scrollDirection: Axis.vertical,
                         physics: const NeverScrollableScrollPhysics(),
                         itemCount: _pemungutTransactionProvider
-                            .getAllDeposit.deposit?.length,
+                            .getAllDeposit.deposits?.length,
                         itemBuilder: (context, index) {
                           final item = _pemungutTransactionProvider
-                              .getAllDeposit.deposit?[index];
+                              .getAllDeposit.deposits?[index];
                           return Container(
                             margin: const EdgeInsets.only(top: 10),
                             padding: const EdgeInsets.all(10),

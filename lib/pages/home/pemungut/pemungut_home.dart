@@ -60,9 +60,12 @@ class _PemungutHomeState extends State<PemungutHome> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    Text(
-                      'Lihat Detail',
-                      style: linkTextStyle.copyWith(),
+                    GestureDetector(
+                      onTap: () => Get.toNamed('/history_payment_pemungut'),
+                      child: Text(
+                        'Lihat Detail',
+                        style: linkTextStyle.copyWith(),
+                      ),
                     ),
                   ],
                 ),
@@ -104,10 +107,8 @@ class _PemungutHomeState extends State<PemungutHome> {
                           ),
                           Text(
                             NumberFormatPrice().formatPrice(
-                              price: _pemungutTransactionProvider
-                                      .alreadyDeposited.value +
-                                  _pemungutTransactionProvider
-                                      .notYetDeposited.value,
+                              price:
+                                  _pemungutTransactionProvider.getTotalIncome,
                             ),
                             style: blackTextStyle.copyWith(
                               fontSize: 22,
@@ -169,7 +170,7 @@ class _PemungutHomeState extends State<PemungutHome> {
                             Text(
                               NumberFormatPrice().formatPrice(
                                   price: _pemungutTransactionProvider
-                                      .alreadyDeposited.value),
+                                      .getAlreadyDeposited()),
                               style: blackTextStyle.copyWith(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
@@ -202,7 +203,7 @@ class _PemungutHomeState extends State<PemungutHome> {
                             Text(
                               NumberFormatPrice().formatPrice(
                                   price: _pemungutTransactionProvider
-                                      .notYetDeposited.value),
+                                      .getNotYetDeposited()),
                               style: blackTextStyle.copyWith(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 20,
