@@ -167,6 +167,8 @@ class TransactionProvider extends GetxController {
             await _transactionRepositories.transactionInvoiceMasyarakatNonCash(
                 transactionNonCash: transactionNonCash);
 
+        print(response.message);
+
         _virtualAccountDoku.value = VirtualAccountDoku.fromJson(response.data);
 
         await box.write(

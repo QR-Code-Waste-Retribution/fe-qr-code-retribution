@@ -14,6 +14,12 @@ class StorageReferences {
   static const String invoiceId = 'invoiceId';
   static const String transactionId = 'transactionId';
 
+  void removeStorageReferencesDokuPayment() {
+    box.remove(expiredAtVA);
+    box.remove(dokuBankVA);
+    box.remove(urlPaymentDoku);
+  }
+
   List<int?> getInvoiceIdArrayFromLocalStorage() {
     List<int?> arrInvoiceId = [];
     final invoiceIdSelected = box.read(invoiceId);

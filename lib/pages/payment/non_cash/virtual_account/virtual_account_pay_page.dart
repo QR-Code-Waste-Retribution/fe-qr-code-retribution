@@ -147,18 +147,16 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
               .isExpanded = !isExpanded;
         });
       },
-      children: _dokuProvider.getVirtualAccountPayment.paymentInstruction!
+      children: _dokuProvider.getVirtualAccountPayment.paymentInstruction
           .map<ExpansionPanel>((PaymentInstruction item) {
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
-            return Container(
-              child: ListTile(
-                title: Text(
-                  '${item.channel}',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
+            return ListTile(
+              title: Text(
+                '${item.channel}',
+                style: blackTextStyle.copyWith(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             );

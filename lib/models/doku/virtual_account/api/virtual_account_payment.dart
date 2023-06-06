@@ -3,14 +3,14 @@ class VirtualAccountPayment {
   Order? order;
   VirtualAccountInfo? virtualAccountInfo;
   Customer? customer;
-  List<PaymentInstruction>? paymentInstruction;
+  late List<PaymentInstruction> paymentInstruction;
 
   VirtualAccountPayment(
       {this.client,
       this.order,
       this.virtualAccountInfo,
       this.customer,
-      this.paymentInstruction});
+      required this.paymentInstruction});
 
   VirtualAccountPayment.fromJson(Map<String, dynamic> json) {
     client = json['client'] != null ? Client.fromJson(json['client']) : null;

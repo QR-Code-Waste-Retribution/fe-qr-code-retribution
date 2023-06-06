@@ -6,9 +6,9 @@ class AppConstants {
   static const String apiUrlServer = 'http://35.213.170.85/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
 
-  static const String wbServerPort = '6001';
-  static const String urlSocketLocal = 'http://localhost:6001/';
-  static const String urlSocketServer = 'http://35.213.170.85:6001/';
+  static const String wbServerPort = '8000';
+  static const String urlSocketLocal = 'http://localhost:$wbServerPort/';
+  static const String urlSocketServer = 'http://35.213.170.85:$wbServerPort/';
 
   static const int apiTimeout = 5000; // milliseconds
 
