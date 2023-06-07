@@ -27,7 +27,7 @@ class SocketRepositories extends GetxService {
     });
 
     socket?.on('message', (data) {
-      print('${data['user']}: ${data['text']}');
+      // print('${data['user']}: ${data['text']}');
 
       Get.snackbar(
         "Success",

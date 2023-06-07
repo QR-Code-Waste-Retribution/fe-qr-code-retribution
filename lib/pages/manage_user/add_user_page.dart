@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/models/categories/category.dart';
+import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
+import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
@@ -25,6 +27,7 @@ class _AddUserPageState extends State<AddUserPage> {
 
   final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
+  final UsersProvider _usersProvider = Get.find<UsersProvider>();
 
   String dropdownValue = '';
 
@@ -32,7 +35,6 @@ class _AddUserPageState extends State<AddUserPage> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     for (var controller in textInputControllers) {
       controller.dispose();
@@ -41,7 +43,6 @@ class _AddUserPageState extends State<AddUserPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     // Add the text input controllers to the list
     textInputControllers.addAll([
@@ -63,6 +64,22 @@ class _AddUserPageState extends State<AddUserPage> {
         idSelected: _categoriesProvider.getCategoriesList.categories[0].id,
       );
     });
+  }
+
+  void addUserAction() {
+    UserForm userForm = UserForm(
+      name: nameController.text,
+      nik: nikController.text,
+      username: usernameController.text,
+      phoneNumber: phoneNumberController.text,
+      category: 1,
+      address: addressController.text,
+      subDistrictId: int.parse(
+        subDistrictController.text,
+      ),
+    );
+
+    _usersProvider.storeRegisterUser(userForm: userForm);
   }
 
   void clearInput() {
@@ -163,7 +180,8 @@ class _AddUserPageState extends State<AddUserPage> {
                       items: _categoriesProvider.getCategoriesList.categories
                           .map<DropdownMenuItem<String>>((Category category) {
                         return DropdownMenuItem(
-                          enabled: category.name == dropdownValue ? false : true,
+                          enabled:
+                              category.name == dropdownValue ? false : true,
                           value: category.id.toString(),
                           child: Text(
                             category.name,
@@ -189,6 +207,7 @@ class _AddUserPageState extends State<AddUserPage> {
           ),
           InputGroup(
             hintText: "Alamat",
+            required: true,
             inputController: addressController,
           ),
           const SizedBox(
@@ -203,7 +222,7 @@ class _AddUserPageState extends State<AddUserPage> {
                 height: 45,
                 fontSize: 14,
                 defaultRadiusButton: 10,
-                onPressed: () {},
+                onPressed: () => addUserAction(),
               ),
               CustomButton(
                 title: 'Batal',

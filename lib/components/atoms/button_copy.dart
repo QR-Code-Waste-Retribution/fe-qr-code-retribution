@@ -12,7 +12,7 @@ class ButtonCopy extends StatelessWidget {
     Clipboard.setData(ClipboardData(text: textToCopy));
     Get.snackbar(
       "Success",
-      'Sukses salin nomor virtual account',
+      'Sukses menyalin nomor virtual account',
       backgroundColor: primaryColor,
       colorText: Colors.white,
       borderRadius: 5,

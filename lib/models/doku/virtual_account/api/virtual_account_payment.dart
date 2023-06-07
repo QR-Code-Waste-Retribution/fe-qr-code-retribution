@@ -23,7 +23,7 @@ class VirtualAccountPayment {
     if (json['payment_instruction'] != null) {
       paymentInstruction = <PaymentInstruction>[];
       json['payment_instruction'].forEach((v) {
-        paymentInstruction!.add(PaymentInstruction.fromJson(v));
+        paymentInstruction.add(PaymentInstruction.fromJson(v));
       });
     }
   }

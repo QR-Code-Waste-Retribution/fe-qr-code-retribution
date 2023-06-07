@@ -143,7 +143,7 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
       animationDuration: const Duration(milliseconds: 700),
       expansionCallback: (int index, bool isExpanded) {
         setState(() {
-          _dokuProvider.getVirtualAccountPayment.paymentInstruction?[index]
+          _dokuProvider.getVirtualAccountPayment.paymentInstruction[index]
               .isExpanded = !isExpanded;
         });
       },
