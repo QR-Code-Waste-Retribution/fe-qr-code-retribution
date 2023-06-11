@@ -101,7 +101,7 @@ class HomeContent extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    '${AppConstants.headerHome[authData?.user?.role.name]} ${_authProvider.authData.user?.district.name}',
+                    '${AppConstants.headerHome[authData?.user?.role?.name]} ${_authProvider.authData.user?.district?.name}',
                     style: primaryTextStyle.copyWith(
                       color: whiteColor,
                       fontWeight: FontWeight.w700,

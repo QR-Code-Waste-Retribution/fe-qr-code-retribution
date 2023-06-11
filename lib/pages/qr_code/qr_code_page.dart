@@ -28,7 +28,7 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
       'autoConnect': false,
       'query': {
         'uuid': _authProvider.authData.user?.uuid,
-        'role': _authProvider.authData.user?.role.name
+        'role': _authProvider.authData.user?.role?.name
       },
     });
     socket.onConnect((_) {

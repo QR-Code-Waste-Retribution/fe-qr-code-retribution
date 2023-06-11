@@ -99,14 +99,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
           InputGroup(
             hintText: "No Telepon",
             subLabel: 'Cth : 082167663638',
-            obscure: true,
             inputController: phoneNumberController,
           ),
           InputGroup(
             hintText: "Alamat",
             subLabel:
                 'Cth : Toko Trisno, Pasar I Parsoburan Kecamatan Habinsaran, Kabupaten Toba',
-            obscure: true,
             inputController: addressController,
           ),
           const SizedBox(

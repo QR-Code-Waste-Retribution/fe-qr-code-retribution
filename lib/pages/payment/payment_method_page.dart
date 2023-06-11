@@ -21,7 +21,7 @@ class _PaymentMethodState extends State<PaymentMethod> {
   void initState() {
     super.initState();
 
-    if (authProvider.authData.user?.role.name == 'pemungut') {
+    if (authProvider.authData.user?.role?.name == 'pemungut') {
       _rolePayment = AppConstants.preferencesPaymentMethodPage.pemungut;
     } else {
       _rolePayment = AppConstants.preferencesPaymentMethodPage.masyarakat;

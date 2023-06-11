@@ -39,9 +39,11 @@ class AuthProvider extends GetxController {
 
   bool? get isAuthenticated => _authData.value.accessToken.isNotEmpty;
 
-  String? get userRole => _authData.value.user?.role.name;
+  String? get userRole => _authData.value.user?.role?.name;
 
   String? get userName => _authData.value.user?.name;
+
+  String? get userSubDistrict => _authData.value.user?.subDistrict?.name;
 
   bool checkAuth() {
     final authDataJson = box.read('authData');

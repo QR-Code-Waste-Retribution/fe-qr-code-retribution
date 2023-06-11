@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/models/categories/category.dart';
 import 'package:qr_code_app/models/form/user_form.dart';
+import 'package:qr_code_app/models/geographic/sub_district.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
+import 'package:qr_code_app/services/providers/geographic_provider.dart';
 import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
@@ -28,8 +30,10 @@ class _AddUserPageState extends State<AddUserPage> {
   final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
   final UsersProvider _usersProvider = Get.find<UsersProvider>();
+  final GeographicProvider _geographicProvider = Get.find<GeographicProvider>();
 
-  String dropdownValue = '';
+  String dropdownCategoryValue = '';
+  String dropdownSubDistrictValue = '';
 
   List<TextEditingController> textInputControllers = [];
 
@@ -58,11 +62,17 @@ class _AddUserPageState extends State<AddUserPage> {
     _categoriesProvider
         .getAllCategories(districtId: _authProvider.districtId!)
         .then((value) {
-      dropdownValue =
+      dropdownCategoryValue =
           _categoriesProvider.getCategoriesList.categories[0].id.toString();
       _categoriesProvider.priceSelectedCategories(
         idSelected: _categoriesProvider.getCategoriesList.categories[0].id,
       );
+    });
+    _geographicProvider
+        .getAllSubDistrictByDistrictId(districtId: _authProvider.districtId!)
+        .then((value) {
+      dropdownSubDistrictValue =
+          _geographicProvider.getListSubDistricts![0].id.toString();
     });
   }
 
@@ -71,15 +81,18 @@ class _AddUserPageState extends State<AddUserPage> {
       name: nameController.text,
       nik: nikController.text,
       username: usernameController.text,
+      gender: "Laki-Laki",
       phoneNumber: phoneNumberController.text,
-      category: 1,
+      category: int.parse(dropdownCategoryValue),
       address: addressController.text,
-      subDistrictId: int.parse(
-        subDistrictController.text,
-      ),
+      districtId: _authProvider.districtId!,
+      subDistrictId: int.parse(dropdownSubDistrictValue),
+      pemungutId: _authProvider.getUserId!,
     );
 
-    _usersProvider.storeRegisterUser(userForm: userForm);
+    _usersProvider
+        .storeRegisterUser(userForm: userForm)
+        .then((value) => clearInput());
   }
 
   void clearInput() {
@@ -134,6 +147,7 @@ class _AddUserPageState extends State<AddUserPage> {
           InputGroup(
             hintText: "No. Telepon",
             required: true,
+            keyboardType: TextInputType.number,
             inputController: phoneNumberController,
           ),
           const SizedBox(
@@ -162,7 +176,7 @@ class _AddUserPageState extends State<AddUserPage> {
                     ),
                     child: DropdownButton<String>(
                       alignment: Alignment.bottomCenter,
-                      value: dropdownValue,
+                      value: dropdownCategoryValue,
                       isExpanded: true,
                       icon: const Icon(Icons.arrow_drop_down_rounded),
                       iconSize: 24,
@@ -171,7 +185,7 @@ class _AddUserPageState extends State<AddUserPage> {
                       style: const TextStyle(color: Colors.deepPurple),
                       onChanged: (String? newValue) {
                         setState(() {
-                          dropdownValue = newValue!;
+                          dropdownCategoryValue = newValue!;
                         });
                         _categoriesProvider.priceSelectedCategories(
                           idSelected: int.parse(newValue!),
@@ -180,8 +194,9 @@ class _AddUserPageState extends State<AddUserPage> {
                       items: _categoriesProvider.getCategoriesList.categories
                           .map<DropdownMenuItem<String>>((Category category) {
                         return DropdownMenuItem(
-                          enabled:
-                              category.name == dropdownValue ? false : true,
+                          enabled: category.name == dropdownCategoryValue
+                              ? false
+                              : true,
                           value: category.id.toString(),
                           child: Text(
                             category.name,
@@ -198,12 +213,69 @@ class _AddUserPageState extends State<AddUserPage> {
             ),
           ),
           const SizedBox(
-            height: 7,
+            height: 12,
           ),
-          InputGroup(
-            hintText: "Kecamatan",
-            required: true,
-            inputController: subDistrictController,
+          SizedBox(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Pilih Kecamatan',
+                  style: primaryTextStyle.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(
+                  height: 7,
+                ),
+                Obx(
+                  () => Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                      vertical: 1,
+                    ),
+                    decoration: BoxDecoration(
+                      color: backgroundColor6,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: DropdownButton<String>(
+                      alignment: Alignment.bottomCenter,
+                      value: dropdownSubDistrictValue,
+                      isExpanded: true,
+                      icon: const Icon(Icons.arrow_drop_down_rounded),
+                      iconSize: 24,
+                      borderRadius: BorderRadius.circular(20),
+                      underline: Container(height: 0),
+                      style: const TextStyle(color: Colors.deepPurple),
+                      onChanged: (String? newValue) {
+                        setState(() {
+                          dropdownSubDistrictValue = newValue!;
+                        });
+                      },
+                      items: _geographicProvider.getListSubDistricts
+                          ?.map<DropdownMenuItem<String>>(
+                              (SubDistrict subDistrict) {
+                        return DropdownMenuItem(
+                          enabled: subDistrict.name == dropdownSubDistrictValue
+                              ? false
+                              : true,
+                          value: subDistrict.id.toString(),
+                          child: Text(
+                            subDistrict.name,
+                            style: blackTextStyle.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 10,
           ),
           InputGroup(
             hintText: "Alamat",

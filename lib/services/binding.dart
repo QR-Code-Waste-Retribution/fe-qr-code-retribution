@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/services/providers/doku_provider.dart';
+import 'package:qr_code_app/services/providers/geographic_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/providers/pemungut_transaction_provider.dart';
@@ -11,6 +12,7 @@ import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 import 'package:qr_code_app/services/repositories/categories_repositories.dart';
 import 'package:qr_code_app/services/repositories/doku_repositories.dart';
+import 'package:qr_code_app/services/repositories/geographic_provider.dart';
 import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
 import 'package:qr_code_app/services/repositories/pemungut_transaction_repositories.dart';
 import 'package:qr_code_app/services/repositories/socket_repositories.dart';
@@ -34,6 +36,9 @@ class AppBindings extends Bindings {
     Get.lazyPut<SocketProvider>(
         () => SocketProvider(),
         fenix: true);
+    Get.lazyPut<GeographicProvider>(
+            () => GeographicProvider(),
+        fenix: true);
 
     // Pagination
     Get.put<PaginationProvider>(PaginationProvider());
@@ -53,6 +58,9 @@ class AppBindings extends Bindings {
         fenix: true);
     Get.lazyPut<SocketRepositories>(
         () => SocketRepositories(),
+        fenix: true);
+    Get.lazyPut<GeographicRepositories>(
+            () => GeographicRepositories(),
         fenix: true);
   }
 }

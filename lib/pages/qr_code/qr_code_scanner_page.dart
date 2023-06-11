@@ -37,7 +37,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
     socket = IO.io(AppConstants.urlSocketServer, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
-      'query': {'uuid': uuid, 'role': _authProvider.authData.user?.role.name},
+      'query': {'uuid': uuid, 'role': _authProvider.authData.user?.role?.name},
     });
 
     socket.onConnect((_) {

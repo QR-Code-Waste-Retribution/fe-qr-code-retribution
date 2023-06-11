@@ -76,12 +76,14 @@ class _RecapitulationPageState extends State<RecapitulationPage>
                     device: device,
                     usersPaidUnPaid:
                         _invoiceProvider.getInvoicePaidUnPaid.usersPaid!,
+                    subDistrictName: _authProvider.userSubDistrict!,
                   ),
                   ContainerTabsRecapitulation(
                     device: device,
                     usersPaidUnPaid:
                         _invoiceProvider.getInvoicePaidUnPaid.usersUnpaid!,
                     type: "Belum Lunas",
+                    subDistrictName: _authProvider.userSubDistrict!,
                   ),
                 ],
               ),
@@ -91,16 +93,19 @@ class _RecapitulationPageState extends State<RecapitulationPage>
 }
 
 class ContainerTabsRecapitulation extends StatelessWidget {
+
+  final Size device;
+  final String type;
+  final UsersPaidUnPaid usersPaidUnPaid;
+  final String subDistrictName;
+
   const ContainerTabsRecapitulation({
     super.key,
     required this.device,
     this.type = "sudah lunas",
     required this.usersPaidUnPaid,
+    this.subDistrictName = '',
   });
-
-  final Size device;
-  final String type;
-  final UsersPaidUnPaid usersPaidUnPaid;
 
   @override
   Widget build(BuildContext context) {
@@ -169,8 +174,8 @@ class ContainerTabsRecapitulation extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          const CustomHeader(
-            text: 'Berikut daftar tagihan Kec. Ajibata',
+          CustomHeader(
+            text: 'Berikut daftar tagihan Kec. $subDistrictName',
           ),
           const SizedBox(
             height: 15,

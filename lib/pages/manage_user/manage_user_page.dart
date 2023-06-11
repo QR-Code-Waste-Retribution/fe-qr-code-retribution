@@ -64,9 +64,9 @@ class _ManageUserPageState extends State<ManageUserPage> {
       var item = users[index];
       tableRows.add(
         tableRowMasyarakat(
-          name: item.name,
+          name: '${item.name}',
           id: index + 1,
-          category: "Kios",
+          category: "Kios ACV",
         ),
       );
     }
@@ -78,7 +78,9 @@ class _ManageUserPageState extends State<ManageUserPage> {
     super.initState();
 
     _usersProvider.getAllMasyarakatBySubDistrictId(
-        subDistrictId: _authProvider.authData.user?.subDistrictId);
+      subDistrictId: _authProvider.authData.user?.subDistrictId,
+      pemungutId: _authProvider.getUserId!,
+    );
   }
 
   @override

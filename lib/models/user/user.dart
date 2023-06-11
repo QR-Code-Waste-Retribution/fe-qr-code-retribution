@@ -81,45 +81,45 @@ class CredentialToken {
 
 class User {
   User({
-    required this.id,
-    required this.uuid,
-    required this.name,
-    required this.email,
-    required this.username,
-    required this.nik,
-    required this.gender,
-    required this.address,
-    required this.phoneNumber,
-    required this.emailVerifiedAt,
-    required this.subDistrictId,
-    required this.districtId,
-    required this.roleId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.role,
-    required this.district,
-    required this.subDistrict,
-    required this.urbanVillage,
+    this.id,
+    this.uuid,
+    this.name,
+    this.email,
+    this.username,
+    this.nik,
+    this.gender,
+    this.address,
+    this.phoneNumber,
+    this.emailVerifiedAt,
+    this.subDistrictId,
+    this.districtId,
+    this.roleId,
+    this.createdAt,
+    this.updatedAt,
+    this.role,
+    this.district,
+    this.subDistrict,
+    this.urbanVillage,
   });
-  late final int id;
-  late final String uuid;
-  late final String name;
-  late final String email;
-  late final String username;
-  late final String nik;
-  late final String gender;
-  late final String address;
-  late final String phoneNumber;
-  late final String emailVerifiedAt;
-  late final int subDistrictId;
-  late final int districtId;
-  late final int roleId;
-  late final String createdAt;
-  late final String updatedAt;
-  late final Role role;
-  late final District district;
-  late final SubDistrict subDistrict;
-  late final String urbanVillage;
+  late final int? id;
+  late final String? uuid;
+  late final String? name;
+  late final String? email;
+  late final String? username;
+  late final String? nik;
+  late final String? gender;
+  late final String? address;
+  late final String? phoneNumber;
+  late final String? emailVerifiedAt;
+  late final int? subDistrictId;
+  late final int? districtId;
+  late final int? roleId;
+  late final String? createdAt;
+  late final String? updatedAt;
+  late final Role? role;
+  late final District? district;
+  late final SubDistrict? subDistrict;
+  late final String? urbanVillage;
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];

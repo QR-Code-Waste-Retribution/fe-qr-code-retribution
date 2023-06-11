@@ -18,3 +18,26 @@ class SubDistrict {
     return _data;
   }
 }
+
+class ListSubDistrict {
+  List<SubDistrict>? subDistricts;
+
+  ListSubDistrict({this.subDistricts});
+
+  ListSubDistrict.fromJson(Map<String, dynamic> json) {
+    if (json['sub_districts'] != null) {
+      subDistricts = <SubDistrict>[];
+      json['sub_districts'].forEach((v) {
+        subDistricts!.add(SubDistrict.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (subDistricts != null) {
+      data['sub_districts'] = subDistricts!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}

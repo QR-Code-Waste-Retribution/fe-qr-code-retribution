@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
+import 'package:qr_code_app/components/molekuls/input/input_group.dart';
+import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -98,103 +100,6 @@ class _LoginPageState extends State<LoginPage> {
       );
     }
 
-    Widget emailInput() {
-      return Container(
-        margin: const EdgeInsets.only(top: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Username / NIK',
-              style: secondaryTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                  color: backgroundColor6,
-                  borderRadius: BorderRadius.circular(12)),
-              child: Center(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: emailController,
-                        scrollPadding: const EdgeInsets.only(bottom: 40),
-                        style: primaryTextStyle.copyWith(color: Colors.black),
-                        decoration: InputDecoration.collapsed(
-                          hintText: 'Username / NIK',
-                          hintStyle: subtitleTextStyle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
-    Container passwordInput() {
-      return Container(
-        margin: const EdgeInsets.only(
-          top: 20,
-          bottom: 10,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Password',
-              style: secondaryTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: medium,
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            Container(
-              height: 50,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: BoxDecoration(
-                  color: backgroundColor6,
-                  borderRadius: BorderRadius.circular(12)),
-              child: Center(
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextFormField(
-                        keyboardType: TextInputType.text,
-                        controller: passwordController,
-                        scrollPadding: const EdgeInsets.only(bottom: 40),
-                        obscureText: true,
-                        style: primaryTextStyle.copyWith(color: Colors.black),
-                        decoration: InputDecoration.collapsed(
-                          fillColor: backgroundInputColor,
-                          hintText: 'Password',
-                          hintStyle: subtitleTextStyle,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: primaryColor,
       body: SafeArea(
@@ -213,11 +118,24 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 header(),
                 bodyInputLogin(),
-                emailInput(),
-                passwordInput(),
+                const SizedBox(
+                  height: 10,
+                ),
+                InputGroup(
+                  hintText: "Username/Email",
+                  inputController: emailController,
+                ),
+                InputGroup(
+                  hintText: "Password",
+                  obscure: true,
+                  inputController: passwordController,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed('/forget_password');
+                    Get.toNamed(Pages.forgetPasswordPage);
                   },
                   child: Text(
                     'Lupa Password?',

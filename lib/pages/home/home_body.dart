@@ -22,7 +22,7 @@ class HomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? role = authProvider.user?.role.name;
+    String? role = authProvider.user?.role?.name;
 
     Map<String, Widget> homeBody = {
       'pemungut': PemungutHome(device: device),

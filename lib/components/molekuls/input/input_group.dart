@@ -27,6 +27,14 @@ class InputGroup extends StatefulWidget {
 class _InputGroupState extends State<InputGroup> {
   bool inputNullCheck = false;
 
+  bool showPass = true;
+
+  void _eventTogglePassword() {
+    setState(() {
+      showPass = !showPass;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget subLabelCreate() {
@@ -79,7 +87,7 @@ class _InputGroupState extends State<InputGroup> {
                     child: TextFormField(
                       keyboardType: widget.keyboardType,
                       controller: widget.inputController,
-                      obscureText: widget.obscure,
+                      obscureText: widget.obscure ? showPass : false,
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "Please enter a value";
@@ -106,6 +114,14 @@ class _InputGroupState extends State<InputGroup> {
                       ),
                     ),
                   ),
+                  widget.obscure
+                      ? GestureDetector(
+                          onTap: _eventTogglePassword,
+                          child: showPass
+                              ? const Icon(Icons.remove_red_eye)
+                              : const Icon(Icons.remove_red_eye_outlined),
+                        )
+                      : const SizedBox(),
                 ],
               ),
             ),

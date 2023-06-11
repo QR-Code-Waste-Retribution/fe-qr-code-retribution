@@ -40,13 +40,13 @@ class _HomePaginationState extends State<HomePagination> {
           elevation: 0,
           onTap: paginationProvider.updateCurrentIndex,
           items: paginationProvider
-              .roleMenus[authProvider.authData.user?.role.name]!,
+              .roleMenus[authProvider.authData.user?.role?.name]!,
         ),
       ),
       body: Obx(
         () => Center(
           child: paginationProvider
-              .rolePages[authProvider.authData.user?.role.name]!
+              .rolePages[authProvider.authData.user?.role?.name]!
               .elementAt(paginationProvider.currentIndex.value),
         ),
       ),

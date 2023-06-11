@@ -17,7 +17,7 @@ class HomeMenuGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? role = authProvider.user?.role.name;
+    String? role = authProvider.user?.role?.name;
 
     return Container(
       padding: const EdgeInsets.symmetric(
