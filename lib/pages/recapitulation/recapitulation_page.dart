@@ -28,7 +28,8 @@ class _RecapitulationPageState extends State<RecapitulationPage>
     super.initState();
     tabController = TabController(length: 2, vsync: this);
     _invoiceProvider.getAllUserForInvoicePaidAndUnpaid(
-        subDistrictId: _authProvider.subDistrictId);
+      pemungutId: _authProvider.getUserId,
+    );
   }
 
   @override
@@ -75,14 +76,14 @@ class _RecapitulationPageState extends State<RecapitulationPage>
                   ContainerTabsRecapitulation(
                     device: device,
                     usersPaidUnPaid:
-                        _invoiceProvider.getInvoicePaidUnPaid.usersPaid!,
+                        _invoiceProvider.getInvoicePaidUnPaid.usersPaid,
                     subDistrictName: _authProvider.userSubDistrict!,
                   ),
                   ContainerTabsRecapitulation(
                     device: device,
                     usersPaidUnPaid:
-                        _invoiceProvider.getInvoicePaidUnPaid.usersUnpaid!,
-                    type: "Belum Lunas",
+                        _invoiceProvider.getInvoicePaidUnPaid.usersUnpaid,
+                    type: 1,
                     subDistrictName: _authProvider.userSubDistrict!,
                   ),
                 ],
@@ -93,16 +94,17 @@ class _RecapitulationPageState extends State<RecapitulationPage>
 }
 
 class ContainerTabsRecapitulation extends StatelessWidget {
-
   final Size device;
-  final String type;
+  final int type;
   final UsersPaidUnPaid usersPaidUnPaid;
   final String subDistrictName;
 
-  const ContainerTabsRecapitulation({
+  final InvoiceProvider _invoiceProvider = Get.find<InvoiceProvider>();
+
+  ContainerTabsRecapitulation({
     super.key,
     required this.device,
-    this.type = "sudah lunas",
+    this.type = 0,
     required this.usersPaidUnPaid,
     this.subDistrictName = '',
   });
@@ -130,33 +132,17 @@ class ContainerTabsRecapitulation extends StatelessWidget {
               ],
             ),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  child: Column(
+                  width: device.width * 0.8,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Total tagihan yang\n$type',
+                        'Total tagihan yang\n${type == 0 ? "Sudah Lunas" : "Belum Lunas"}',
                         style: blackTextStyle,
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        usersPaidUnPaid.count.toString(),
-                        style: blackTextStyle.copyWith(
-                          fontSize: 20,
-                          fontWeight: bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  child: Column(
-                    children: [
-                      Text(
-                        'Total yang harus\ndipungut',
-                        style: blackTextStyle,
-                        textAlign: TextAlign.center,
+                        textAlign: TextAlign.left,
                       ),
                       Text(
                         usersPaidUnPaid.count.toString(),
@@ -180,17 +166,26 @@ class ContainerTabsRecapitulation extends StatelessWidget {
           const SizedBox(
             height: 15,
           ),
-          const SearchInputWidget(),
+          SearchInputWidget(
+            onChange: (String str) =>
+                _invoiceProvider.filterUserByInvoiceStatus(
+              str: str,
+              status: type == 0 ? true : false,
+            ),
+          ),
           ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.vertical,
             physics: const NeverScrollableScrollPhysics(),
-            itemCount: usersPaidUnPaid.records?.length,
+            itemCount: type == 0
+                ? _invoiceProvider.getInvoiceUsersPaidLength
+                : _invoiceProvider.getInvoiceUsersUnPaidLength,
             itemBuilder: (context, index) {
-              final item = usersPaidUnPaid.records?[index];
+              final item = type == 0
+                  ? _invoiceProvider.getInvoiceUsersPaid[index]
+                  : _invoiceProvider.getInvoiceUsersUnPaid[index];
               return Container(
                 margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                   color: whiteColor,
                   boxShadow: [
@@ -201,20 +196,53 @@ class ContainerTabsRecapitulation extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      '${item?.name}',
-                      style: blackTextStyle.copyWith(
-                        fontWeight: FontWeight.w700,
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.name,
+                            style: blackTextStyle.copyWith(
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          Text(
+                            '${item.phoneNumber}',
+                            style: blackTextStyle.copyWith(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      '${item?.phoneNumber}',
-                      style: blackTextStyle.copyWith(
-                        fontWeight: FontWeight.w400,
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                        color: Colors.green,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            type == 0 ? "Sudah Lunas" : "Belum Lunas",
+                            style: blackTextStyle.copyWith(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 11,
+                            ),
+                          ),
+                          Text(
+                            '${item.invoiceCount}',
+                            style: blackTextStyle.copyWith(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

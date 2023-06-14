@@ -1,32 +1,28 @@
 class InvoicePaidUnPaid {
-  UsersPaidUnPaid? usersPaid;
-  UsersPaidUnPaid? usersUnpaid;
+  late UsersPaidUnPaid usersPaid;
+  late UsersPaidUnPaid usersUnpaid;
 
-  InvoicePaidUnPaid({this.usersPaid, this.usersUnpaid});
+  InvoicePaidUnPaid({required this.usersPaid, required this.usersUnpaid});
 
   InvoicePaidUnPaid.fromJson(Map<String, dynamic> json) {
-    usersPaid = json['users.paid'] != null
+    usersPaid = (json['users.paid'] != null
         ? UsersPaidUnPaid.fromJson(json['users.paid'])
-        : null;
-    usersUnpaid = json['users.unpaid'] != null
+        : null)!;
+    usersUnpaid = (json['users.unpaid'] != null
         ? UsersPaidUnPaid.fromJson(json['users.unpaid'])
-        : null;
+        : null)!;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (usersPaid != null) {
-      data['users.paid'] = usersPaid!.toJson();
-    }
-    if (usersUnpaid != null) {
-      data['users.unpaid'] = usersUnpaid!.toJson();
-    }
+    data['users.paid'] = usersPaid.toJson();
+    data['users.unpaid'] = usersUnpaid.toJson();
     return data;
   }
 }
 
 class UsersPaidUnPaid {
-  List<Records>? records;
+  late List<Records> records;
   int? count;
 
   UsersPaidUnPaid({required this.records, this.count});
@@ -35,7 +31,7 @@ class UsersPaidUnPaid {
     if (json['records'] != null) {
       records = <Records>[];
       json['records'].forEach((v) {
-        records!.add(Records.fromJson(v));
+        records.add(Records.fromJson(v));
       });
     }
     count = json['count'];
@@ -43,7 +39,7 @@ class UsersPaidUnPaid {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['records'] = records!.map((v) => v.toJson()).toList();
+    data['records'] = records.map((v) => v.toJson()).toList();
     data['count'] = count;
     return data;
   }
@@ -52,7 +48,7 @@ class UsersPaidUnPaid {
 class Records {
   int? id;
   String? uuid;
-  String? name;
+  late String name;
   String? email;
   String? username;
   String? nik;
@@ -71,7 +67,7 @@ class Records {
   Records(
       {this.id,
       this.uuid,
-      this.name,
+      this.name = '',
       this.email,
       this.username,
       this.nik,

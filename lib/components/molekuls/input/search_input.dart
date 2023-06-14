@@ -3,8 +3,11 @@ import 'package:qr_code_app/shared/theme/init.dart';
 
 
 class SearchInputWidget extends StatelessWidget {
-  const SearchInputWidget({
+  final Function(String) onChange;
+
+  SearchInputWidget({
     super.key,
+    required this.onChange,
   });
 
   @override
@@ -29,6 +32,7 @@ class SearchInputWidget extends StatelessWidget {
             Expanded(
               child: TextFormField(
                 style: primaryTextStyle.copyWith(color: Colors.black),
+                onChanged: (String str) => onChange(str),
                 decoration: InputDecoration(
                   hintText: 'Cari nama, kategori, dll',
                   hintStyle: subtitleTextStyle.copyWith(fontSize: 15),

@@ -38,9 +38,9 @@ class InvoiceRepositories extends GetxService{
   }
 
   
-  Future allUserForInvoicePaidAndUnpaid({required int subDistrictId}) async {
+  Future allUserForInvoicePaidAndUnpaid({required int pemungutId}) async {
     try { 
-      final response = await _client.get('/invoice/users/all/$subDistrictId');
+      final response = await _client.get('/invoice/users/all/$pemungutId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {

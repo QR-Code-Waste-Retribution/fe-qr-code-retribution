@@ -1,3 +1,4 @@
+import 'package:qr_code_app/models/categories/category.dart';
 import 'package:qr_code_app/models/geographic/district.dart';
 import 'package:qr_code_app/models/geographic/sub_district.dart';
 
@@ -98,8 +99,10 @@ class User {
     this.updatedAt,
     this.role,
     this.district,
+    this.status,
     this.subDistrict,
     this.urbanVillage,
+    this.category,
   });
   late final int? id;
   late final String? uuid;
@@ -114,12 +117,14 @@ class User {
   late final int? subDistrictId;
   late final int? districtId;
   late final int? roleId;
+  late final bool? status;
   late final String? createdAt;
   late final String? updatedAt;
   late final Role? role;
   late final District? district;
   late final SubDistrict? subDistrict;
   late final String? urbanVillage;
+  late final List<Category>? category;
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -135,6 +140,7 @@ class User {
     subDistrictId = json['sub_district_id'];
     districtId = json['district_id'];
     roleId = json['role_id'];
+    status = json['status'] == 1 ? true : false;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     role = (json['role'] != null ? Role.fromJson(json['role']) : null)!;
@@ -144,6 +150,12 @@ class User {
     subDistrict = (json['sub_district'] != null
         ? SubDistrict.fromJson(json['sub_district'])
         : null)!;
+    if (json['category'] != null) {
+      category = <Category>[];
+      json['category'].forEach((v) {
+        category!.add(Category.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -164,8 +176,12 @@ class User {
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
     _data['role'] = role;
+    _data['status'] = status;
     _data['district'] = district;
     _data['sub_district'] = subDistrict;
+    if (category != null) {
+      _data['category'] = category!.map((v) => v.toJson()).toList();
+    }
     return _data;
   }
 }

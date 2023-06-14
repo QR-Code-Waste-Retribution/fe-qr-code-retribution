@@ -17,11 +17,15 @@ class UsersProvider extends GetxController {
 
   Rx<User> user = User().obs;
 
+  RxBool isLoading = false.obs;
+
   Future<void> getAllMasyarakatBySubDistrictId(
       {required int? subDistrictId, required int pemungutId}) async {
     try {
-      ResponseAPI response =
-          await _userRepositories.getAllUser(pemungutId: pemungutId, subDistrictId: subDistrictId!);
+      ResponseAPI response = await _userRepositories.getAllUserMasyarakat(
+        pemungutId: pemungutId,
+        subDistrictId: subDistrictId!,
+      );
 
       userList.value = List<User>.from(
         response.data.map(
@@ -42,7 +46,7 @@ class UsersProvider extends GetxController {
   }
 
   Future<void> storeRegisterUser({required UserForm userForm}) async {
-    // try {
+    try {
       ResponseAPI response =
           await _userRepositories.registerUser(userForm: userForm);
 
@@ -57,14 +61,39 @@ class UsersProvider extends GetxController {
       );
 
       update();
-    // } catch (e) {
-    //   Get.snackbar(
-    //     'Error',
-    //     'Failed to get all user : ${e.toString()}',
-    //     backgroundColor: Colors.red,
-    //     colorText: Colors.white,
-    //     borderRadius: 5,
-    //   );
-    // }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to get all user : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
+
+  Future<void> changeStatusMasyarakatSelected({required int userId}) async {
+    try {
+      ResponseAPI response = await _userRepositories
+          .changeStatusSelectedMasyarakat(userId: userId);
+
+      Get.snackbar(
+        "Success",
+        response.message,
+        backgroundColor: primaryColor,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+
+      update();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to get all user : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
   }
 }

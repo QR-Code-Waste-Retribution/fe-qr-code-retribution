@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/input/search_input.dart';
 import 'package:qr_code_app/models/user/user.dart';
+import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/alert_dialog_custom.dart';
+import 'package:qr_code_app/utils/long_string_format.dart';
 
 class ManageUserPage extends StatefulWidget {
   const ManageUserPage({super.key});
@@ -16,6 +21,9 @@ class ManageUserPage extends StatefulWidget {
 
 class _ManageUserPageState extends State<ManageUserPage> {
   bool isSwitched = false;
+
+  List<bool> isSwitchedList = [];
+
   final UsersProvider _usersProvider = Get.find<UsersProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
@@ -65,11 +73,13 @@ class _ManageUserPageState extends State<ManageUserPage> {
       tableRows.add(
         tableRowMasyarakat(
           name: '${item.name}',
-          id: index + 1,
-          category: "Kios ACV",
+          index: index,
+          masyarakatId: item.id!,
+          category: '${item.category?.map((e) => e.name).join(',')}',
         ),
       );
     }
+
     return tableRows;
   }
 
@@ -77,9 +87,108 @@ class _ManageUserPageState extends State<ManageUserPage> {
   void initState() {
     super.initState();
 
-    _usersProvider.getAllMasyarakatBySubDistrictId(
+    _usersProvider.isLoading.value = true;
+    _usersProvider
+        .getAllMasyarakatBySubDistrictId(
       subDistrictId: _authProvider.authData.user?.subDistrictId,
       pemungutId: _authProvider.getUserId!,
+    )
+        .then((value) {
+      for (var index = 0; index < _usersProvider.userList.length; index++) {
+        var item = _usersProvider.userList[index];
+        isSwitchedList.add(item.status!);
+      }
+
+      _usersProvider.isLoading.value = false;
+    });
+  }
+
+  Future<void> changeSelectedStatusMasyarakat({required int userId}) async {
+    _usersProvider.changeStatusMasyarakatSelected(userId: userId);
+  }
+
+  TableRow tableRowMasyarakat({
+    required String name,
+    required int index,
+    required String category,
+    required int masyarakatId,
+  }) {
+    return TableRow(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: blackColor,
+          ),
+        ),
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10, top: 15),
+          child: Text(
+            (index + 1).toString(),
+            style: blackTextStyle,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10, top: 15, right: 7),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name,
+                style: blackTextStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+                child: Text(
+                  StringFormat().longStringFormat(text: category),
+                  style: blackTextStyle.copyWith(
+                      fontWeight: FontWeight.w500, fontSize: 12),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 10, top: 15),
+          child: Row(
+            children: [
+              CustomButton(
+                title: 'Edit',
+                width: 60,
+                height: 35,
+                fontSize: 14,
+                defaultRadiusButton: 10,
+                onPressed: () {
+                  Get.toNamed(Pages.editUserPage);
+                },
+              ),
+              Switch(
+                value: isSwitchedList[index],
+                onChanged: (value) {
+                  AlertDialogCustom.showAlertDialog(
+                    context: context,
+                    onYes: () {
+                      setState(() {
+                        isSwitchedList[index] = value;
+                      });
+                      return changeSelectedStatusMasyarakat(
+                        userId: masyarakatId,
+                      );
+                    },
+                    title: "Ubah status $name",
+                    content: 'Apakah anda yakin?',
+                  );
+                },
+                activeTrackColor: Colors.lightGreenAccent,
+                activeColor: Colors.green,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
@@ -104,7 +213,9 @@ class _ManageUserPageState extends State<ManageUserPage> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(20),
         children: [
-          const SearchInputWidget(),
+          SearchInputWidget(
+            onChange: (e){},
+          ),
           CustomButton(
             title: 'Tambah Akun Baru',
             width: 100,
@@ -120,87 +231,23 @@ class _ManageUserPageState extends State<ManageUserPage> {
             },
           ),
           Obx(
-            () => Table(
-              textDirection: TextDirection.ltr,
-              columnWidths: const {
-                0: FixedColumnWidth(30),
-                1: FixedColumnWidth(165)
-              },
-              defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-              children: makeTableRows(users: _usersProvider.getUserList),
-            ),
+            () {
+              if (_usersProvider.isLoading.value) {
+                return CustomLoading();
+              }
+              return Table(
+                textDirection: TextDirection.ltr,
+                columnWidths: const {
+                  0: FixedColumnWidth(30),
+                  1: FixedColumnWidth(175)
+                },
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                children: makeTableRows(users: _usersProvider.getUserList),
+              );
+            },
           ),
         ],
       ),
-    );
-  }
-
-  TableRow tableRowMasyarakat(
-      {required String name, required int id, required String category}) {
-    return TableRow(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: blackColor,
-          ),
-        ),
-      ),
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10, top: 15),
-          child: Text(
-            id.toString(),
-            style: blackTextStyle,
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10, top: 15, right: 7),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: blackTextStyle.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              Text(
-                'Kios',
-                style: blackTextStyle.copyWith(
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 10, top: 15),
-          child: Row(
-            children: [
-              CustomButton(
-                title: 'Edit',
-                width: 60,
-                height: 35,
-                fontSize: 14,
-                defaultRadiusButton: 10,
-                onPressed: () {
-                  Get.toNamed('/edit_user');
-                },
-              ),
-              Switch(
-                value: isSwitched,
-                onChanged: (value) {
-                  setState(() {
-                    isSwitched = value;
-                  });
-                },
-                activeTrackColor: Colors.lightGreenAccent,
-                activeColor: Colors.green,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

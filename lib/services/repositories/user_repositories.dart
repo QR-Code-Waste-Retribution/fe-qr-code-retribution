@@ -9,9 +9,11 @@ import 'package:qr_code_app/services/api_client.dart';
 class UserRepositories extends GetxService {
   final Dio _client = Client().init();
 
-  Future getAllUser({required int subDistrictId, required int pemungutId}) async {
+  Future getAllUserMasyarakat(
+      {required int subDistrictId, required int pemungutId}) async {
     try {
-      final response = await _client.get('/user/all/$pemungutId?sub_district_id=$subDistrictId');
+      final response = await _client
+          .get('/user/all/$pemungutId?sub_district_id=$subDistrictId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {
@@ -23,6 +25,19 @@ class UserRepositories extends GetxService {
   Future registerUser({required UserForm userForm}) async {
     try {
       final response = await _client.post('/user/add', data: userForm.toJson());
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioError catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    }
+  }
+
+  Future changeStatusSelectedMasyarakat({required int userId}) async {
+    try {
+      final response = await _client.put('/user/status/change', data: {
+        'user_id': userId,
+      });
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioError catch (ex) {

@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
-                        'Edit Profile',
+                        'Edit Profil',
                         style: whiteTextStyle.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
