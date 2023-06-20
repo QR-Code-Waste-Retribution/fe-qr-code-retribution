@@ -3,8 +3,10 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/models/form/edit_profile_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
+import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/binding.dart';
 // import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
@@ -12,7 +14,6 @@ import 'package:qr_code_app/shared/theme/init.dart';
 
 class AuthProvider extends GetxController {
   final AuthRepositories _authRepositories = AuthRepositories();
-  // final PaginationProvider _paginationProvider = Get.find<PaginationProvider>();
 
   final box = GetStorage();
 
@@ -43,6 +44,10 @@ class AuthProvider extends GetxController {
 
   String? get userName => _authData.value.user?.name;
 
+  String? get userPhoneNumber => _authData.value.user?.phoneNumber;
+
+  String? get userAddress => _authData.value.user?.address;
+
   String? get userSubDistrict => _authData.value.user?.subDistrict?.name;
 
   bool checkAuth() {
@@ -63,6 +68,7 @@ class AuthProvider extends GetxController {
       if (response.success) {
         _authData.value = AuthData.fromJson(response.data);
         box.write('authData', jsonEncode(authData.toJson()));
+
         Get.offNamed('/home');
         Get.snackbar(
           "Success",
@@ -111,9 +117,66 @@ class AuthProvider extends GetxController {
     }
   }
 
+  Future<void> getUserData() async {
+    try {
+      final authDataJson = box.read('authData');
+      if (authDataJson != null) {
+        _authData.value = AuthData.fromJson(jsonDecode(authDataJson));
+        update();
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to get data',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+  }
+
+  Future<void> editProfile(
+      {required int userId, required EditProfileForm editProfileForm}) async {
+    try {
+      ResponseAPI response = await _authRepositories.editProfile(
+        userId: userId,
+        editProfileForm: editProfileForm,
+      );
+
+      User userUpdated = User.fromJson(response.data);
+      final authDataJson = box.read('authData');
+
+      if (authDataJson != null) {
+        Map<String, dynamic> authDataMap = jsonDecode(authDataJson);
+        authDataMap['user'] = userUpdated.toJson();
+
+        _authData.value = AuthData.fromJson(authDataMap);
+        update();
+        box.write('authData', jsonEncode(authDataMap));
+        Get.offAndToNamed(Pages.homePage);
+      }
+
+      Get.snackbar(
+        "Success",
+        response.message,
+        backgroundColor: primaryColor,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+
+      update();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Gagal menyimpan data : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
+
   @override
   void onReady() {
-    // TODO: implement onReady
     final authDataJson = box.read('authData');
     if (authDataJson != null) {
       _authData.value = AuthData.fromJson(jsonDecode(authDataJson));

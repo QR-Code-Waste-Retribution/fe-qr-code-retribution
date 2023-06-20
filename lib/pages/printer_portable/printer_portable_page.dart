@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
@@ -16,6 +17,7 @@ class PrinterPortablePage extends StatefulWidget {
 
 class _PrinterPortablePageState extends State<PrinterPortablePage> {
   BlueThermalPrinter printer = BlueThermalPrinter.instance;
+
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
 
@@ -23,7 +25,6 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
   List<BluetoothDevice> _devices = [];
   BluetoothDevice? selected_device;
-  bool _connected = false;
 
   @override
   void initState() {
@@ -33,6 +34,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
   Future<void> initPlatformState() async {
     _devices = await printer.getBondedDevices();
+    print(_devices.toString());
     setState(() {});
   }
 
@@ -150,31 +152,47 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
           children: <Widget>[
             ListView.builder(
               shrinkWrap: true,
-              itemBuilder: (context, position) => ListTile(
-                onTap: () {
-                  setState(() {
-                    selected_device = _devices[position];
-                  });
-                },
-                selectedColor: Colors.amber,
-                style: ListTileStyle.drawer,
-                leading: const Icon(Icons.print),
-                title: Text(_devices[position].name!),
-                subtitle: Text(_devices[position].address!),
-              ),
               itemCount: _devices.length,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                printer.connect(selected_device!);
+              itemBuilder: (context, position) {
+                return ListTile(
+                  onTap: () {
+                    setState(() {
+                      selected_device = _devices[position];
+                    });
+                  },
+                  selectedColor: Colors.amber,
+                  style: ListTileStyle.drawer,
+                  leading: const Icon(Icons.print),
+                  title: Text(_devices[position].name!),
+                  subtitle: Text(_devices[position].address!),
+                );
               },
-              child: const Text('Connect'),
             ),
-            ElevatedButton(
-              onPressed: () {
-                printer.disconnect();
-              },
-              child: const Text('Disconnect'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomButton(
+                  title: 'Connect',
+                  width: 150,
+                  height: 40,
+                  fontSize: 15,
+                  defaultRadiusButton: 5,
+                  onPressed: () {
+                    printer.connect(selected_device!);
+                  },
+                ),
+                CustomButton(
+                  title: 'Disconnect',
+                  width: 150,
+                  height: 40,
+                  fontSize: 15,
+                  backgroundColor: redColor,
+                  defaultRadiusButton: 5,
+                  onPressed: () {
+                    printer.disconnect();
+                  },
+                ),
+              ],
             ),
             ElevatedButton(
               onPressed: () async {

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/models/form/edit_profile_form.dart';
 import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/api_client.dart';
@@ -45,4 +46,5 @@ class UserRepositories extends GetxService {
       return ResponseAPI.fromJson(jsonDecodeResponse);
     }
   }
+
 }

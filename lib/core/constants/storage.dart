@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/models/user/user.dart';
 
 class StorageReferences {
-  final box = GetStorage();
+  static final box = GetStorage();
 
   static const String authData = 'authData';
 
@@ -19,6 +22,18 @@ class StorageReferences {
     box.remove(dokuBankVA);
     box.remove(urlPaymentDoku);
   }
+
+  static String getAuthToken() {
+    String? storedAuthData = box.read(authData);
+    try {
+      AuthData? authData = AuthData.fromJson(jsonDecode(storedAuthData!));
+      return authData.accessToken;
+    } catch (e) {
+      print('Error decoding JSON data: $e');
+    }
+    return '';
+  }
+
 
   List<int?> getInvoiceIdArrayFromLocalStorage() {
     List<int?> arrInvoiceId = [];

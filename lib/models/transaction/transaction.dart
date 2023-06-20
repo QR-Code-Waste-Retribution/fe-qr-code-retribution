@@ -1,4 +1,5 @@
 import 'package:qr_code_app/models/categories/category.dart';
+import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/models/price.dart';
 import 'package:qr_code_app/models/timestamp.dart';
 import 'package:qr_code_app/models/user/user.dart';
@@ -16,6 +17,7 @@ class Transaction {
   Category? category;
   TimeStamp? createdAt;
   TimeStamp? updatedAt;
+  List<Invoice>? invoice;
 
   Transaction(
       {this.id,
@@ -29,7 +31,8 @@ class Transaction {
       this.pemungutId,
       this.category,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.invoice});
 
   Transaction.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -41,15 +44,20 @@ class Transaction {
     transactionNumber = json['transaction_number'];
     user = json['user'] != null ? User.fromJson(json['user']) : null;
     pemungutId = json['pemungut_id'];
-    category = json['category'] != null
-        ? Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
     createdAt = json['created_at'] != null
         ? TimeStamp.fromJson(json['created_at'])
         : null;
     updatedAt = json['updated_at'] != null
         ? TimeStamp.fromJson(json['updated_at'])
         : null;
+    if (json['invoice'] != null) {
+      invoice = <Invoice>[];
+      json['invoice'].forEach((v) {
+        invoice!.add(Invoice.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -75,6 +83,9 @@ class Transaction {
     }
     if (updatedAt != null) {
       data['updated_at'] = updatedAt!.toJson();
+    }
+    if (invoice != null) {
+      data['invoice'] = invoice!.map((v) => v.toJson()).toList();
     }
     return data;
   }

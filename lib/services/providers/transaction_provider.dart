@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/molekuls/webview/web_view_doku.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
+import 'package:qr_code_app/models/transaction/transaction.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/models/transaction/transaction_list.dart';
 import 'package:qr_code_app/models/transaction/transaction_store.dart';
@@ -24,6 +25,9 @@ class TransactionProvider extends GetxController {
 
   final Rx<TransactionInvoice> _transactionInvoice =
       TransactionInvoice(invoice: [], transaction: null).obs;
+
+  final Rx<Transaction> _transactionWithInvoice =
+      Transaction(invoice: []).obs;
 
   final Rx<TransactionList> _transactionList =
       TransactionList(transaction: [], totalAmount: 0).obs;
@@ -142,6 +146,26 @@ class TransactionProvider extends GetxController {
           .transactionByMasyarakatId(masyarakatId: masyarakatId!);
 
       _transactionList.value = TransactionList.fromJson(response.data);
+      isLoading.value = false;
+      update();
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        'Failed to get transaction : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
+
+  Future<void> getTransactionWithInvoiceByMasyarakatId({int? masyarakatId}) async {
+    try {
+      ResponseAPI response = await _transactionRepositories
+          .transactionWithInvoiceByMasyarakatId(masyarakatId: masyarakatId!);
+
+      _transactionWithInvoice.value = Transaction.fromJson(response.data);
+
       isLoading.value = false;
       update();
     } catch (e) {

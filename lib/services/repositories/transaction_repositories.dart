@@ -103,4 +103,19 @@ class TransactionRepositories extends GetxService {
       throw Exception("Failed to get invoice user: $e");
     }
   }
+
+  Future transactionWithInvoiceByMasyarakatId(
+      {required int masyarakatId}) async {
+    try {
+      final response = await _client.get('/transaction/$masyarakatId');
+      final jsonDecodeResponse = jsonDecode(response.toString());
+
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioError catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } catch (e) {
+      throw Exception("Failed to get invoice user: $e");
+    }
+  }
 }

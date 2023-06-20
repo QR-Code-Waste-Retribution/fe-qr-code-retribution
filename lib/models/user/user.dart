@@ -21,6 +21,11 @@ class AuthData {
     user = User.fromJson(json['user']);
   }
 
+  void setUser(User userUpdated){
+    user = userUpdated;
+  }
+
+
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['access_token'] = accessToken;
@@ -99,7 +104,8 @@ class User {
     this.updatedAt,
     this.role,
     this.district,
-    this.status,
+    this.accountStatus,
+    this.verificationStatus,
     this.subDistrict,
     this.urbanVillage,
     this.category,
@@ -117,7 +123,7 @@ class User {
   late final int? subDistrictId;
   late final int? districtId;
   late final int? roleId;
-  late final bool? status;
+  late final bool? accountStatus;
   late final String? createdAt;
   late final String? updatedAt;
   late final Role? role;
@@ -125,6 +131,7 @@ class User {
   late final SubDistrict? subDistrict;
   late final String? urbanVillage;
   late final List<Category>? category;
+  late final int? verificationStatus;
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -139,8 +146,9 @@ class User {
     emailVerifiedAt = json['email_verified_at'] ?? '';
     subDistrictId = json['sub_district_id'];
     districtId = json['district_id'];
+    verificationStatus = json['verification_status'];
     roleId = json['role_id'];
-    status = json['status'] == 1 ? true : false;
+    accountStatus = json['account_status'] == 1 ? true : false;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     role = (json['role'] != null ? Role.fromJson(json['role']) : null)!;
@@ -175,10 +183,11 @@ class User {
     _data['role_id'] = roleId;
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
-    _data['role'] = role;
-    _data['status'] = status;
-    _data['district'] = district;
-    _data['sub_district'] = subDistrict;
+    _data['role'] = role?.toJson();
+    _data['account_status'] = accountStatus;
+    _data['verification_status'] = verificationStatus;
+    _data['district'] = district?.toJson();
+    _data['sub_district'] = subDistrict?.toJson();
     if (category != null) {
       _data['category'] = category!.map((v) => v.toJson()).toList();
     }

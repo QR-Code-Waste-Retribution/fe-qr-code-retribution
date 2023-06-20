@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/input/search_input.dart';
@@ -96,9 +95,8 @@ class _ManageUserPageState extends State<ManageUserPage> {
         .then((value) {
       for (var index = 0; index < _usersProvider.userList.length; index++) {
         var item = _usersProvider.userList[index];
-        isSwitchedList.add(item.status!);
+        isSwitchedList.add(item.accountStatus!);
       }
-
       _usersProvider.isLoading.value = false;
     });
   }
@@ -214,7 +212,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
         padding: const EdgeInsets.all(20),
         children: [
           SearchInputWidget(
-            onChange: (e){},
+            onChange: (e) {},
           ),
           CustomButton(
             title: 'Tambah Akun Baru',

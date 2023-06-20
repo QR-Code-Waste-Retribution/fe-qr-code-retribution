@@ -1,15 +1,23 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/models/form/edit_profile_form.dart';
 import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
+import 'package:qr_code_app/routes/init.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/repositories/user_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class UsersProvider extends GetxController {
   final UserRepositories _userRepositories = UserRepositories();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
+  final box = GetStorage();
 
   final RxList<User> userList = <User>[].obs;
 

@@ -15,6 +15,12 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
+  @override
+  void initState() {
+    print(_authProvider.userAddress);
+    super.initState();
+  }
+
   Size device = const Size(0, 0);
 
   Future<void> logout() async {

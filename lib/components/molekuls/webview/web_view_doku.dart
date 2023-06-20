@@ -10,8 +10,11 @@ class WebViewDoku extends StatefulWidget {
   final String url;
   final int transactionId;
 
-  const WebViewDoku(
-      {super.key, required this.url, required this.transactionId});
+  const WebViewDoku({
+    super.key,
+    required this.url,
+    required this.transactionId,
+  });
 
   @override
   State<WebViewDoku> createState() => _WebViewDokuState();

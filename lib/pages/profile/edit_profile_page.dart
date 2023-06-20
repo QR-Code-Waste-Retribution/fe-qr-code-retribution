@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
+import 'package:qr_code_app/utils/alert_dialog_custom.dart';
+import 'package:qr_code_app/models/form/edit_profile_form.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -13,6 +17,8 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+
   var phoneNumberController = TextEditingController();
   var addressController = TextEditingController();
 
@@ -22,6 +28,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
     super.dispose();
     phoneNumberController.dispose();
     addressController.dispose();
+  }
+
+  Future<void> saveChangeEditedProfile() async {
+
+    _authProvider.editProfile(
+      userId: _authProvider.getUserId!,
+      editProfileForm: EditProfileForm(
+        phoneNumber: phoneNumberController.text,
+        address: addressController.text,
+      ),
+    );
+
   }
 
   @override
@@ -67,7 +85,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 width: 20,
               ),
               Text(
-                'Ahmad Sianipar',
+                _authProvider.userName!,
                 style: primaryTextStyle.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -85,7 +103,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 width: 20,
               ),
               Text(
-                '0821676636382',
+                _authProvider.userPhoneNumber!,
                 style: primaryTextStyle.copyWith(
                   fontWeight: FontWeight.w600,
                   fontSize: 16,
@@ -100,6 +118,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
             hintText: "No Telepon",
             subLabel: 'Cth : 082167663638',
             inputController: phoneNumberController,
+            keyboardType: TextInputType.number,
           ),
           InputGroup(
             hintText: "Alamat",
@@ -116,7 +135,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
             height: 45,
             fontSize: 14,
             defaultRadiusButton: 10,
-            onPressed: () {},
+            onPressed: () {
+              AlertDialogCustom.showAlertDialog(
+                context: context,
+                onYes: () => saveChangeEditedProfile(),
+                title: "Edit profil",
+                content: 'Apakah anda yakin?',
+              );
+            },
           ),
         ],
       ),
