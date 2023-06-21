@@ -231,13 +231,16 @@ class _ManageUserPageState extends State<ManageUserPage> {
           Obx(
             () {
               if (_usersProvider.isLoading.value) {
-                return CustomLoading();
+                return CustomLoading(
+                  loadingColor: primaryColor,
+                  textColor: primaryColor,
+                );
               }
               return Table(
                 textDirection: TextDirection.ltr,
                 columnWidths: const {
                   0: FixedColumnWidth(30),
-                  1: FixedColumnWidth(175)
+                  1: FixedColumnWidth(155)
                 },
                 defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: makeTableRows(users: _usersProvider.getUserList),

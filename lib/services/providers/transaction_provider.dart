@@ -26,8 +26,7 @@ class TransactionProvider extends GetxController {
   final Rx<TransactionInvoice> _transactionInvoice =
       TransactionInvoice(invoice: [], transaction: null).obs;
 
-  final Rx<Transaction> _transactionWithInvoice =
-      Transaction(invoice: []).obs;
+  final Rx<Transaction> _transactionWithInvoice = Transaction(invoice: []).obs;
 
   final Rx<TransactionList> _transactionList =
       TransactionList(transaction: [], totalAmount: 0).obs;
@@ -159,7 +158,8 @@ class TransactionProvider extends GetxController {
     }
   }
 
-  Future<void> getTransactionWithInvoiceByMasyarakatId({int? masyarakatId}) async {
+  Future<void> getTransactionWithInvoiceByMasyarakatId(
+      {int? masyarakatId}) async {
     try {
       ResponseAPI response = await _transactionRepositories
           .transactionWithInvoiceByMasyarakatId(masyarakatId: masyarakatId!);

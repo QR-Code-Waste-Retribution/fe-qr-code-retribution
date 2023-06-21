@@ -71,8 +71,10 @@ class _AddUserPageState extends State<AddUserPage> {
     _geographicProvider
         .getAllSubDistrictByDistrictId(districtId: _authProvider.districtId!)
         .then((value) {
+      // dropdownSubDistrictValue =
+      //     _geographicProvider.getListSubDistricts![0].id.toString();
       dropdownSubDistrictValue =
-          _geographicProvider.getListSubDistricts![0].id.toString();
+          _authProvider.userSubDistrictId!;
     });
   }
 

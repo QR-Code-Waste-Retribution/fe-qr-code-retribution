@@ -34,7 +34,6 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
   Future<void> initPlatformState() async {
     _devices = await printer.getBondedDevices();
-    print(_devices.toString());
     setState(() {});
   }
 

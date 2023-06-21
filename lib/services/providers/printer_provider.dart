@@ -1,6 +1,8 @@
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:get/get.dart';
 
+typedef CallbackPrintFunction = void Function();
+
 class PrinterProvider extends GetxController {
   final Rx<BlueThermalPrinter> printer = BlueThermalPrinter.instance.obs;
 
@@ -31,9 +33,10 @@ class PrinterProvider extends GetxController {
     return result;
   }
 
-  Future<void> print() async {
+  Future<void> print(CallbackPrintFunction callbackPrintFunction) async {
     if ((await getPrinter.isConnected)!) {
       // TODO: Make function print GETX Dynamically
+      callbackPrintFunction();
     }
   }
 

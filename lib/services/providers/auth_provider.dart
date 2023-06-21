@@ -49,6 +49,8 @@ class AuthProvider extends GetxController {
   String? get userAddress => _authData.value.user?.address;
 
   String? get userSubDistrict => _authData.value.user?.subDistrict?.name;
+  
+  String? get userSubDistrictId => _authData.value.user?.subDistrict?.id.toString();
 
   bool checkAuth() {
     final authDataJson = box.read('authData');

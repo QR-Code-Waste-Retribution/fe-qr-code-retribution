@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
+import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -227,7 +228,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     children: [
                       CustomButton(
                         onPressed: () {
-                          Get.toNamed('printer_portable_page');
+                          Get.toNamed(Pages.printerPortablePage);
                         },
                         title: 'Print',
                         width: 120,
@@ -240,7 +241,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                       ),
                       CustomButton(
                         onPressed: () {
-                          Get.toNamed('/home');
+                          Get.toNamed(Pages.homePage);
                         },
                         backgroundColor: redColor,
                         title: 'Kembali',

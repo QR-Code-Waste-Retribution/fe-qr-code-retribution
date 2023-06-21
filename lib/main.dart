@@ -23,8 +23,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       getPages: Pages.pages,
       initialRoute: _authProvider.checkAuth()
-          ? Pages.printerPortablePage
-          : Pages.printerPortablePage,
+          ? Pages.homePage
+          : Pages.loginPage,
       initialBinding: AppBindings(),
     );
   }
