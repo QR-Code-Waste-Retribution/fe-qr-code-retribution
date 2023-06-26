@@ -51,7 +51,7 @@ class InvoiceCard extends StatelessWidget {
                 style: blackTextStyle,
               ),
               Text(
-                invoice.category.name,
+                invoice.category.name!,
                 style: primaryTextStyle,
               ),
             ],

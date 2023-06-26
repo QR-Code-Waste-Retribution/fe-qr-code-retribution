@@ -32,7 +32,7 @@ class _AddUserPageState extends State<AddUserPage> {
   final UsersProvider _usersProvider = Get.find<UsersProvider>();
   final GeographicProvider _geographicProvider = Get.find<GeographicProvider>();
 
-  String dropdownCategoryValue = '';
+  String dropdownCategoryValue = '1';
   String dropdownSubDistrictValue = '';
 
   List<TextEditingController> textInputControllers = [];
@@ -65,14 +65,14 @@ class _AddUserPageState extends State<AddUserPage> {
       dropdownCategoryValue =
           _categoriesProvider.getCategoriesList.categories[0].id.toString();
       _categoriesProvider.priceSelectedCategories(
-        idSelected: _categoriesProvider.getCategoriesList.categories[0].id,
+        idSelected: _categoriesProvider.getCategoriesList.categories[0].id!,
       );
     });
     _geographicProvider
         .getAllSubDistrictByDistrictId(districtId: _authProvider.districtId!)
         .then((value) {
-      // dropdownSubDistrictValue =
-      //     _geographicProvider.getListSubDistricts![0].id.toString();
+      dropdownSubDistrictValue =
+          _geographicProvider.getListSubDistricts![0].id.toString();
       dropdownSubDistrictValue =
           _authProvider.userSubDistrictId!;
     });
@@ -201,7 +201,7 @@ class _AddUserPageState extends State<AddUserPage> {
                               : true,
                           value: category.id.toString(),
                           child: Text(
-                            category.name,
+                            "${category.name}",
                             style: blackTextStyle.copyWith(
                               fontSize: 16,
                             ),

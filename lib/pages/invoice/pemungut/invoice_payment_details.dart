@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/routes/init.dart';
+import 'package:qr_code_app/services/providers/printer_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -17,6 +18,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   Size device = const Size(0, 0);
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
+
+  final PrinterProvider _printerProvider = Get.find<PrinterProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -228,7 +231,12 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     children: [
                       CustomButton(
                         onPressed: () {
-                          Get.toNamed(Pages.printerPortablePage);
+                          // Get.toNamed(Pages.printerPortablePage);
+
+                          _printerProvider.showModalAllPrinters(
+                            context: context,
+                            height: device.height,
+                          );
                         },
                         title: 'Print',
                         width: 120,
@@ -241,7 +249,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                       ),
                       CustomButton(
                         onPressed: () {
-                          Get.toNamed(Pages.homePage);
+                          Get.offAndToNamed(Pages.homePage);
                         },
                         backgroundColor: redColor,
                         title: 'Kembali',

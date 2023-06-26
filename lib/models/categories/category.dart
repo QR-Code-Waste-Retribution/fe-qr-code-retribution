@@ -2,28 +2,28 @@ import 'package:qr_code_app/models/timestamp.dart';
 import 'package:qr_code_app/models/geographic/district.dart';
 
 class Category {
-  late final int id;
-  late final String name;
-  late final String description;
-  late final int price;
-  late final String status;
-  late final String type;
-  late final int parentId;
-  late final District district;
-  late final TimeStamp createdAt;
-  late final TimeStamp updatedAt;
+  int? id;
+  String? name;
+  String? description;
+  int? price;
+  String? status;
+  String? type;
+  int? parentId;
+  District? district;
+  TimeStamp? createdAt;
+  TimeStamp? updatedAt;
 
   Category(
-      {required this.id,
-      required this.name,
-      required this.description,
-      required this.price,
-      required this.status,
-      required this.type,
-      required this.parentId,
-      required this.district,
-      required this.createdAt,
-      required this.updatedAt});
+      {this.id,
+      this.name,
+      this.description,
+      this.price,
+      this.status,
+      this.type,
+      this.parentId,
+      this.district,
+      this.createdAt,
+      this.updatedAt});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -53,9 +53,9 @@ class Category {
     data['status'] = status;
     data['type'] = type;
     data['parent_id'] = parentId;
-    data['district'] = district.toJson();
-    data['created_at'] = createdAt.toJson();
-    data['updated_at'] = updatedAt.toJson();
+    data['district'] = district?.toJson();
+    data['created_at'] = createdAt?.toJson();
+    data['updated_at'] = updatedAt?.toJson();
     return data;
   }
 }

@@ -34,7 +34,11 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
   Future<void> initPlatformState() async {
     _devices = await printer.getBondedDevices();
+
     setState(() {});
+    for (var element in _devices) {
+      print("${element.name} ${element.connected}");
+    }
   }
 
   @override
@@ -176,7 +180,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
                   height: 40,
                   fontSize: 15,
                   defaultRadiusButton: 5,
-                  onPressed: () {
+                  onPressed: () async {
                     printer.connect(selected_device!);
                   },
                 ),

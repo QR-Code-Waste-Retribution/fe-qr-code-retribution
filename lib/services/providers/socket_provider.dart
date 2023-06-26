@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
+import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
@@ -36,25 +37,25 @@ class SocketProvider extends GetxController {
       socket.on('va_status', (data) {
         vaStatus.value = data['status'];
         if (vaStatus.value) {
-          
           StorageReferences().removeStorageReferencesDokuPayment();
 
           Get.snackbar(
             "Success",
-            data.toString(),
+            "Berhasil melakukan pembayaran",
             backgroundColor: primaryColor,
             colorText: Colors.white,
             borderRadius: 5,
           );
+
+          Get.toNamed(Pages.homePage);
         }
       });
     }
 
     socket.on('message', (data) {
-      print(data.toString());
       Get.snackbar(
         "Success",
-        data.toString(),
+        "",
         backgroundColor: primaryColor,
         colorText: Colors.white,
         borderRadius: 5,

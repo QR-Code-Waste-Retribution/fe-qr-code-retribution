@@ -22,7 +22,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
   final priceController = TextEditingController();
 
   final AuthProvider _authProvider = Get.find<AuthProvider>();
-  String dropdownValue = '';
+  String dropdownValue = '1';
 
   Size device = const Size(0, 0);
 
@@ -37,12 +37,11 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
       priceController.text =
           _categoriesProvider.getCategoriesList.categories[0].price.toString();
       _categoriesProvider.priceSelectedCategories(
-        idSelected: _categoriesProvider.getCategoriesList.categories[0].id,
+        idSelected: _categoriesProvider.getCategoriesList.categories[0].id!,
       );
     });
     super.initState();
   }
-
 
   @override
   void dispose() {
@@ -73,38 +72,40 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
               color: backgroundColor6,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: DropdownButton<String>(
-              alignment: Alignment.bottomCenter,
-              value: dropdownValue,
-              isExpanded: true,
-              icon: const Icon(Icons.arrow_drop_down_rounded),
-              iconSize: 24,
-              borderRadius: BorderRadius.circular(20),
-              underline: Container(height: 0),
-              style: const TextStyle(color: Colors.deepPurple),
-              onChanged: (String? newValue) {
-                setState(() {
-                  dropdownValue = newValue!;
-                });
-                _categoriesProvider.priceSelectedCategories(
-                  idSelected: int.parse(newValue!),
-                );
-                priceController.text =
-                    _categoriesProvider.getPriceSelectedCategory;
-              },
-              items: _categoriesProvider.getCategoriesList.categories
-                  .map<DropdownMenuItem<String>>((Category category) {
-                return DropdownMenuItem(
-                  enabled: category.name == dropdownValue ? false : true,
-                  value: category.id.toString(),
-                  child: Text(
-                    category.name,
-                    style: blackTextStyle.copyWith(
-                      fontSize: 16,
+            child: Obx(
+              () => DropdownButton<String>(
+                alignment: Alignment.bottomCenter,
+                value: dropdownValue,
+                isExpanded: true,
+                icon: const Icon(Icons.arrow_drop_down_rounded),
+                iconSize: 24,
+                borderRadius: BorderRadius.circular(20),
+                underline: Container(height: 0),
+                style: const TextStyle(color: Colors.deepPurple),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    dropdownValue = newValue!;
+                  });
+                  _categoriesProvider.priceSelectedCategories(
+                    idSelected: int.parse(newValue!),
+                  );
+                  priceController.text =
+                      _categoriesProvider.getPriceSelectedCategory;
+                },
+                items: _categoriesProvider.getCategoriesList.categories
+                    .map<DropdownMenuItem<String>>((Category category) {
+                  return DropdownMenuItem(
+                    enabled: category.name == dropdownValue ? false : true,
+                    value: category.id.toString(),
+                    child: Text(
+                      "${category.name}",
+                      style: blackTextStyle.copyWith(
+                        fontSize: 16,
+                      ),
                     ),
-                  ),
-                );
-              }).toList(),
+                  );
+                }).toList(),
+              ),
             ),
           ),
         ],
@@ -203,42 +204,32 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
           ),
         ),
       ),
-      body: Obx(
-        () {
-          if (_categoriesProvider.isLoading.value) {
-            return CustomLoading(
-              textColor: secondaryColor,
-              loadingColor: secondaryColor,
-            );
-          }
-          return ListView(
-            padding: const EdgeInsets.all(20),
-            children: [
-              dropdownChooseCategory(),
-              priceInput(),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                'Apakah masyarakat ingin membayar retribusi sampah secara tunai sekarang?',
-                style: primaryTextStyle,
-              ),
-              CustomButton(
-                title: 'Bayar',
-                width: 120,
-                margin: const EdgeInsets.only(
-                  top: 30,
-                  bottom: 80,
-                ),
-                onPressed: () {
-                  Get.to(
-                    () => const InvoiceAdditionalPage(),
-                  );
-                },
-              ),
-            ],
-          );
-        },
+      body: ListView(
+        padding: const EdgeInsets.all(20),
+        children: [
+          dropdownChooseCategory(),
+          priceInput(),
+          const SizedBox(
+            height: 10,
+          ),
+          Text(
+            'Apakah masyarakat ingin membayar retribusi sampah secara tunai sekarang?',
+            style: primaryTextStyle,
+          ),
+          CustomButton(
+            title: 'Bayar',
+            width: 120,
+            margin: const EdgeInsets.only(
+              top: 30,
+              bottom: 80,
+            ),
+            onPressed: () {
+              Get.to(
+                () => const InvoiceAdditionalPage(),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

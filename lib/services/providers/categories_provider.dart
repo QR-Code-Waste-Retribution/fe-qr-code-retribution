@@ -7,7 +7,8 @@ import 'package:qr_code_app/services/repositories/categories_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class CategoriesProvider extends GetxController {
-  final Rx<ListCategories> _categories = ListCategories(categories: []).obs;
+  final Rx<ListCategories> _categories =
+      ListCategories(categories: [Category(id: 1, name: "Test")]).obs;
 
   final CategoriesRepositories _categoriesRepositories =
       CategoriesRepositories();
@@ -24,10 +25,15 @@ class CategoriesProvider extends GetxController {
 
   String get getPriceSelectedCategory => priceSelected.value.toString();
 
+  @override
+  void onInit() {
+    super.onInit();
+  }
+
   void priceSelectedCategories({required int idSelected}) {
     for (var category in getCategoriesList.categories) {
       if (category.id == idSelected) {
-        priceSelected.value = category.price;
+        priceSelected.value = category.price!;
         categorySelected.value = category;
       }
     }

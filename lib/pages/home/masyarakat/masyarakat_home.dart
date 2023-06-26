@@ -219,7 +219,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                               ),
                               item.status == 1
                                   ? InvoicePaidCard(
-                                      categoryName: item.category.name,
+                                      categoryName: item.category.name!,
                                     )
                                   : InvoiceCard(
                                       invoice: item,

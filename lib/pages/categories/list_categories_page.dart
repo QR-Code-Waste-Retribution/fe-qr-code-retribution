@@ -136,7 +136,7 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
                         for (var item in _categoriesProvider
                             .getCategoriesList.categories)
                           tableRowMasyarakat(
-                            category: item.name,
+                            category: item.name!,
                             price:
                                 '${NumberFormatPrice().formatPrice(price: item.price)}/bulan',
                           ),

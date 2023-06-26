@@ -65,7 +65,7 @@ class _EditUserPageState extends State<EditUserPage> {
       dropdownCategoryValue =
           _categoriesProvider.getCategoriesList.categories[0].id.toString();
       _categoriesProvider.priceSelectedCategories(
-        idSelected: _categoriesProvider.getCategoriesList.categories[0].id,
+        idSelected: _categoriesProvider.getCategoriesList.categories[0].id!,
       );
     });
     _geographicProvider
@@ -166,47 +166,45 @@ class _EditUserPageState extends State<EditUserPage> {
                 const SizedBox(
                   height: 7,
                 ),
-                Obx(
-                      () => Container(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
-                    decoration: BoxDecoration(
-                      color: backgroundColor6,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: DropdownButton<String>(
-                      alignment: Alignment.bottomCenter,
-                      value: dropdownCategoryValue,
-                      isExpanded: true,
-                      icon: const Icon(Icons.arrow_drop_down_rounded),
-                      iconSize: 24,
-                      borderRadius: BorderRadius.circular(20),
-                      underline: Container(height: 0),
-                      style: const TextStyle(color: Colors.deepPurple),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownCategoryValue = newValue!;
-                        });
-                        _categoriesProvider.priceSelectedCategories(
-                          idSelected: int.parse(newValue!),
-                        );
-                      },
-                      items: _categoriesProvider.getCategoriesList.categories
-                          .map<DropdownMenuItem<String>>((Category category) {
-                        return DropdownMenuItem(
-                          enabled: category.name == dropdownCategoryValue
-                              ? false
-                              : true,
-                          value: category.id.toString(),
-                          child: Text(
-                            category.name,
-                            style: blackTextStyle.copyWith(
-                              fontSize: 16,
-                            ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
+                  decoration: BoxDecoration(
+                    color: backgroundColor6,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DropdownButton<String>(
+                    alignment: Alignment.bottomCenter,
+                    value: dropdownCategoryValue,
+                    isExpanded: true,
+                    icon: const Icon(Icons.arrow_drop_down_rounded),
+                    iconSize: 24,
+                    borderRadius: BorderRadius.circular(20),
+                    underline: Container(height: 0),
+                    style: const TextStyle(color: Colors.deepPurple),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        dropdownCategoryValue = newValue!;
+                      });
+                      _categoriesProvider.priceSelectedCategories(
+                        idSelected: int.parse(newValue!),
+                      );
+                    },
+                    items: _categoriesProvider.getCategoriesList.categories
+                        .map<DropdownMenuItem<String>>((Category category) {
+                      return DropdownMenuItem(
+                        enabled: category.name == dropdownCategoryValue
+                            ? false
+                            : true,
+                        value: category.id.toString(),
+                        child: Text(
+                          "${category.name}",
+                          style: blackTextStyle.copyWith(
+                            fontSize: 16,
                           ),
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                 ),
               ],
@@ -229,7 +227,7 @@ class _EditUserPageState extends State<EditUserPage> {
                   height: 7,
                 ),
                 Obx(
-                      () => Container(
+                  () => Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 15,
                       vertical: 1,
@@ -255,19 +253,19 @@ class _EditUserPageState extends State<EditUserPage> {
                       items: _geographicProvider.getListSubDistricts
                           ?.map<DropdownMenuItem<String>>(
                               (SubDistrict subDistrict) {
-                            return DropdownMenuItem(
-                              enabled: subDistrict.name == dropdownSubDistrictValue
-                                  ? false
-                                  : true,
-                              value: subDistrict.id.toString(),
-                              child: Text(
-                                subDistrict.name,
-                                style: blackTextStyle.copyWith(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            );
-                          }).toList(),
+                        return DropdownMenuItem(
+                          enabled: subDistrict.name == dropdownSubDistrictValue
+                              ? false
+                              : true,
+                          value: subDistrict.id.toString(),
+                          child: Text(
+                            subDistrict.name,
+                            style: blackTextStyle.copyWith(
+                              fontSize: 16,
+                            ),
+                          ),
+                        );
+                      }).toList(),
                     ),
                   ),
                 ),

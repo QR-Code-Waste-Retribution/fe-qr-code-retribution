@@ -40,7 +40,7 @@ class _InvoiceAdditionalPageState extends State<InvoiceAdditionalPage> {
       )
     ];
     transactionStore.totalAmount =
-        _categoriesProvider.getCategorySelected?.price.toDouble();
+        _categoriesProvider.getCategorySelected?.price?.toDouble();
     transactionStore.masyarakatId = 1;
     transactionStore.pemungutId = _authProvider.getUserId;
     transactionStore.subDistrictId = _authProvider.subDistrictId;
@@ -72,7 +72,7 @@ class _InvoiceAdditionalPageState extends State<InvoiceAdditionalPage> {
                   ),
                 ),
                 Text(
-                  category.name,
+                  "${category.name}",
                   style: blackTextStyle.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 16,
