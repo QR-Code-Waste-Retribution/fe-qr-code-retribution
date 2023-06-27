@@ -23,25 +23,105 @@ class Pages {
   static const String virtualAccountPayPage = '/virtual_account_pay_page';
 
   static final List<GetPage> pages = [
-    GetPage(name: loginPage, page: () => const LoginPage()),
-    GetPage(name: homePage, page: () => const HomePagination()),
-    GetPage(name: recapitulationPage, page: () => const RecapitulationPage()),
-    GetPage(name: invoicePage, page: () => const InvoicePeoplePage()),
-    GetPage(name: scanQRCodePage, page: () => const QRCodeScannerPage()),
-    GetPage(name: generateQRCodePage, page: () => const QRCodeGeneratorPage()),
-    GetPage(name: additionalRetributionPage, page: () => const AdditionalRetributionPage()),
-    GetPage(name: manageUserPage, page: () => const ManageUserPage()),
-    GetPage(name: nonCashPaymentPage, page: () => const NonCashPage()),
-    GetPage(name: virtualAccountListPage, page: () => const VirtualAccountListPage()),
-    GetPage(name: printerPortablePage, page: () => const PrinterPortablePage()),
-    GetPage(name: invoicePaymentsDetailsPage, page: () => const PaymentDetails()),
-    GetPage(name: addUserPage, page: () => const AddUserPage()),
-    GetPage(name: editUserPage, page: () => const EditUserPage()),
-    GetPage(name: historyPaymentPemungutPage, page: () => const HistoryPaymentPemungutPage()),
-    GetPage(name: changePasswordPage, page: () => const ChangePasswordPage()),
-    GetPage(name: editProfilePage, page: () => const EditProfilePage()),
-    GetPage(name: forgetPasswordPage, page: () => const ForgetPasswordPage()),
-    GetPage(name: listCategoriesPage, page: () => const ListCategoriesPage()),
-    GetPage(name: virtualAccountPayPage, page: () => const VirtualAccountPayPage()),
+    GetPage(
+      name: loginPage,
+      page: () => const LoginPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: homePage,
+      page: () => const HomePagination(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: recapitulationPage,
+      page: () => const RecapitulationPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: invoicePage,
+      page: () => const InvoicePeoplePage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: scanQRCodePage,
+      page: () => const QRCodeScannerPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: generateQRCodePage,
+      page: () => const QRCodeGeneratorPage(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: additionalRetributionPage,
+      page: () => const AdditionalRetributionPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: manageUserPage,
+      page: () => const ManageUserPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: nonCashPaymentPage,
+      page: () => const NonCashPage(),
+      transition: Transition.rightToLeftWithFade,
+    ),
+    GetPage(
+      name: virtualAccountListPage,
+      page: () => const VirtualAccountListPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: printerPortablePage,
+      page: () => const PrinterPortablePage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: invoicePaymentsDetailsPage,
+      page: () => const PaymentDetails(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: addUserPage,
+      page: () => const AddUserPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: editUserPage,
+      page: () => const EditUserPage(),
+      transition: Transition.fadeIn,
+    ),
+    GetPage(
+      name: historyPaymentPemungutPage,
+      page: () => const HistoryPaymentPemungutPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: changePasswordPage,
+      page: () => const ChangePasswordPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: editProfilePage,
+      page: () => const EditProfilePage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: forgetPasswordPage,
+      page: () => const ForgetPasswordPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: listCategoriesPage,
+      page: () => const ListCategoriesPage(),
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: virtualAccountPayPage,
+      page: () => const VirtualAccountPayPage(),
+      transition: Transition.fade,
+    ),
   ];
 }

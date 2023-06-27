@@ -36,9 +36,6 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
     _devices = await printer.getBondedDevices();
 
     setState(() {});
-    for (var element in _devices) {
-      print("${element.name} ${element.connected}");
-    }
   }
 
   @override

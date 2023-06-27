@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -20,7 +21,12 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
 
   @override
   void initState() {
-    _categoriesProvider.getAllCategories(districtId: _authProvider.districtId!);
+    _categoriesProvider.isLoading.value = true;
+    _categoriesProvider
+        .getAllCategories(districtId: _authProvider.districtId!)
+        .then((value) {
+      _categoriesProvider.isLoading.value = false;
+    });
     super.initState();
   }
 
@@ -94,54 +100,59 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
                     height: 20,
                   ),
                   Obx(
-                    () => Table(
-                      textDirection: TextDirection.ltr,
-                      defaultVerticalAlignment:
-                          TableCellVerticalAlignment.middle,
-                      children: [
-                        TableRow(
-                          decoration: BoxDecoration(
-                            color: secondaryColor,
-                            border: Border(
-                              bottom: BorderSide(
-                                color: blackColor,
-                              ),
-                            ),
-                          ),
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 20, top: 20),
-                              child: Text(
-                                'Kategori',
-                                style: whiteTextStyle.copyWith(
-                                  fontWeight: FontWeight.w600,
+                    () => _categoriesProvider.getIsLoading
+                        ? const CustomLoading(
+                            textColor: primaryColor,
+                            loadingColor: primaryColor,
+                          )
+                        : Table(
+                            textDirection: TextDirection.ltr,
+                            defaultVerticalAlignment:
+                                TableCellVerticalAlignment.middle,
+                            children: [
+                              TableRow(
+                                decoration: BoxDecoration(
+                                  color: secondaryColor,
+                                  border: Border(
+                                    bottom: BorderSide(
+                                      color: blackColor,
+                                    ),
+                                  ),
                                 ),
-                                textAlign: TextAlign.center,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 20, top: 20),
+                                    child: Text(
+                                      'Kategori',
+                                      style: whiteTextStyle.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        bottom: 20, top: 20),
+                                    child: Text(
+                                      "Harga",
+                                      style: whiteTextStyle.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(bottom: 20, top: 20),
-                              child: Text(
-                                "Harga",
-                                style: whiteTextStyle.copyWith(
-                                  fontWeight: FontWeight.w600,
+                              for (var item in _categoriesProvider
+                                  .getCategoriesList.categories)
+                                tableRowMasyarakat(
+                                  category: item.name!,
+                                  price:
+                                      '${NumberFormatPrice().formatPrice(price: item.price)}/bulan',
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ],
-                        ),
-                        for (var item in _categoriesProvider
-                            .getCategoriesList.categories)
-                          tableRowMasyarakat(
-                            category: item.name!,
-                            price:
-                                '${NumberFormatPrice().formatPrice(price: item.price)}/bulan',
+                            ],
                           ),
-                      ],
-                    ),
                   ),
                 ],
               ),

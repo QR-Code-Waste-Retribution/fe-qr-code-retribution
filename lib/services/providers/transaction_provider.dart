@@ -123,7 +123,7 @@ class TransactionProvider extends GetxController {
     try {
       ResponseAPI response = await _transactionRepositories
           .allTransactionByPemungutId(pemungutId: pemungutId!);
-
+    
       _transactionList.value = TransactionList.fromJson(response.data);
       isLoading.value = false;
 

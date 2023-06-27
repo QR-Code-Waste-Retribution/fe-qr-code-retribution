@@ -42,10 +42,8 @@ class VirtualAccountPayment {
     if (customer != null) {
       data['customer'] = customer!.toJson();
     }
-    if (paymentInstruction != null) {
-      data['payment_instruction'] =
-          paymentInstruction!.map((v) => v.toJson()).toList();
-    }
+    data['payment_instruction'] =
+        paymentInstruction.map((v) => v.toJson()).toList();
     return data;
   }
 }

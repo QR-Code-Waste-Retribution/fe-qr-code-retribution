@@ -1,7 +1,6 @@
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_additional_page.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';

@@ -57,7 +57,6 @@ class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingDuration.isNegative) {
         countdownTimer.cancel();
-        print('Perform any necessary actions when the countdown ends');
         return;
       }
 
@@ -77,15 +76,13 @@ class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Text(
-        "Pembayaran dalam $countdownText",
-        style: whiteTextStyle.copyWith(
-          fontWeight: FontWeight.w700,
-          color: redColor,
-        ),
-        textAlign: TextAlign.center,
+    return Text(
+      "Pembayaran dalam $countdownText",
+      style: whiteTextStyle.copyWith(
+        fontWeight: FontWeight.w700,
+        color: redColor,
       ),
+      textAlign: TextAlign.center,
     );
   }
 }

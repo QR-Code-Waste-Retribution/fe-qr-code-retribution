@@ -16,7 +16,7 @@ class InvoiceRepositories extends GetxService{
       });
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {
@@ -29,7 +29,7 @@ class InvoiceRepositories extends GetxService{
       final response = await _client.get('/invoice/$userId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {
@@ -43,7 +43,7 @@ class InvoiceRepositories extends GetxService{
       final response = await _client.get('/invoice/users/all/$pemungutId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {

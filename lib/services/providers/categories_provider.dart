@@ -19,16 +19,13 @@ class CategoriesProvider extends GetxController {
 
   RxBool isLoading = false.obs;
 
+  bool get getIsLoading => isLoading.value;
+
   Rx<Category?> categorySelected = Rx<Category?>(null);
 
   Category? get getCategorySelected => categorySelected.value;
 
   String get getPriceSelectedCategory => priceSelected.value.toString();
-
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   void priceSelectedCategories({required int idSelected}) {
     for (var category in getCategoriesList.categories) {

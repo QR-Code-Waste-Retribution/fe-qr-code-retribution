@@ -131,7 +131,7 @@ class _InvoiceAdditionalPageState extends State<InvoiceAdditionalPage> {
       body: Obx(
         () {
           if (_transactionProvider.isLoading.value) {
-            return CustomLoading();
+            return const CustomLoading();
           }
           return ListView(
             padding: const EdgeInsets.all(20),

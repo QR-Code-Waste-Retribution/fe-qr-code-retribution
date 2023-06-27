@@ -47,7 +47,6 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
     });
 
     socket.on('message', (data) {
-      print('${data['user']}: ${data['text']}');
       Get.snackbar(
         "Success",
         '${data['user']}: ${data['text']}',

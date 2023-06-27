@@ -38,7 +38,6 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
     });
 
     socket.on('message', (data) {
-      print('${data['status']} ${data['user']}: ${data['text']}');
 
       Get.snackbar(
         "Success",
@@ -112,7 +111,7 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
             ),
             GestureDetector(
               onTap: () => _sendMessage(),
-              child: QrImage(
+              child: QrImageView(
                 data: _authProvider.getUUID!,
                 version: QrVersions.auto,
                 size: 320,

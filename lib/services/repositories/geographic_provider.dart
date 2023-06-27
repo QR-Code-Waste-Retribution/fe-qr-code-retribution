@@ -13,7 +13,7 @@ class GeographicRepositories extends GetxService {
       final response = await _client.get('/sub_district?district_id=$districtId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     }

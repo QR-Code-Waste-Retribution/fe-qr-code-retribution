@@ -2,7 +2,6 @@ import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/pages/printer_portable/printer_portable_page.dart';
-import 'package:qr_code_app/shared/theme/init.dart';
 
 typedef CallbackPrintFunction = void Function();
 
@@ -53,7 +52,6 @@ class PrinterProvider extends GetxController {
 
   Future<void> print(CallbackPrintFunction callbackPrintFunction) async {
     if ((await getPrinter.isConnected)!) {
-      // TODO: Make function print GETX Dynamically
       callbackPrintFunction();
     }
   }

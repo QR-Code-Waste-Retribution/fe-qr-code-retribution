@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
-import './input_text.dart';
 
 class InputGroup extends StatefulWidget {
   final String hintText;

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class HelpPage extends StatefulWidget {

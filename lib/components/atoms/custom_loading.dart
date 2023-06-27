@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class CustomLoading extends StatelessWidget {
-  Color loadingColor;
-  Color textColor;
+  final Color loadingColor;
+  final Color textColor;
 
-  CustomLoading(
+  const CustomLoading(
       {super.key,
       this.loadingColor = Colors.white,
       this.textColor = Colors.white});

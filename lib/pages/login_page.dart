@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
       body: SafeArea(
         child: Obx(() {
           if (_authProvider.isLoading.value) {
-            return CustomLoading();
+            return const CustomLoading();
           }
 
           return Container(

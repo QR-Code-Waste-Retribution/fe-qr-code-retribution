@@ -231,7 +231,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
           Obx(
             () {
               if (_usersProvider.isLoading.value) {
-                return CustomLoading(
+                return const CustomLoading(
                   loadingColor: primaryColor,
                   textColor: primaryColor,
                 );

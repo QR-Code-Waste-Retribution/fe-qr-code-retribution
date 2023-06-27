@@ -5,7 +5,7 @@ import 'package:qr_code_app/shared/theme/init.dart';
 class SearchInputWidget extends StatelessWidget {
   final Function(String) onChange;
 
-  SearchInputWidget({
+  const SearchInputWidget({
     super.key,
     required this.onChange,
   });

@@ -17,7 +17,7 @@ class PemungutTransactionRepositories extends GetxService {
       final jsonDecodeResponse = jsonDecode(response.toString());
 
       return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {

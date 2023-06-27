@@ -82,7 +82,7 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
         ),
         body: Obx(() {
           if (_dokuProvider.isLoading.value) {
-            return CustomLoading(
+            return const CustomLoading(
               textColor: primaryColor,
               loadingColor: primaryColor,
             );

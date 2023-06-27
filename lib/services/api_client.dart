@@ -8,13 +8,13 @@ class Client {
     dio.options.baseUrl = baseUrl;
     dio.options.contentType = 'application/json';
     dio.options.headers = authorizationHeader.headers;
+
     return dio;
   }
 
   // Future<Shared
 
   Options get authorizationHeader {
-
     String accessToken = StorageReferences.getAuthToken();
     return Options(headers: {
       "Authorization": "Bearer $accessToken",

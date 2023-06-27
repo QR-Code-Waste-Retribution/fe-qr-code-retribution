@@ -7,7 +7,6 @@ import 'package:qr_code_app/services/providers/invoice_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/providers/pemungut_transaction_provider.dart';
 import 'package:qr_code_app/services/providers/printer_provider.dart';
-import 'package:qr_code_app/services/providers/printer_provider.dart';
 import 'package:qr_code_app/services/providers/socket_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/services/providers/users_provider.dart';

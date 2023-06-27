@@ -13,7 +13,7 @@ class CategoriesRepositories extends GetxService {
       final response = await _client.get('/category?district_id=$districtId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {
@@ -26,7 +26,7 @@ class CategoriesRepositories extends GetxService {
       final response = await _client.get('/category/additional/$districtId');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
-    } on DioError catch (ex) {
+    } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {

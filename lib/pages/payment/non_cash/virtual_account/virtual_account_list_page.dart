@@ -63,7 +63,7 @@ class _VirtualAccountListPageState extends State<VirtualAccountListPage> {
       body: Obx(
         () {
           if (_transactionProvider.isLoading.value) {
-            return CustomLoading();
+            return const CustomLoading();
           }
 
           return ListView.builder(
