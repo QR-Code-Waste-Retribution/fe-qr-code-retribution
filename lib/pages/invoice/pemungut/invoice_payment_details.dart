@@ -231,12 +231,12 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     children: [
                       CustomButton(
                         onPressed: () {
-                          // Get.toNamed(Pages.printerPortablePage);
+                          Get.toNamed(Pages.printerPortablePage);
 
-                          _printerProvider.showModalAllPrinters(
-                            context: context,
-                            height: device.height,
-                          );
+                          // _printerProvider.showModalAllPrinters(
+                          //   context: context,
+                          //   height: device.height,
+                          // );
                         },
                         title: 'Print',
                         width: 120,

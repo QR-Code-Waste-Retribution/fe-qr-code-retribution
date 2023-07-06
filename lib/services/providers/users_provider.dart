@@ -9,10 +9,12 @@ import 'package:qr_code_app/shared/theme/init.dart';
 
 class UsersProvider extends GetxController {
   final UserRepositories _userRepositories = UserRepositories();
-
+  
   final box = GetStorage();
 
-  final RxList<User> userList = <User>[].obs;
+  final RxList<User> userList = <User>[
+    User()
+  ].obs;
 
   List<User> get getUserList => userList;
 

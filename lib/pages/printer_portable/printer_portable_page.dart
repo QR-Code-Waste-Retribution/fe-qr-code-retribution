@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/printer_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
@@ -24,7 +25,11 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   List<BluetoothDevice> _devices = [];
+
+  bool isConnected = false;
   BluetoothDevice? selected_device;
+
+  final PrinterProvider printerProvider = Get.find<PrinterProvider>();
 
   @override
   void initState() {
@@ -34,8 +39,17 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
   Future<void> initPlatformState() async {
     _devices = await printer.getBondedDevices();
-
     setState(() {});
+
+    printer.isConnected.then((value) {
+      isConnected = value!;
+      setState(() {});
+    });
+
+    for (var element in _devices) {
+      print(element.address);
+      print("-----------");
+    }
   }
 
   @override
@@ -150,6 +164,21 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: <Widget>[
+            isConnected
+                ? Container(
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade400,
+                    ),
+                    child: Text(
+                      "Printer sudah terhubung !!!",
+                      style: blackTextStyle.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
+                : const SizedBox(),
             ListView.builder(
               shrinkWrap: true,
               itemCount: _devices.length,
@@ -172,7 +201,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 CustomButton(
-                  title: 'Connect',
+                  title: 'Connect ${isConnected.toString()}',
                   width: 150,
                   height: 40,
                   fontSize: 15,

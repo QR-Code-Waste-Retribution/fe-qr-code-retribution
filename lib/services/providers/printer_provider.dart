@@ -6,7 +6,6 @@ import 'package:qr_code_app/pages/printer_portable/printer_portable_page.dart';
 typedef CallbackPrintFunction = void Function();
 
 class PrinterProvider extends GetxController {
-
   final Rx<BlueThermalPrinter> printer = BlueThermalPrinter.instance.obs;
 
   final RxList<BluetoothDevice> _devices = <BluetoothDevice>[].obs;
@@ -15,6 +14,9 @@ class PrinterProvider extends GetxController {
       BluetoothDevice('name', 'address').obs;
 
   BlueThermalPrinter get getPrinter => printer.value;
+
+  List<BluetoothDevice> get getListOfBluetoothDevice => _devices;
+
 
   Future<void> initPlatformState() async {
     _devices.value = await getPrinter.getBondedDevices();
