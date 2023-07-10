@@ -3,12 +3,12 @@ import 'package:qr_code_app/models/payment_method_page.dart';
 import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 
 class AppConstants {
-  static const String apiUrlServer = 'http://35.213.170.85/api';
+  static const String apiUrlServer = 'http://34.142.240.225/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
 
   static const String wbServerPort = '8000';
   static const String urlSocketLocal = 'http://localhost:$wbServerPort/';
-  static const String urlSocketServer = 'http://35.213.170.85:$wbServerPort/';
+  static const String urlSocketServer = 'http://34.142.240.225:$wbServerPort/';
 
   static const int apiTimeout = 5000; // milliseconds
 

@@ -4,7 +4,7 @@ import 'package:qr_code_app/shared/theme/init.dart';
 class CustomButton extends StatelessWidget {
   final String title;
   final double width;
-  final Function() onPressed;
+  final Function()? onPressed;
   final EdgeInsets margin;
   final Color backgroundColor;
   final double height;
@@ -29,7 +29,7 @@ class CustomButton extends StatelessWidget {
       width: width,
       height: height,
       margin: margin,
-      child: TextButton(
+      child: ElevatedButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           backgroundColor: backgroundColor,

@@ -1,12 +1,14 @@
+import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/molekuls/option_tile/option_tile.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/printer_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:qr_code_app/utils/logger.dart';
 import 'package:qr_code_app/utils/number_format_price.dart';
 
 class PrinterPortablePage extends StatefulWidget {
@@ -17,43 +19,26 @@ class PrinterPortablePage extends StatefulWidget {
 }
 
 class _PrinterPortablePageState extends State<PrinterPortablePage> {
-  BlueThermalPrinter printer = BlueThermalPrinter.instance;
-
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
 
   final AuthProvider _authProvider = Get.find<AuthProvider>();
-
-  List<BluetoothDevice> _devices = [];
-
-  bool isConnected = false;
-  BluetoothDevice? selected_device;
 
   final PrinterProvider printerProvider = Get.find<PrinterProvider>();
 
   @override
   void initState() {
     super.initState();
-    initPlatformState();
   }
 
-  Future<void> initPlatformState() async {
-    _devices = await printer.getBondedDevices();
-    setState(() {});
-
-    printer.isConnected.then((value) {
-      isConnected = value!;
-      setState(() {});
-    });
-
-    for (var element in _devices) {
-      print(element.address);
-      print("-----------");
-    }
-  }
+  Size device = const Size(0, 0);
 
   @override
   Widget build(BuildContext context) {
+    device = Size(
+      MediaQuery.of(context).size.width,
+      MediaQuery.of(context).size.height,
+    );
     TransactionInvoice transactionInvoice =
         _transactionProvider.getTransactionInvoice;
 
@@ -76,7 +61,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
 
     void categoryInvoiceName() {
       if (transactionInvoice.invoice!.isEmpty) {
-        printer.printLeftRight(
+        printerProvider.getPrinter.printLeftRight(
             '${transactionInvoice.transaction?.category?.name}',
             '[1] | ${NumberFormatPrice().formatPrice(
               price: transactionInvoice.transaction?.price?.normalPrice,
@@ -90,7 +75,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
           int index = 0;
           for (var item in parts) {
             if (index == 0) {
-              printer.printLeftRight(
+              printerProvider.getPrinter.printLeftRight(
                   item,
                   '[${invoice.variantsCount ?? 1}] | ${NumberFormatPrice().formatPrice(
                     price: invoice.price?.normalPrice,
@@ -98,7 +83,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
                   )}',
                   0);
             } else {
-              printer.printLeftRight(item, '', 0);
+              printerProvider.getPrinter.printLeftRight(item, '', 0);
             }
             index++;
           }
@@ -117,23 +102,23 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
       // 1 : Left
       // 2 : Center
       // 3 : Right
-      printer.printNewLine();
-      printer.printCustom("Tagihan Retribusi Sampah", 0, 2);
-      printer.printNewLine();
-      printer.printLeftRight(
+      printerProvider.getPrinter.printNewLine();
+      printerProvider.getPrinter.printCustom("Tagihan Retribusi Sampah", 0, 2);
+      printerProvider.getPrinter.printNewLine();
+      printerProvider.getPrinter.printLeftRight(
           "Pemungut", '${_authProvider.authData.user?.name}', 1);
-      printer.printLeftRight("Kategori", '', 1);
+      printerProvider.getPrinter.printLeftRight("Kategori", '', 1);
       categoryInvoiceName();
-      printer.printLeftRight("Metode", "Tunai", 1);
-      printer.printLeftRight("Pembayaran", "", 1);
-      printer.printLeftRight("No Referensi",
+      printerProvider.getPrinter.printLeftRight("Metode", "Tunai", 1);
+      printerProvider.getPrinter.printLeftRight("Pembayaran", "", 1);
+      printerProvider.getPrinter.printLeftRight("No Referensi",
           "${transactionInvoice.transaction?.referenceNumber}", 1);
-      printer.printLeftRight("Jumlah Tagihan",
+      printerProvider.getPrinter.printLeftRight("Jumlah Tagihan",
           "Rp. ${transactionInvoice.transaction?.price?.formatedPrice}", 1);
-      printer.printLeftRight("Waktu",
+      printerProvider.getPrinter.printLeftRight("Waktu",
           "${transactionInvoice.transaction?.createdAt?.formatedDate}", 1);
-      printer.printNewLine();
-      printer.printNewLine();
+      printerProvider.getPrinter.printNewLine();
+      printerProvider.getPrinter.printNewLine();
     }
 
     return Scaffold(
@@ -164,7 +149,7 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
         padding: const EdgeInsets.all(8.0),
         child: ListView(
           children: <Widget>[
-            isConnected
+            printerProvider.getIsConnected
                 ? Container(
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
@@ -179,58 +164,86 @@ class _PrinterPortablePageState extends State<PrinterPortablePage> {
                     ),
                   )
                 : const SizedBox(),
-            ListView.builder(
-              shrinkWrap: true,
-              itemCount: _devices.length,
-              itemBuilder: (context, position) {
-                return ListTile(
-                  onTap: () {
-                    setState(() {
-                      selected_device = _devices[position];
-                    });
-                  },
-                  selectedColor: Colors.amber,
-                  style: ListTileStyle.drawer,
-                  leading: const Icon(Icons.print),
-                  title: Text(_devices[position].name!),
-                  subtitle: Text(_devices[position].address!),
-                );
-              },
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomButton(
-                  title: 'Connect ${isConnected.toString()}',
-                  width: 150,
-                  height: 40,
-                  fontSize: 15,
-                  defaultRadiusButton: 5,
-                  onPressed: () async {
-                    printer.connect(selected_device!);
-                  },
-                ),
-                CustomButton(
-                  title: 'Disconnect',
-                  width: 150,
-                  height: 40,
-                  fontSize: 15,
-                  backgroundColor: redColor,
-                  defaultRadiusButton: 5,
-                  onPressed: () {
-                    printer.disconnect();
-                  },
-                ),
-              ],
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                if ((await printer.isConnected)!) {
-                  printInvoice();
-                }
-              },
-              child: const Text('Print'),
-            ),
+            Obx(() {
+              return Column(
+                children: [
+                  ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: printerProvider.getListOfBluetoothDevice.length,
+                    itemBuilder: (context, position) {
+                      return OptionTile(
+                        onTap: () {
+                          printerProvider.selectedItemIndex.value = position;
+                          printerProvider.selectedDevice!.value =
+                              printerProvider
+                                  .getListOfBluetoothDevice[position];
+                        },
+                        selected:
+                            printerProvider.selectedItemIndex.value == position,
+                        label: printerProvider
+                            .getListOfBluetoothDevice[position].name!,
+                        subLabel: printerProvider
+                            .getListOfBluetoothDevice[position].address!,
+                      );
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      printerProvider.getIsConnected
+                          ? CustomButton(
+                              title:
+                                  'Disconnect ${printerProvider.getSelectedDevice.name}',
+                              width: device.width * 0.8,
+                              height: 40,
+                              fontSize: 15,
+                              backgroundColor: redColor,
+                              defaultRadiusButton: 5,
+                              onPressed: () {
+                                printerProvider.getPrinter.disconnect();
+                              },
+                            )
+                          : CustomButton(
+                              title: printerProvider.checkIsAnySelected()
+                                  ? 'Hubungkan ${printerProvider.getSelectedDevice.name}'
+                                  : "Silahkan pilih printer terlebih dahulu",
+                              width: device.width * 0.8,
+                              height: 40,
+                              backgroundColor:
+                                  printerProvider.checkIsAnySelected()
+                                      ? primaryColor
+                                      : secondaryTextColor,
+                              fontSize: 15,
+                              defaultRadiusButton: 5,
+                              onPressed: printerProvider.checkIsAnySelected() ? () async {
+                                printerProvider.connect(); 
+                              } : null,
+                            ),
+                    ],
+                  ),
+                  printerProvider.getIsConnected
+                      ? CustomButton(
+                          title: printerProvider.selectedItemIndex.value != -1
+                              ? 'Hubungkan ${printerProvider.getSelectedDevice.name}'
+                              : "Silahkan pilih printer terlebih dahulu",
+                          width: device.width * 0.8,
+                          height: 40,
+                          fontSize: 15,
+                          defaultRadiusButton: 5,
+                          onPressed: () async {
+                            if ((await printerProvider
+                                .getPrinter.isConnected)!) {
+                              printInvoice();
+                            }
+                          },
+                        )
+                      : const SizedBox(),
+                ],
+              );
+            }),
           ],
         ),
       ),
