@@ -4,17 +4,24 @@ import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
+import 'package:qr_code_app/models/user/user_pagination.dart';
 import 'package:qr_code_app/services/repositories/user_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class UsersProvider extends GetxController {
   final UserRepositories _userRepositories = UserRepositories();
-  
+
   final box = GetStorage();
 
-  final RxList<User> userList = <User>[
-    User()
-  ].obs;
+  final RxList<User> userList = <User>[User()].obs;
+
+  final Rx<UsersPagination> usersPagination = UsersPagination(records: []).obs;
+
+  List<User>? get getUsersPaginationRecords => usersPagination.value.records;
+
+  Links? get getUsersPaginationLinks => usersPagination.value.links;
+
+  Meta? get getUsersPaginationMeta => usersPagination.value.meta;
 
   List<User> get getUserList => userList;
 
@@ -29,12 +36,8 @@ class UsersProvider extends GetxController {
         pemungutId: pemungutId,
         subDistrictId: subDistrictId!,
       );
-
-      userList.value = List<User>.from(
-        response.data.map(
-          (user) => User.fromJson(user),
-        ),
-      );
+      
+      usersPagination.value = UsersPagination.fromJson(response.data);
 
       update();
     } catch (e) {
@@ -98,5 +101,11 @@ class UsersProvider extends GetxController {
         borderRadius: 5,
       );
     }
+  }
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
   }
 }

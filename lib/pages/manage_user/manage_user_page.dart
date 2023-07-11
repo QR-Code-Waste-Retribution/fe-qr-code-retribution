@@ -9,6 +9,7 @@ import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/alert_dialog_custom.dart';
+import 'package:qr_code_app/utils/logger.dart';
 import 'package:qr_code_app/utils/long_string_format.dart';
 
 class ManageUserPage extends StatefulWidget {
@@ -93,8 +94,10 @@ class _ManageUserPageState extends State<ManageUserPage> {
       pemungutId: _authProvider.getUserId!,
     )
         .then((value) {
-      for (var index = 0; index < _usersProvider.userList.length; index++) {
-        var item = _usersProvider.userList[index];
+      for (var index = 0;
+          index < _usersProvider.getUsersPaginationRecords!.length;
+          index++) {
+        var item = _usersProvider.getUsersPaginationRecords![index];
         isSwitchedList.add(item.accountStatus!);
       }
       _usersProvider.isLoading.value = false;
@@ -236,14 +239,40 @@ class _ManageUserPageState extends State<ManageUserPage> {
                   textColor: primaryColor,
                 );
               }
-              return Table(
-                textDirection: TextDirection.ltr,
-                columnWidths: const {
-                  0: FixedColumnWidth(30),
-                  1: FixedColumnWidth(155)
-                },
-                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
-                children: makeTableRows(users: _usersProvider.getUserList),
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Table(
+                    textDirection: TextDirection.ltr,
+                    columnWidths: const {
+                      0: FixedColumnWidth(30),
+                      1: FixedColumnWidth(155)
+                    },
+                    defaultVerticalAlignment: TableCellVerticalAlignment.middle,
+                    children: makeTableRows(
+                        users: _usersProvider.getUsersPaginationRecords!),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    'Halaman ${_usersProvider.getUsersPaginationMeta?.currentPage} dari ${_usersProvider.getUsersPaginationMeta?.lastPage}',
+                    style: primaryTextStyle.copyWith(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                  Text(
+                    'Menampilkan ${_usersProvider.getUsersPaginationMeta?.from} sampai ${_usersProvider.getUsersPaginationMeta?.to} dari ${_usersProvider.getUsersPaginationMeta?.total}',
+                    style: primaryTextStyle.copyWith(
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 12,
+                    ),
+                  ),
+                  const Divider(),
+                ],
               );
             },
           ),
