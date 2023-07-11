@@ -13,6 +13,10 @@ class CategoriesProvider extends GetxController {
   final CategoriesRepositories _categoriesRepositories =
       CategoriesRepositories();
 
+  RxString dropdownValue = '1'.obs;
+
+  String get getDropdownValue => dropdownValue.value;
+
   ListCategories get getCategoriesList => _categories.value;
 
   RxInt priceSelected = 0.obs;

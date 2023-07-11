@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/routes/init.dart';
+import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/printer_provider.dart';
 import 'package:qr_code_app/services/providers/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/number_format_price.dart';
 
 class PaymentDetails extends StatefulWidget {
   const PaymentDetails({super.key});
@@ -19,7 +21,8 @@ class _PaymentDetailsState extends State<PaymentDetails> {
   final TransactionProvider _transactionProvider =
       Get.find<TransactionProvider>();
 
-  final PrinterProvider _printerProvider = Get.find<PrinterProvider>();
+  final AuthProvider _authProvider = Get.find<AuthProvider>();
+  final PrinterProvider printerProvider = Get.find<PrinterProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,58 @@ class _PaymentDetailsState extends State<PaymentDetails> {
 
     TransactionInvoice transactionInvoice =
         _transactionProvider.getTransactionInvoice;
+
+    void categoryInvoiceName() {
+      if (transactionInvoice.invoice!.isEmpty) {
+        printerProvider.getPrinter.printLeftRight(
+            '${transactionInvoice.transaction?.category?.name}',
+            '[1] | ${NumberFormatPrice().formatPrice(
+              price: transactionInvoice.transaction?.price?.normalPrice,
+              decimalDigits: 0,
+            )}',
+            0);
+      } else {
+        for (var invoice in transactionInvoice.invoice!) {
+          List<String> parts = printerProvider.splitStringByLength(
+              invoice.category?.name ?? '', 15);
+          int index = 0;
+          for (var item in parts) {
+            if (index == 0) {
+              printerProvider.getPrinter.printLeftRight(
+                  item,
+                  '[${invoice.variantsCount ?? 1}] | ${NumberFormatPrice().formatPrice(
+                    price: invoice.price?.normalPrice,
+                    decimalDigits: 0,
+                  )}',
+                  0);
+            } else {
+              printerProvider.getPrinter.printLeftRight(item, '', 0);
+            }
+            index++;
+          }
+        }
+      }
+    }
+
+    void printInvoice() {
+      printerProvider.getPrinter.printNewLine();
+      printerProvider.getPrinter.printCustom("Tagihan Retribusi Sampah", 0, 2);
+      printerProvider.getPrinter.printNewLine();
+      printerProvider.getPrinter.printLeftRight(
+          "Pemungut", '${_authProvider.authData.user?.name}', 1);
+      printerProvider.getPrinter.printLeftRight("Kategori", '', 1);
+      categoryInvoiceName();
+      printerProvider.getPrinter.printLeftRight("Metode", "Tunai", 1);
+      printerProvider.getPrinter.printLeftRight("Pembayaran", "", 1);
+      printerProvider.getPrinter.printLeftRight("No Referensi",
+          "${transactionInvoice.transaction?.referenceNumber}", 1);
+      printerProvider.getPrinter.printLeftRight("Jumlah Tagihan",
+          "Rp. ${transactionInvoice.transaction?.price?.formatedPrice}", 1);
+      printerProvider.getPrinter.printLeftRight("Waktu",
+          "${transactionInvoice.transaction?.createdAt?.formatedDate}", 1);
+      printerProvider.getPrinter.printNewLine();
+      printerProvider.getPrinter.printNewLine();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -231,12 +286,12 @@ class _PaymentDetailsState extends State<PaymentDetails> {
                     children: [
                       CustomButton(
                         onPressed: () {
-                          Get.toNamed(Pages.printerPortablePage);
-
-                          // _printerProvider.showModalAllPrinters(
-                          //   context: context,
-                          //   height: device.height,
-                          // );
+                          printerProvider.showModalAllPrinters(
+                              context: context,
+                              height: device.height,
+                              callback: () {
+                                printInvoice();
+                              });
                         },
                         title: 'Print',
                         width: 120,

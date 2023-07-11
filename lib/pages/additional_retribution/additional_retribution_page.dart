@@ -21,7 +21,6 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
   final priceController = TextEditingController();
 
   final AuthProvider _authProvider = Get.find<AuthProvider>();
-  String dropdownValue = '1';
 
   Size device = const Size(0, 0);
 
@@ -31,7 +30,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
     _categoriesProvider
         .getAllAddtionalCategories(districtId: _authProvider.districtId!)
         .then((value) {
-      dropdownValue =
+      _categoriesProvider.dropdownValue.value =
           _categoriesProvider.getCategoriesList.categories[0].id.toString();
       priceController.text =
           _categoriesProvider.getCategoriesList.categories[0].price.toString();
@@ -74,7 +73,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
             child: Obx(
               () => DropdownButton<String>(
                 alignment: Alignment.bottomCenter,
-                value: dropdownValue,
+                value: _categoriesProvider.getDropdownValue,
                 isExpanded: true,
                 icon: const Icon(Icons.arrow_drop_down_rounded),
                 iconSize: 24,
@@ -82,9 +81,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
                 underline: Container(height: 0),
                 style: const TextStyle(color: Colors.deepPurple),
                 onChanged: (String? newValue) {
-                  setState(() {
-                    dropdownValue = newValue!;
-                  });
+                  _categoriesProvider.dropdownValue.value = newValue!;
                   _categoriesProvider.priceSelectedCategories(
                     idSelected: int.parse(newValue!),
                   );
@@ -94,7 +91,9 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
                 items: _categoriesProvider.getCategoriesList.categories
                     .map<DropdownMenuItem<String>>((Category category) {
                   return DropdownMenuItem(
-                    enabled: category.name == dropdownValue ? false : true,
+                    enabled: category.name == _categoriesProvider.dropdownValue.value
+                        ? false
+                        : true,
                     value: category.id.toString(),
                     child: Text(
                       "${category.name}",

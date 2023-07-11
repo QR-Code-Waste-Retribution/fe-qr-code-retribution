@@ -75,7 +75,9 @@ class Pages {
     ),
     GetPage(
       name: printerPortablePage,
-      page: () => const PrinterPortablePage(),
+      page: () => PrinterPortablePage(
+        onPrint: () {},
+      ),
       transition: Transition.fade,
     ),
     GetPage(
