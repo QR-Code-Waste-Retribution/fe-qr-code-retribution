@@ -86,13 +86,15 @@ class _ManageUserPageState extends State<ManageUserPage> {
   @override
   void initState() {
     super.initState();
+    initData();
+  }
 
+  void initData({int page = 17}) {
+    logger.d(page);
     _usersProvider.isLoading.value = true;
     _usersProvider
         .getAllMasyarakatBySubDistrictId(
-      subDistrictId: _authProvider.authData.user?.subDistrictId,
-      pemungutId: _authProvider.getUserId!,
-    )
+            pemungutId: _authProvider.getUserId!, page: page)
         .then((value) {
       for (var index = 0;
           index < _usersProvider.getUsersPaginationRecords!.length;
@@ -246,7 +248,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
                     textDirection: TextDirection.ltr,
                     columnWidths: const {
                       0: FixedColumnWidth(30),
-                      1: FixedColumnWidth(155)
+                      1: FixedColumnWidth(175)
                     },
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     children: makeTableRows(
@@ -254,6 +256,62 @@ class _ManageUserPageState extends State<ManageUserPage> {
                   ),
                   const SizedBox(
                     height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          initData(
+                            page: _usersProvider.getPreviousPage(),
+                          );
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black45,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.chevron_left,
+                            color: whiteColor,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        "${_usersProvider.getUsersPaginationMeta?.currentPage}",
+                        style: primaryTextStyle.copyWith(
+                          color: blackColor,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          initData(
+                            page: _usersProvider.getNextPage(),
+                          );
+                        },
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Colors.black45,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.chevron_right,
+                            color: whiteColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
                   ),
                   Text(
                     'Halaman ${_usersProvider.getUsersPaginationMeta?.currentPage} dari ${_usersProvider.getUsersPaginationMeta?.lastPage}',
@@ -264,7 +322,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
                     ),
                   ),
                   Text(
-                    'Menampilkan ${_usersProvider.getUsersPaginationMeta?.from} sampai ${_usersProvider.getUsersPaginationMeta?.to} dari ${_usersProvider.getUsersPaginationMeta?.total}',
+                    'Menampilkan ${_usersProvider.getUsersPaginationMeta?.from} sampai ${_usersProvider.getUsersPaginationMeta?.to} dari ${_usersProvider.getUsersPaginationMeta?.total} pengguna',
                     style: primaryTextStyle.copyWith(
                       color: Colors.black87,
                       fontWeight: FontWeight.w600,

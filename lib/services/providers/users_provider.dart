@@ -23,20 +23,31 @@ class UsersProvider extends GetxController {
 
   Meta? get getUsersPaginationMeta => usersPagination.value.meta;
 
+  int get getCurrentPage => getUsersPaginationMeta!.currentPage!;
+  int get getLastPage => getUsersPaginationMeta!.lastPage!;
+
   List<User> get getUserList => userList;
 
   Rx<User> user = User().obs;
 
   RxBool isLoading = false.obs;
 
+  int getPreviousPage() {
+    return getCurrentPage - 1 == 0 ? 1 : getCurrentPage - 1;
+  }
+
+  int getNextPage() {
+    return getCurrentPage + 1 > getLastPage ? getLastPage : getCurrentPage + 1;
+  }
+
   Future<void> getAllMasyarakatBySubDistrictId(
-      {required int? subDistrictId, required int pemungutId}) async {
+      {required int pemungutId, int page = 1}) async {
     try {
       ResponseAPI response = await _userRepositories.getAllUserMasyarakat(
         pemungutId: pemungutId,
-        subDistrictId: subDistrictId!,
+        page: page,
       );
-      
+
       usersPagination.value = UsersPagination.fromJson(response.data);
 
       update();

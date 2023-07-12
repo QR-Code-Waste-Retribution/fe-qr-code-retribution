@@ -10,10 +10,10 @@ class UserRepositories extends GetxService {
   final Dio _client = Client().init();
 
   Future getAllUserMasyarakat(
-      {required int subDistrictId, required int pemungutId, int page = 2}) async {
+      { required int pemungutId, int page = 1}) async {
     try {
       final response = await _client
-          .get('/user/all/$pemungutId?page=$page&sub_district_id=$subDistrictId');
+          .get('/user/all/$pemungutId?page=$page');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {
