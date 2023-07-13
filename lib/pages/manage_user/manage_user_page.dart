@@ -89,7 +89,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
     initData();
   }
 
-  void initData({int page = 17}) {
+  void initData({int page = 1}) {
     logger.d(page);
     _usersProvider.isLoading.value = true;
     _usersProvider

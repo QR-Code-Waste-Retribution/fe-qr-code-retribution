@@ -135,86 +135,83 @@ class _PemungutHomeState extends State<PemungutHome> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 10),
-                padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowColor,
-                      blurRadius: 5,
-                      offset: const Offset(2, 3.5),
-                    )
-                  ],
-                  borderRadius: BorderRadius.circular(10),
-                  color: whiteColor,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: widget.device.width * 0.45,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Tagihan iuran retribusi sampah yang sudah disetor bulan ini',
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              NumberFormatPrice().formatPrice(
-                                  price: _pemungutTransactionProvider
-                                      .getAlreadyDeposited()),
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 10),
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowColor,
+                          blurRadius: 5,
+                          offset: const Offset(2, 3.5),
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: whiteColor,
+                    ),
+                    width: widget.device.width,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tagihan iuran retribusi sampah bulan ini :',
+                          style: blackTextStyle.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    Expanded(
-                      child: SizedBox(
-                        width: widget.device.width * 0.45,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Tagihan iuran retribusi sampah yang belum disetor bulan ini',
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                                color: Colors.red,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              NumberFormatPrice().formatPrice(
-                                  price: _pemungutTransactionProvider
-                                      .getNotYetDeposited()),
-                              style: blackTextStyle.copyWith(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
-                              ),
-                            ),
-                          ],
+                        const SizedBox(
+                          height: 10,
                         ),
-                      ),
+                        Text(
+                          'Belum Disetor',
+                          style: blackTextStyle.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                            color: Colors.red,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          NumberFormatPrice().formatPrice(
+                              price: _pemungutTransactionProvider
+                                  .getNotYetDeposited()),
+                          style: blackTextStyle.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          'Sudah Disetor :',
+                          style: blackTextStyle.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 14,
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          NumberFormatPrice().formatPrice(
+                              price: _pemungutTransactionProvider
+                                  .getAlreadyDeposited()),
+                          style: blackTextStyle.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
