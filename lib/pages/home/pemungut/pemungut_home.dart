@@ -163,6 +163,7 @@ class _PemungutHomeState extends State<PemungutHome> {
                             fontSize: 14,
                           ),
                         ),
+                        const Divider(),
                         const SizedBox(
                           height: 10,
                         ),
@@ -186,6 +187,7 @@ class _PemungutHomeState extends State<PemungutHome> {
                             fontSize: 20,
                           ),
                         ),
+                        const Divider(),
                         const SizedBox(
                           height: 10,
                         ),
