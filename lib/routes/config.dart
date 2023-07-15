@@ -125,5 +125,10 @@ class Pages {
       page: () => const VirtualAccountPayPage(),
       transition: Transition.fade,
     ),
+    GetPage(
+      name: OtpInputStagePage.routeName,
+      page: () => OtpInputStagePage(),
+      transition: Transition.fade,
+    ),
   ];
 }

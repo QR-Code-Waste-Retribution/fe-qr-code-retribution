@@ -2,8 +2,10 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/services/providers/doku_provider.dart';
+import 'package:qr_code_app/services/providers/forgot_password_provider.dart';
 import 'package:qr_code_app/services/providers/geographic_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
+import 'package:qr_code_app/services/providers/otp_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/providers/pemungut_transaction_provider.dart';
 import 'package:qr_code_app/services/providers/printer_provider.dart';
@@ -42,6 +44,12 @@ class AppBindings extends Bindings {
         fenix: true);
     Get.lazyPut<PrinterProvider>(
             () => PrinterProvider(),
+        fenix: true);
+    Get.lazyPut<ForgotPasswordProvider>(
+            () => ForgotPasswordProvider(),
+        fenix: true);
+    Get.lazyPut<OtpProvider>(
+            () => OtpProvider(),
         fenix: true);
 
     // Pagination

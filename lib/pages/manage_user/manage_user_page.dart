@@ -27,7 +27,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
   final UsersProvider _usersProvider = Get.find<UsersProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
-  List<TableRow> makeTableRows({required List<User> users}) {
+  List<TableRow> makeTableRows({required List<User> users, required int? from}) {
     final List<TableRow> tableRows = [
       TableRow(
         decoration: BoxDecoration(
@@ -74,6 +74,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
         tableRowMasyarakat(
           name: '${item.name}',
           index: index,
+          number: (from! - 1) + (index + 1),
           masyarakatId: item.id!,
           category: '${item.category?.map((e) => e.name).join(',')}',
         ),
@@ -90,7 +91,6 @@ class _ManageUserPageState extends State<ManageUserPage> {
   }
 
   void initData({int page = 1}) {
-    logger.d(page);
     _usersProvider.isLoading.value = true;
     _usersProvider
         .getAllMasyarakatBySubDistrictId(
@@ -113,6 +113,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
   TableRow tableRowMasyarakat({
     required String name,
     required int index,
+    required int number,
     required String category,
     required int masyarakatId,
   }) {
@@ -128,7 +129,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
         Padding(
           padding: const EdgeInsets.only(bottom: 10, top: 15),
           child: Text(
-            (index + 1).toString(),
+            number.toString(),
             style: blackTextStyle,
           ),
         ),
@@ -252,6 +253,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
                     },
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     children: makeTableRows(
+                        from: _usersProvider.getUsersPaginationMeta?.from,
                         users: _usersProvider.getUsersPaginationRecords!),
                   ),
                   const SizedBox(

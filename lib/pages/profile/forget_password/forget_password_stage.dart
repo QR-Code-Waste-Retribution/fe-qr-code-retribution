@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
+import 'package:qr_code_app/services/providers/forgot_password_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
@@ -11,18 +13,36 @@ class ForgetPasswordPage extends StatefulWidget {
 }
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
-  var emailController = TextEditingController();
+  ForgotPasswordProvider forgotPasswordProvider =
+      Get.find<ForgotPasswordProvider>();
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
-    emailController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: whiteColor,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        backgroundColor: transparent,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            size: 20,
+            color: blackColor,
+          ),
+          onPressed: (() {
+            Get.back();
+          }),
+        ),
+        title: const Text(
+          "",
+        ),
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(30),
@@ -50,9 +70,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               height: 20,
             ),
             InputGroup(
-              hintText: 'Email/ No. telepon',
+              hintText: 'Email',
               required: true,
-              inputController: emailController,
+              inputController: forgotPasswordProvider.emailController,
             ),
             const SizedBox(
               height: 20,
@@ -63,7 +83,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
               height: 45,
               fontSize: 14,
               defaultRadiusButton: 10,
-              onPressed: () {},
+              onPressed: () {
+                forgotPasswordProvider.onNextStage();
+              },
             ),
           ],
         ),
