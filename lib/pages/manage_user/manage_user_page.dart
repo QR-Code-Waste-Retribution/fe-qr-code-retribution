@@ -13,6 +13,8 @@ import 'package:qr_code_app/utils/logger.dart';
 import 'package:qr_code_app/utils/long_string_format.dart';
 
 class ManageUserPage extends StatefulWidget {
+  static const routeName = '/manage_user_page';
+
   const ManageUserPage({super.key});
 
   @override
@@ -27,7 +29,8 @@ class _ManageUserPageState extends State<ManageUserPage> {
   final UsersProvider _usersProvider = Get.find<UsersProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
-  List<TableRow> makeTableRows({required List<User> users, required int? from}) {
+  List<TableRow> makeTableRows(
+      {required List<User> users, required int? from}) {
     final List<TableRow> tableRows = [
       TableRow(
         decoration: BoxDecoration(
@@ -249,7 +252,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
                     textDirection: TextDirection.ltr,
                     columnWidths: const {
                       0: FixedColumnWidth(30),
-                      1: FixedColumnWidth(175)
+                      1: FixedColumnWidth(155)
                     },
                     defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                     children: makeTableRows(

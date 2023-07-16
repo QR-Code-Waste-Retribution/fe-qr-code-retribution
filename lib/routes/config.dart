@@ -92,7 +92,7 @@ class Pages {
     ),
     GetPage(
       name: editUserPage,
-      page: () => const EditUserPage(),
+      page: () => EditUserPage(),
       transition: Transition.fadeIn,
     ),
     GetPage(

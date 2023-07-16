@@ -1,54 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/models/categories/category.dart';
-import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/geographic/sub_district.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/services/providers/geographic_provider.dart';
 import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/atoms/button/button_group.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 
-class EditUserPage extends StatefulWidget {
-  const EditUserPage({super.key});
+class EditUserPage extends StatelessWidget {
+  EditUserPage({super.key});
 
-  @override
-  State<EditUserPage> createState() => _EditUserPageState();
-}
-
-class _EditUserPageState extends State<EditUserPage> {
-  var nameController = TextEditingController();
-  var usernameController = TextEditingController();
-  var nikController = TextEditingController();
-  var phoneNumberController = TextEditingController();
-  var categoryController = TextEditingController();
-  var subDistrictController = TextEditingController();
-  var addressController = TextEditingController();
+  final nameController = TextEditingController();
+  final usernameController = TextEditingController();
+  final nikController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final categoryController = TextEditingController();
+  final subDistrictController = TextEditingController();
+  final addressController = TextEditingController();
 
   final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
   final UsersProvider _usersProvider = Get.find<UsersProvider>();
   final GeographicProvider _geographicProvider = Get.find<GeographicProvider>();
 
-  String dropdownCategoryValue = '';
-  String dropdownSubDistrictValue = '';
+  final List<TextEditingController> textInputControllers = [];
 
-  List<TextEditingController> textInputControllers = [];
+  void addUserAction() {}
 
-  @override
-  void dispose() {
-    super.dispose();
+  void clearInput() {
     for (var controller in textInputControllers) {
-      controller.dispose();
+      controller.clear();
     }
+    _usersProvider.clearInput();
   }
 
   @override
-  void initState() {
-    super.initState();
-    // Add the text input controllers to the list
+  Widget build(BuildContext context) {
     textInputControllers.addAll([
       nameController,
       usernameController,
@@ -62,249 +54,300 @@ class _EditUserPageState extends State<EditUserPage> {
     _categoriesProvider
         .getAllCategories(districtId: _authProvider.districtId!)
         .then((value) {
-      dropdownCategoryValue =
-          _categoriesProvider.getCategoriesList.categories[0].id.toString();
       _categoriesProvider.priceSelectedCategories(
         idSelected: _categoriesProvider.getCategoriesList.categories[0].id!,
       );
+      _usersProvider.dropdownCategoriesValues.add(
+          _categoriesProvider.getCategoriesList.categories[0].id.toString());
     });
     _geographicProvider
         .getAllSubDistrictByDistrictId(districtId: _authProvider.districtId!)
         .then((value) {
-      dropdownSubDistrictValue =
+      _usersProvider.dropdownSubDistrictValue.value =
           _geographicProvider.getListSubDistricts![0].id.toString();
+      _usersProvider.dropdownSubDistrictValue.value =
+          _authProvider.userSubDistrictId!;
     });
-  }
 
-  void addUserAction() {
-    UserForm userForm = UserForm(
-      name: nameController.text,
-      nik: nikController.text,
-      username: usernameController.text,
-      gender: "Laki-Laki",
-      phoneNumber: phoneNumberController.text,
-      category: int.parse(dropdownCategoryValue),
-      address: addressController.text,
-      districtId: _authProvider.districtId!,
-      subDistrictId: int.parse(dropdownSubDistrictValue),
-      pemungutId: _authProvider.getUserId!,
-    );
-
-    _usersProvider
-        .storeRegisterUser(userForm: userForm)
-        .then((value) => clearInput());
-  }
-
-  void clearInput() {
-    for (var controller in textInputControllers) {
-      controller.clear();
+    Future<bool> onWillPop() async {
+      _usersProvider.back();
+      return true;
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: secondaryColor,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios,
-            size: 20,
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: secondaryColor,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              size: 20,
+            ),
+            onPressed: (() {
+              _usersProvider.back();
+            }),
           ),
-          onPressed: (() {
-            Get.back();
-          }),
+          title: Text(
+            "Edit Akun Masyarakat",
+            style: primaryTextStyle.copyWith(
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1,
+              color: whiteColor,
+              fontSize: 16,
+            ),
+          ),
         ),
-        title: Text(
-          "Edit Akun Masyarakat",
-          style: primaryTextStyle.copyWith(
-            fontWeight: FontWeight.w600,
-            letterSpacing: 1,
-            color: whiteColor,
-            fontSize: 16,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                InputGroup(
+                  hintText: "Nama",
+                  required: true,
+                  inputController: nameController,
+                ),
+                InputGroup(
+                  hintText: "Username/Email",
+                  required: true,
+                  inputController: usernameController,
+                ),
+                InputGroup(
+                  hintText: "NIK",
+                  inputController: nikController,
+                  keyboardType: TextInputType.number,
+                ),
+                InputGroup(
+                  hintText: "No. Telepon",
+                  required: true,
+                  keyboardType: TextInputType.number,
+                  inputController: phoneNumberController,
+                ),
+                const SizedBox(
+                  height: 7,
+                ),
+                subDistrictDropdown(),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(() {
+                  if (_categoriesProvider.getIsLoading) {
+                    return CustomLoading(
+                      textColor: secondaryColor,
+                      loadingColor: secondaryColor,
+                    );
+                  }
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomGroupButton(
+                        title: 'Tambah Kategori',
+                        width: 150,
+                        height: 25,
+                        fontSize: 10,
+                        defaultRadiusButton: 10,
+                        backgroundColor: orangeLight,
+                        onPressed: () {
+                          _usersProvider.addNewCategoryInput(
+                            newValue: _categoriesProvider
+                                .getCategoriesList.categories[0].id
+                                .toString(),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }),
+                const SizedBox(
+                  height: 5,
+                ),
+                Obx(() {
+                  return SizedBox(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _usersProvider.dropdownCategoriesValues.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Column(
+                          children: [
+                            const Divider(),
+                            Column(
+                              children: [
+                                SizedBox(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Pilih Kategori',
+                                        style: primaryTextStyle.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const SizedBox(
+                                        height: 7,
+                                      ),
+                                      Obx(
+                                        () => Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 15, vertical: 1),
+                                          decoration: BoxDecoration(
+                                            color: backgroundColor6,
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: DropdownButton<String>(
+                                            alignment: Alignment.bottomCenter,
+                                            value: _usersProvider
+                                                    .getDropdownCategoriesValues[
+                                                index],
+                                            isExpanded: true,
+                                            icon: const Icon(
+                                                Icons.arrow_drop_down_rounded),
+                                            iconSize: 24,
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                            underline: Container(height: 0),
+                                            style: const TextStyle(
+                                                color: Colors.deepPurple),
+                                            onChanged: (String? newValue) {
+                                              _usersProvider
+                                                      .getDropdownCategoriesValues[
+                                                  index] = newValue!;
+                                            },
+                                            items: _categoriesProvider
+                                                .getCategoriesList.categories
+                                                .map<DropdownMenuItem<String>>(
+                                                    (Category category) {
+                                              return DropdownMenuItem(
+                                                enabled: category.name ==
+                                                        _usersProvider
+                                                                .getDropdownCategoriesValues[
+                                                            index]
+                                                    ? false
+                                                    : true,
+                                                value: category.id.toString(),
+                                                child: Text(
+                                                  "${category.name}",
+                                                  style:
+                                                      blackTextStyle.copyWith(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                InputGroup(
+                                  hintText: "Alamat",
+                                  required: true,
+                                  inputController: _usersProvider
+                                      .getListAddressController[index],
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  );
+                }),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CustomButton(
+                      title: 'Simpan',
+                      width: 120,
+                      height: 45,
+                      fontSize: 14,
+                      defaultRadiusButton: 10,
+                      onPressed: () => addUserAction(),
+                    ),
+                    CustomButton(
+                      title: 'Batal',
+                      width: 120,
+                      height: 45,
+                      fontSize: 14,
+                      backgroundColor: redColor,
+                      defaultRadiusButton: 10,
+                      onPressed: () => clearInput(),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(20),
+    );
+  }
+
+  SizedBox subDistrictDropdown() {
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InputGroup(
-            hintText: "Nama",
-            required: true,
-            inputController: nameController,
-          ),
-          InputGroup(
-            hintText: "Username/Email",
-            required: true,
-            inputController: usernameController,
-          ),
-          InputGroup(
-            hintText: "NIK",
-            inputController: nikController,
-            keyboardType: TextInputType.number,
-          ),
-          InputGroup(
-            hintText: "No. Telepon",
-            required: true,
-            keyboardType: TextInputType.number,
-            inputController: phoneNumberController,
+          Text(
+            'Pilih Kecamatan',
+            style: primaryTextStyle.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
           ),
           const SizedBox(
             height: 7,
           ),
-          SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Pilih Kategori',
-                  style: primaryTextStyle.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 15, vertical: 1),
-                  decoration: BoxDecoration(
-                    color: backgroundColor6,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: DropdownButton<String>(
-                    alignment: Alignment.bottomCenter,
-                    value: dropdownCategoryValue,
-                    isExpanded: true,
-                    icon: const Icon(Icons.arrow_drop_down_rounded),
-                    iconSize: 24,
-                    borderRadius: BorderRadius.circular(20),
-                    underline: Container(height: 0),
-                    style: const TextStyle(color: Colors.deepPurple),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownCategoryValue = newValue!;
-                      });
-                      _categoriesProvider.priceSelectedCategories(
-                        idSelected: int.parse(newValue!),
-                      );
-                    },
-                    items: _categoriesProvider.getCategoriesList.categories
-                        .map<DropdownMenuItem<String>>((Category category) {
-                      return DropdownMenuItem(
-                        enabled: category.name == dropdownCategoryValue
-                            ? false
-                            : true,
-                        value: category.id.toString(),
-                        child: Text(
-                          "${category.name}",
-                          style: blackTextStyle.copyWith(
-                            fontSize: 16,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ],
+          Obx(
+            () => Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 15,
+                vertical: 1,
+              ),
+              decoration: BoxDecoration(
+                color: backgroundColor6,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: DropdownButton<String>(
+                alignment: Alignment.bottomCenter,
+                value: _usersProvider.dropdownSubDistrictValue.value,
+                isExpanded: true,
+                icon: const Icon(Icons.arrow_drop_down_rounded),
+                iconSize: 24,
+                borderRadius: BorderRadius.circular(20),
+                underline: Container(height: 0),
+                style: const TextStyle(color: Colors.deepPurple),
+                onChanged: (String? newValue) {
+                  _usersProvider.dropdownSubDistrictValue.value = newValue!;
+                },
+                items: _geographicProvider.getListSubDistricts
+                    ?.map<DropdownMenuItem<String>>((SubDistrict subDistrict) {
+                  return DropdownMenuItem(
+                    enabled: subDistrict.name ==
+                            _usersProvider.dropdownSubDistrictValue.value
+                        ? false
+                        : true,
+                    value: subDistrict.id.toString(),
+                    child: Text(
+                      subDistrict.name,
+                      style: blackTextStyle.copyWith(
+                        fontSize: 16,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
             ),
           ),
-          const SizedBox(
-            height: 12,
-          ),
-          SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Pilih Kecamatan',
-                  style: primaryTextStyle.copyWith(
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                const SizedBox(
-                  height: 7,
-                ),
-                Obx(
-                  () => Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15,
-                      vertical: 1,
-                    ),
-                    decoration: BoxDecoration(
-                      color: backgroundColor6,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: DropdownButton<String>(
-                      alignment: Alignment.bottomCenter,
-                      value: dropdownSubDistrictValue,
-                      isExpanded: true,
-                      icon: const Icon(Icons.arrow_drop_down_rounded),
-                      iconSize: 24,
-                      borderRadius: BorderRadius.circular(20),
-                      underline: Container(height: 0),
-                      style: const TextStyle(color: Colors.deepPurple),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          dropdownSubDistrictValue = newValue!;
-                        });
-                      },
-                      items: _geographicProvider.getListSubDistricts
-                          ?.map<DropdownMenuItem<String>>(
-                              (SubDistrict subDistrict) {
-                        return DropdownMenuItem(
-                          enabled: subDistrict.name == dropdownSubDistrictValue
-                              ? false
-                              : true,
-                          value: subDistrict.id.toString(),
-                          child: Text(
-                            subDistrict.name,
-                            style: blackTextStyle.copyWith(
-                              fontSize: 16,
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          InputGroup(
-            hintText: "Alamat",
-            required: true,
-            inputController: addressController,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              CustomButton(
-                title: 'Tambah',
-                width: 120,
-                height: 45,
-                fontSize: 14,
-                defaultRadiusButton: 10,
-                onPressed: () => addUserAction(),
-              ),
-              CustomButton(
-                title: 'Batal',
-                width: 120,
-                height: 45,
-                fontSize: 14,
-                backgroundColor: redColor,
-                defaultRadiusButton: 10,
-                onPressed: () => clearInput(),
-              ),
-            ],
-          )
         ],
       ),
     );
