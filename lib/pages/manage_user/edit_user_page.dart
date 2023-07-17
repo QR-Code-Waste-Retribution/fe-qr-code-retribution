@@ -7,7 +7,7 @@ import 'package:qr_code_app/models/geographic/sub_district.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/services/providers/geographic_provider.dart';
-import 'package:qr_code_app/services/providers/users_provider.dart';
+import 'package:qr_code_app/services/providers/manage_user/edit_user_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/button/button_group.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
@@ -15,41 +15,17 @@ import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 class EditUserPage extends StatelessWidget {
   EditUserPage({super.key});
 
-  final nameController = TextEditingController();
-  final usernameController = TextEditingController();
-  final nikController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final categoryController = TextEditingController();
-  final subDistrictController = TextEditingController();
-  final addressController = TextEditingController();
-
   final CategoriesProvider _categoriesProvider = Get.find<CategoriesProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
-  final UsersProvider _usersProvider = Get.find<UsersProvider>();
   final GeographicProvider _geographicProvider = Get.find<GeographicProvider>();
+  final EditUserProvider _editUserProvider = Get.find<EditUserProvider>();
 
-  final List<TextEditingController> textInputControllers = [];
-
-  void addUserAction() {}
-
-  void clearInput() {
-    for (var controller in textInputControllers) {
-      controller.clear();
-    }
-    _usersProvider.clearInput();
+  void addUserAction() {
+    _editUserProvider.onSubmit();
   }
 
   @override
   Widget build(BuildContext context) {
-    textInputControllers.addAll([
-      nameController,
-      usernameController,
-      nikController,
-      phoneNumberController,
-      categoryController,
-      subDistrictController,
-      addressController,
-    ]);
     _categoriesProvider.isLoading.value = true;
     _categoriesProvider
         .getAllCategories(districtId: _authProvider.districtId!)
@@ -57,20 +33,20 @@ class EditUserPage extends StatelessWidget {
       _categoriesProvider.priceSelectedCategories(
         idSelected: _categoriesProvider.getCategoriesList.categories[0].id!,
       );
-      _usersProvider.dropdownCategoriesValues.add(
-          _categoriesProvider.getCategoriesList.categories[0].id.toString());
     });
     _geographicProvider
         .getAllSubDistrictByDistrictId(districtId: _authProvider.districtId!)
         .then((value) {
-      _usersProvider.dropdownSubDistrictValue.value =
+      _editUserProvider.dropdownSubDistrictValue.value =
           _geographicProvider.getListSubDistricts![0].id.toString();
-      _usersProvider.dropdownSubDistrictValue.value =
+      _editUserProvider.dropdownSubDistrictValue.value =
           _authProvider.userSubDistrictId!;
     });
 
+    _editUserProvider.getDetailMasyarakat(userId: 16);
+
     Future<bool> onWillPop() async {
-      _usersProvider.back();
+      _editUserProvider.back();
       return true;
     }
 
@@ -86,7 +62,7 @@ class EditUserPage extends StatelessWidget {
               size: 20,
             ),
             onPressed: (() {
-              _usersProvider.back();
+              _editUserProvider.back();
             }),
           ),
           title: Text(
@@ -107,23 +83,19 @@ class EditUserPage extends StatelessWidget {
                 InputGroup(
                   hintText: "Nama",
                   required: true,
-                  inputController: nameController,
-                ),
-                InputGroup(
-                  hintText: "Username/Email",
-                  required: true,
-                  inputController: usernameController,
+                  inputController: _editUserProvider.nameController.value,
                 ),
                 InputGroup(
                   hintText: "NIK",
-                  inputController: nikController,
+                  inputController: _editUserProvider.nikController.value,
                   keyboardType: TextInputType.number,
                 ),
                 InputGroup(
                   hintText: "No. Telepon",
                   required: true,
                   keyboardType: TextInputType.number,
-                  inputController: phoneNumberController,
+                  inputController:
+                      _editUserProvider.phoneNumberController.value,
                 ),
                 const SizedBox(
                   height: 7,
@@ -150,7 +122,7 @@ class EditUserPage extends StatelessWidget {
                         defaultRadiusButton: 10,
                         backgroundColor: orangeLight,
                         onPressed: () {
-                          _usersProvider.addNewCategoryInput(
+                          _editUserProvider.addNewCategoryInput(
                             newValue: _categoriesProvider
                                 .getCategoriesList.categories[0].id
                                 .toString(),
@@ -167,7 +139,8 @@ class EditUserPage extends StatelessWidget {
                   return SizedBox(
                     child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: _usersProvider.dropdownCategoriesValues.length,
+                      itemCount:
+                          _editUserProvider.dropdownCategoriesValues.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Column(
                           children: [
@@ -199,7 +172,7 @@ class EditUserPage extends StatelessWidget {
                                           ),
                                           child: DropdownButton<String>(
                                             alignment: Alignment.bottomCenter,
-                                            value: _usersProvider
+                                            value: _editUserProvider
                                                     .getDropdownCategoriesValues[
                                                 index],
                                             isExpanded: true,
@@ -212,7 +185,7 @@ class EditUserPage extends StatelessWidget {
                                             style: const TextStyle(
                                                 color: Colors.deepPurple),
                                             onChanged: (String? newValue) {
-                                              _usersProvider
+                                              _editUserProvider
                                                       .getDropdownCategoriesValues[
                                                   index] = newValue!;
                                             },
@@ -222,7 +195,7 @@ class EditUserPage extends StatelessWidget {
                                                     (Category category) {
                                               return DropdownMenuItem(
                                                 enabled: category.name ==
-                                                        _usersProvider
+                                                        _editUserProvider
                                                                 .getDropdownCategoriesValues[
                                                             index]
                                                     ? false
@@ -249,7 +222,7 @@ class EditUserPage extends StatelessWidget {
                                 InputGroup(
                                   hintText: "Alamat",
                                   required: true,
-                                  inputController: _usersProvider
+                                  inputController: _editUserProvider
                                       .getListAddressController[index],
                                 ),
                               ],
@@ -281,7 +254,9 @@ class EditUserPage extends StatelessWidget {
                       fontSize: 14,
                       backgroundColor: redColor,
                       defaultRadiusButton: 10,
-                      onPressed: () => clearInput(),
+                      onPressed: () {
+                        _editUserProvider.clearInput();
+                      },
                     ),
                   ],
                 )
@@ -319,7 +294,7 @@ class EditUserPage extends StatelessWidget {
               ),
               child: DropdownButton<String>(
                 alignment: Alignment.bottomCenter,
-                value: _usersProvider.dropdownSubDistrictValue.value,
+                value: _editUserProvider.dropdownSubDistrictValue.value,
                 isExpanded: true,
                 icon: const Icon(Icons.arrow_drop_down_rounded),
                 iconSize: 24,
@@ -327,13 +302,13 @@ class EditUserPage extends StatelessWidget {
                 underline: Container(height: 0),
                 style: const TextStyle(color: Colors.deepPurple),
                 onChanged: (String? newValue) {
-                  _usersProvider.dropdownSubDistrictValue.value = newValue!;
+                  _editUserProvider.dropdownSubDistrictValue.value = newValue!;
                 },
                 items: _geographicProvider.getListSubDistricts
                     ?.map<DropdownMenuItem<String>>((SubDistrict subDistrict) {
                   return DropdownMenuItem(
                     enabled: subDistrict.name ==
-                            _usersProvider.dropdownSubDistrictValue.value
+                            _editUserProvider.dropdownSubDistrictValue.value
                         ? false
                         : true,
                     value: subDistrict.id.toString(),

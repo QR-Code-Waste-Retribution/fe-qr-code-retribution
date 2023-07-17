@@ -1,6 +1,6 @@
 class UserForm {
   final String name;
-  final String username;
+  final String? username;
   final String? nik;
   final String phoneNumber;
   final String gender;
@@ -12,7 +12,7 @@ class UserForm {
 
   UserForm({
     required this.name,
-    required this.username,
+    this.username,
     this.nik,
     required this.gender,
     required this.phoneNumber,

@@ -41,33 +41,6 @@ class UsersProvider extends GetxController {
     return getCurrentPage + 1 > getLastPage ? getLastPage : getCurrentPage + 1;
   }
 
-  RxList<Widget> dynamicWidgets = <Widget>[].obs;
-
-  List<Widget> get getDynamicWidgets => dynamicWidgets;
-
-  RxList<String> dropdownCategoriesValues = <String>[].obs;
-  RxList<String> dropdownSubDistrictsValues = <String>[].obs;
-
-  RxList<TextEditingController> listAddressTextController =
-      <TextEditingController>[
-    TextEditingController(),
-  ].obs;
-
-  List<TextEditingController> get getListAddressController =>
-      listAddressTextController;
-  List<String> get getDropdownCategoriesValues => dropdownCategoriesValues;
-  List<String> get getDropdownSubDistrictsValues => dropdownSubDistrictsValues;
-
-  RxString dropdownSubDistrictValue = ''.obs;
-
-  String get getDropdownSubDistrictValue => dropdownSubDistrictValue.value;
-
-  void addNewCategoryInput({required String newValue}) {
-    dropdownCategoriesValues.add(newValue);
-    listAddressTextController.add(TextEditingController());
-    update();
-    // logger.d(newValue);
-  }
 
   Future<void> getAllMasyarakatBySubDistrictId(
       {required int pemungutId, int page = 1}) async {
@@ -141,17 +114,5 @@ class UsersProvider extends GetxController {
         borderRadius: 5,
       );
     }
-  }
-
-  void clearInput() {
-    dropdownCategoriesValues.value = <String>[];
-    dropdownSubDistrictsValues.value = <String>[];
-    listAddressTextController.value = [TextEditingController()];
-    update();
-  }
-
-  void back() {
-    clearInput();
-    Get.back();
   }
 }

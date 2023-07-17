@@ -45,4 +45,15 @@ class UserRepositories extends GetxService {
       return ResponseAPI.fromJson(jsonDecodeResponse);
     }
   }
+
+  Future getDetailMasyarakat({required int userId}) async {
+    try {
+      final response = await _client.get('/user/$userId');
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioException catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    }
+  }
 }

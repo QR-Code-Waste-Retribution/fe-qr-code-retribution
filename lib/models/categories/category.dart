@@ -4,6 +4,7 @@ import 'package:qr_code_app/models/geographic/district.dart';
 class Category {
   int? id;
   String? name;
+  String? address;
   String? description;
   int? price;
   String? status;
@@ -23,11 +24,12 @@ class Category {
       this.parentId,
       this.district,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt, this.address});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    address = json['address'];
     description = json['description'];
     price = json['price'];
     status = json['status'];
@@ -48,6 +50,7 @@ class Category {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['name'] = name;
+    data['address'] = address;
     data['description'] = description;
     data['price'] = price;
     data['status'] = status;
