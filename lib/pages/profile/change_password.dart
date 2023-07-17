@@ -1,30 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/services/providers/auth/change_password_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 
-class ChangePasswordPage extends StatefulWidget {
-  const ChangePasswordPage({super.key});
+class ChangePasswordPage extends StatelessWidget {
+  ChangePasswordPage({super.key});
 
-  @override
-  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
-}
-
-class _ChangePasswordPageState extends State<ChangePasswordPage> {
-  var oldPasswordController = TextEditingController();
-  var newPasswordController = TextEditingController();
-  var confirmPasswordController = TextEditingController();
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    oldPasswordController.dispose();
-    newPasswordController.dispose();
-    confirmPasswordController.dispose();
-  }
+  final ChangePasswordProvider changePasswordProvider =
+      Get.find<ChangePasswordProvider>();
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +26,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
-              Get.back();
-            });
+            Get.back();
           }),
         ),
         title: Text(
@@ -68,19 +52,19 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             hintText: "Kata Sandi Lama",
             obscure: true,
             required: true,
-            inputController: oldPasswordController,
+            inputController: changePasswordProvider.oldPasswordInput,
           ),
           InputGroup(
             hintText: "Kata Sandi Baru",
             obscure: true,
             required: true,
-            inputController: newPasswordController,
+            inputController: changePasswordProvider.newPasswordInput,
           ),
           InputGroup(
             hintText: "Konfirmasi Kata Sandi Baru",
             obscure: true,
             required: true,
-            inputController: confirmPasswordController,
+            inputController: changePasswordProvider.confirmPasswordInput,
           ),
           const SizedBox(
             height: 20,
@@ -91,7 +75,9 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             height: 45,
             fontSize: 14,
             defaultRadiusButton: 10,
-            onPressed: () {},
+            onPressed: () {
+              changePasswordProvider.onSubmit();
+            },
           ),
         ],
       ),

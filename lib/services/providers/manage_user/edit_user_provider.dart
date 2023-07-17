@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_app/models/form/edit_user_form.dart';
+import 'package:qr_code_app/models/form/auth/edit_user_form.dart';
 import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
@@ -32,6 +32,10 @@ class EditUserProvider extends GetxController {
   String get getDropdownSubDistrictValue => dropdownSubDistrictValue.value;
 
   Rx<User> user = User().obs;
+
+  RxBool loading = false.obs;
+
+  bool get isLoading => loading.value;
 
   final List<TextEditingController> textInputControllers = [];
 
@@ -79,11 +83,13 @@ class EditUserProvider extends GetxController {
     logger.d(userEditForm.toJson());
   }
 
-  Future<void> getDetailMasyarakat({required int userId}) async {
+  Future<void> getDetailMasyarakat({required int masyarakatId}) async {
     try {
       ResponseAPI response = await _userRepositories.getDetailMasyarakat(
-        userId: userId,
+        userId: masyarakatId,
       );
+
+      loading.value = false;
 
       user.value = User.fromJson(response.data);
       fillInput();

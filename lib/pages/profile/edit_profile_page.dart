@@ -6,7 +6,7 @@ import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 import 'package:qr_code_app/utils/alert_dialog_custom.dart';
-import 'package:qr_code_app/models/form/edit_profile_form.dart';
+import 'package:qr_code_app/models/form/auth/edit_profile_form.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});

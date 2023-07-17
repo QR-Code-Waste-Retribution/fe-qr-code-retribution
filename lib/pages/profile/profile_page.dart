@@ -17,7 +17,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    print(_authProvider.userAddress);
     super.initState();
   }
 

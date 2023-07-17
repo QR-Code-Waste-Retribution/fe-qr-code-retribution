@@ -5,7 +5,8 @@ import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 class AppConstants {
   static const String apiUrlServer = 'http://34.142.240.225/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
-  static const String apiUrlNgrok = 'https://b631-36-79-30-172.ngrok-free.app/api';
+  static const String apiUrlNgrok =
+      'https://1ce5-36-79-30-172.ngrok-free.app/api';
 
   static const String wbServerPort = '8000';
   static const String urlSocketLocal = 'http://localhost:$wbServerPort/';

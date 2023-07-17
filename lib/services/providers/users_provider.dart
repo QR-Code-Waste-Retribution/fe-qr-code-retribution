@@ -7,7 +7,6 @@ import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/models/user/user_pagination.dart';
 import 'package:qr_code_app/services/repositories/user_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:qr_code_app/utils/logger.dart';
 
 class UsersProvider extends GetxController {
   final UserRepositories _userRepositories = UserRepositories();

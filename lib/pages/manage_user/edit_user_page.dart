@@ -24,6 +24,8 @@ class EditUserPage extends StatelessWidget {
     _editUserProvider.onSubmit();
   }
 
+  final int masyarakatId = Get.arguments['id'];
+
   @override
   Widget build(BuildContext context) {
     _categoriesProvider.isLoading.value = true;
@@ -34,6 +36,7 @@ class EditUserPage extends StatelessWidget {
         idSelected: _categoriesProvider.getCategoriesList.categories[0].id!,
       );
     });
+    _editUserProvider.loading.value = true;
     _geographicProvider
         .getAllSubDistrictByDistrictId(districtId: _authProvider.districtId!)
         .then((value) {
@@ -41,9 +44,8 @@ class EditUserPage extends StatelessWidget {
           _geographicProvider.getListSubDistricts![0].id.toString();
       _editUserProvider.dropdownSubDistrictValue.value =
           _authProvider.userSubDistrictId!;
+      _editUserProvider.getDetailMasyarakat(masyarakatId: masyarakatId);
     });
-
-    _editUserProvider.getDetailMasyarakat(userId: 16);
 
     Future<bool> onWillPop() async {
       _editUserProvider.back();
@@ -162,56 +164,69 @@ class EditUserPage extends StatelessWidget {
                                         height: 7,
                                       ),
                                       Obx(
-                                        () => Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 15, vertical: 1),
-                                          decoration: BoxDecoration(
-                                            color: backgroundColor6,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: DropdownButton<String>(
-                                            alignment: Alignment.bottomCenter,
-                                            value: _editUserProvider
-                                                    .getDropdownCategoriesValues[
-                                                index],
-                                            isExpanded: true,
-                                            icon: const Icon(
-                                                Icons.arrow_drop_down_rounded),
-                                            iconSize: 24,
-                                            borderRadius:
-                                                BorderRadius.circular(20),
-                                            underline: Container(height: 0),
-                                            style: const TextStyle(
-                                                color: Colors.deepPurple),
-                                            onChanged: (String? newValue) {
-                                              _editUserProvider
-                                                      .getDropdownCategoriesValues[
-                                                  index] = newValue!;
-                                            },
-                                            items: _categoriesProvider
-                                                .getCategoriesList.categories
-                                                .map<DropdownMenuItem<String>>(
-                                                    (Category category) {
-                                              return DropdownMenuItem(
-                                                enabled: category.name ==
-                                                        _editUserProvider
-                                                                .getDropdownCategoriesValues[
-                                                            index]
-                                                    ? false
-                                                    : true,
-                                                value: category.id.toString(),
-                                                child: Text(
-                                                  "${category.name}",
-                                                  style:
-                                                      blackTextStyle.copyWith(
-                                                    fontSize: 16,
-                                                  ),
+                                        () => _editUserProvider.isLoading
+                                            ? CustomLoading(
+                                                loadingColor: secondaryColor,
+                                              )
+                                            : Container(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 15,
+                                                        vertical: 1),
+                                                decoration: BoxDecoration(
+                                                  color: backgroundColor6,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
                                                 ),
-                                              );
-                                            }).toList(),
-                                          ),
-                                        ),
+                                                child: DropdownButton<String>(
+                                                  alignment:
+                                                      Alignment.bottomCenter,
+                                                  value: _editUserProvider
+                                                          .getDropdownCategoriesValues[
+                                                      index],
+                                                  isExpanded: true,
+                                                  icon: const Icon(Icons
+                                                      .arrow_drop_down_rounded),
+                                                  iconSize: 24,
+                                                  borderRadius:
+                                                      BorderRadius.circular(20),
+                                                  underline:
+                                                      Container(height: 0),
+                                                  style: const TextStyle(
+                                                      color: Colors.deepPurple),
+                                                  onChanged:
+                                                      (String? newValue) {
+                                                    _editUserProvider
+                                                            .getDropdownCategoriesValues[
+                                                        index] = newValue!;
+                                                  },
+                                                  items: _categoriesProvider
+                                                      .getCategoriesList
+                                                      .categories
+                                                      .map<
+                                                              DropdownMenuItem<
+                                                                  String>>(
+                                                          (Category category) {
+                                                    return DropdownMenuItem(
+                                                      enabled: category.name ==
+                                                              _editUserProvider
+                                                                      .getDropdownCategoriesValues[
+                                                                  index]
+                                                          ? false
+                                                          : true,
+                                                      value: category.id
+                                                          .toString(),
+                                                      child: Text(
+                                                        "${category.name}",
+                                                        style: blackTextStyle
+                                                            .copyWith(
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                                ),
+                                              ),
                                       ),
                                     ],
                                   ),

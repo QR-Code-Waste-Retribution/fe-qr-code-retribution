@@ -56,4 +56,5 @@ class UserRepositories extends GetxService {
       return ResponseAPI.fromJson(jsonDecodeResponse);
     }
   }
+
 }

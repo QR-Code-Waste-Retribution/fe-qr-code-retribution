@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:qr_code_app/services/providers/auth/change_password_provider.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/categories_provider.dart';
 import 'package:qr_code_app/services/providers/doku_provider.dart';
@@ -54,6 +55,9 @@ class AppBindings extends Bindings {
         fenix: true);
     Get.lazyPut<EditUserProvider>(
             () => EditUserProvider(),
+        fenix: true);
+    Get.lazyPut<ChangePasswordProvider>(
+            () => ChangePasswordProvider(),
         fenix: true);
 
     // Pagination

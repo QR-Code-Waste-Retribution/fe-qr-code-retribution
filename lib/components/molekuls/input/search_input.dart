@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
-
 class SearchInputWidget extends StatelessWidget {
   final Function(String) onChange;
 
@@ -36,7 +35,6 @@ class SearchInputWidget extends StatelessWidget {
                 decoration: InputDecoration(
                   hintText: 'Cari nama, kategori, dll',
                   hintStyle: subtitleTextStyle.copyWith(fontSize: 15),
-                  contentPadding: const EdgeInsets.only(top: 15.0),
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     onPressed: () {},

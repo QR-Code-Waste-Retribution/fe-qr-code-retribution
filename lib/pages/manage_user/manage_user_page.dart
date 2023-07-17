@@ -169,7 +169,12 @@ class _ManageUserPageState extends State<ManageUserPage> {
                 fontSize: 14,
                 defaultRadiusButton: 10,
                 onPressed: () {
-                  Get.toNamed(Pages.editUserPage);
+                  Get.toNamed(
+                    Pages.editUserPage,
+                    arguments: {
+                      'id': masyarakatId,
+                    },
+                  );
                 },
               ),
               Switch(

@@ -102,7 +102,7 @@ class Pages {
     ),
     GetPage(
       name: changePasswordPage,
-      page: () => const ChangePasswordPage(),
+      page: () => ChangePasswordPage(),
       transition: Transition.fade,
     ),
     GetPage(

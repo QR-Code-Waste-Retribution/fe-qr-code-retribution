@@ -3,7 +3,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:qr_code_app/models/form/edit_profile_form.dart';
+import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
+import 'package:qr_code_app/models/form/auth/change_password_form.dart';
+import 'package:qr_code_app/models/form/auth/edit_profile_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/routes/init.dart';
@@ -49,8 +51,9 @@ class AuthProvider extends GetxController {
   String? get userAddress => _authData.value.user?.address;
 
   String? get userSubDistrict => _authData.value.user?.subDistrict?.name;
-  
-  String? get userSubDistrictId => _authData.value.user?.subDistrict?.id.toString();
+
+  String? get userSubDistrictId =>
+      _authData.value.user?.subDistrict?.id.toString();
 
   bool checkAuth() {
     final authDataJson = box.read('authData');
@@ -174,6 +177,22 @@ class AuthProvider extends GetxController {
         colorText: Colors.white,
         borderRadius: 5,
       );
+    }
+  }
+
+  Future<void> changePassword(
+      {required int userId,
+      required ChangePasswordForm changePasswordForm}) async {
+    try {
+      ResponseAPI response = await _authRepositories.changePassword(
+        userId: userId,
+        changePasswordForm: changePasswordForm,
+      );
+
+      SnackBarCustom.success(message: response.message);
+      update();
+    } catch (e) {
+      SnackBarCustom.error(message: e.toString());
     }
   }
 

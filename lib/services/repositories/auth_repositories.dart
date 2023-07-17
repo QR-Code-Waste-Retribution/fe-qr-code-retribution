@@ -2,9 +2,11 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_app/models/form/edit_profile_form.dart';
+import 'package:qr_code_app/models/form/auth/change_password_form.dart';
+import 'package:qr_code_app/models/form/auth/edit_profile_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/api_client.dart';
+import 'package:qr_code_app/utils/logger.dart';
 
 class AuthRepositories extends GetxService {
   final Dio _client = Client().init();
@@ -36,6 +38,25 @@ class AuthRepositories extends GetxService {
     } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
+    }
+  }
+
+  Future changePassword({
+    required int userId,
+    required ChangePasswordForm changePasswordForm,
+  }) async {
+    try {
+      final response = await _client.put(
+        '/user/change/$userId/password',
+        data: changePasswordForm.toJson(),
+      );
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioException catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      var response =  ResponseAPI.fromJson(jsonDecodeResponse);
+
+      throw Exception(response.message.toString());
     }
   }
 }
