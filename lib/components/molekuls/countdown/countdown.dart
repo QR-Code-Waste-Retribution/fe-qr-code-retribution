@@ -7,7 +7,15 @@ import 'package:qr_code_app/shared/theme/init.dart';
 
 class CountDown extends StatefulWidget {
   final String? expiredDateAPI;
-  const CountDown({super.key, required this.expiredDateAPI});
+  final String? text;
+  final double? fontSize;
+  final Function()? callback;
+  const CountDown(
+      {super.key,
+      required this.text,
+      this.expiredDateAPI,
+      this.callback,
+      this.fontSize = 14});
 
   @override
   State<CountDown> createState() => _CountDownState();
@@ -15,7 +23,7 @@ class CountDown extends StatefulWidget {
 
 class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
   late Timer countdownTimer;
-  DateTime expiredDate = DateTime.now().add(const Duration(seconds: 1));
+  DateTime expiredDate = DateTime.now().add(const Duration(seconds: 5));
 
   String countdownText = '';
 
@@ -57,6 +65,7 @@ class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
     countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (remainingDuration.isNegative) {
         countdownTimer.cancel();
+        widget.callback!();
         return;
       }
 
@@ -77,10 +86,11 @@ class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Text(
-      "Pembayaran dalam $countdownText",
+      "${widget.text} dalam $countdownText",
       style: whiteTextStyle.copyWith(
         fontWeight: FontWeight.w700,
         color: redColor,
+        fontSize: widget.fontSize,
       ),
       textAlign: TextAlign.center,
     );

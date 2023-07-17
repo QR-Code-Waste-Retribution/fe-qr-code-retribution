@@ -107,6 +107,7 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
                           textAlign: TextAlign.center,
                         )
                       : CountDown(
+                          text: 'Pembayaran',
                           expiredDateAPI: _dokuProvider.getVirtualAccountPayment
                               .virtualAccountInfo?.createdDateUtc,
                         ),

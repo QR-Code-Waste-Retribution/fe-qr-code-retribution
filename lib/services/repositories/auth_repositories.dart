@@ -54,7 +54,46 @@ class AuthRepositories extends GetxService {
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
-      var response =  ResponseAPI.fromJson(jsonDecodeResponse);
+      var response = ResponseAPI.fromJson(jsonDecodeResponse);
+
+      throw Exception(response.message.toString());
+    }
+  }
+
+  Future sendOTPByEmail({
+    required String email,
+  }) async {
+    try {
+      final response = await _client.post(
+        '/user/forget-password',
+        data: {
+          'email': email,
+        },
+      );
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioException catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      var response = ResponseAPI.fromJson(jsonDecodeResponse);
+
+      throw Exception(response.message.toString());
+    }
+  }
+
+  Future checkOTPByEmail({required String email, required String otp}) async {
+    try {
+      final response = await _client.post(
+        '/user/otp/check',
+        data: {
+          'email': email,
+          'otp_code': otp,
+        },
+      );
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioException catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      var response = ResponseAPI.fromJson(jsonDecodeResponse);
 
       throw Exception(response.message.toString());
     }

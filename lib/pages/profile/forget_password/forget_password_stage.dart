@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 import 'package:qr_code_app/services/providers/forgot_password_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -72,20 +73,27 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             InputGroup(
               hintText: 'Email',
               required: true,
-              inputController: forgotPasswordProvider.emailController,
+              inputController: forgotPasswordProvider.emailInput,
             ),
             const SizedBox(
               height: 20,
             ),
-            CustomButton(
-              title: 'Selanjutnya',
-              width: 120,
-              height: 45,
-              fontSize: 14,
-              defaultRadiusButton: 10,
-              onPressed: () {
-                forgotPasswordProvider.onNextStage();
-              },
+            Obx(
+              () => forgotPasswordProvider.isLoading
+                  ? CustomLoading(
+                      loadingColor: secondaryColor,
+                      textColor: secondaryColor,
+                    )
+                  : CustomButton(
+                      title: 'Selanjutnya',
+                      width: 120,
+                      height: 45,
+                      fontSize: 14,
+                      defaultRadiusButton: 10,
+                      onPressed: () {
+                        forgotPasswordProvider.onNextStage();
+                      },
+                    ),
             ),
           ],
         ),

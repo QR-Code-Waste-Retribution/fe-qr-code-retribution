@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/molekuls/appbar/i_appbar.dart';
+import 'package:qr_code_app/components/molekuls/countdown/countdown.dart';
 import 'package:qr_code_app/components/molekuls/input/input_otp.dart';
 import 'package:qr_code_app/services/providers/otp_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -12,9 +13,12 @@ class OtpInputStagePage extends StatelessWidget {
   OtpInputStagePage({super.key});
 
   final OtpProvider otpProvider = Get.find<OtpProvider>();
+  final String email = Get.arguments['email'];
 
   @override
   Widget build(BuildContext context) {
+    otpProvider.sendAgain.value = true;
+
     return Scaffold(
       appBar: IAppBar.transparent(),
       body: SafeArea(
@@ -60,38 +64,48 @@ class OtpInputStagePage extends StatelessWidget {
               },
               onChanged: (String value) {
                 if (value.length == 6) {
-                  otpProvider.onNextStage();
+                  otpProvider.onNextStage(email: email);
                 }
               },
-              controller: otpProvider.otpController,
+              controller: otpProvider.otpInput,
             ),
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Tidak menerima kode OTP?',
-                  style: blackTextStyle.copyWith(
-                    fontSize: 12,
-                  ),
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    otpProvider.send();
-                  },
-                  child: Text(
-                    'Kirim Ulang',
-                    style: priceTextStyle.copyWith(
+            Obx(
+              () => otpProvider.isSendAgain
+                  ? CountDown(
+                      text: 'Kirim ulang ',
                       fontSize: 12,
+                      callback: () {
+                        otpProvider.sendAgain.value = false;
+                      },
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Tidak menerima kode OTP?',
+                          style: blackTextStyle.copyWith(
+                            fontSize: 12,
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            otpProvider.send(email);
+                          },
+                          child: Text(
+                            'Kirim Ulang',
+                            style: priceTextStyle.copyWith(
+                              fontSize: 12,
+                            ),
+                          ),
+                        )
+                      ],
                     ),
-                  ),
-                )
-              ],
             )
           ],
         ),
