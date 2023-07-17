@@ -23,6 +23,13 @@ class ChangePasswordProvider extends GetxController {
   TextEditingController get confirmPasswordInput =>
       confirmPasswordController.value;
 
+  RxString newPasswordInputErrorText = ''.obs;
+  RxString confirmPasswordInputErrorText = ''.obs;
+
+  String get getNewPasswordInputErrorText => newPasswordInputErrorText.value;
+  String get getConfirmPasswordInputErrorText =>
+      confirmPasswordInputErrorText.value;
+
   void onSubmit() async {
     if (oldPasswordInput.text == '' ||
         newPasswordInput.text == '' ||
@@ -50,6 +57,25 @@ class ChangePasswordProvider extends GetxController {
       Get.offAndToNamed(Pages.homePage);
     } on Exception catch (e) {
       SnackBarCustom.error(message: e.toString());
+    }
+  }
+
+  void onChangeNewPasswordInput() {
+    if (newPasswordInput.text == '') {
+      newPasswordInputErrorText.value = "Input password harus diisi";
+    } else {
+      newPasswordInputErrorText.value = "";
+    }
+  }
+
+  void onChangeConfirmPasswordInput() {
+    if (confirmPasswordInput.text == '') {
+      confirmPasswordInputErrorText.value =
+          "Input Konfirmasi password harus diisi";
+    } else if (confirmPasswordInput.text != newPasswordInput.text) {
+      confirmPasswordInputErrorText.value = "Password tidak sama";
+    } else {
+      confirmPasswordInputErrorText.value = "";
     }
   }
 

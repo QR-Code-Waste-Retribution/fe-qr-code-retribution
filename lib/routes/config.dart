@@ -130,5 +130,10 @@ class Pages {
       page: () => OtpInputStagePage(),
       transition: Transition.fade,
     ),
+    GetPage(
+      name: FormChangePassword.routeName,
+      page: () => FormChangePassword(),
+      transition: Transition.fade,
+    ),
   ];
 }

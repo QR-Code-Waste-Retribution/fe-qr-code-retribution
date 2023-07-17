@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/models/response_api.dart';
+import 'package:qr_code_app/pages/profile/forget_password/form_change_password_stage.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 import 'package:qr_code_app/utils/logger.dart';
 
@@ -20,15 +21,20 @@ class OtpProvider extends GetxController {
 
   void onNextStage({required String email}) async {
     try {
+      loading.value = true;
+      update();
       ResponseAPI response = await _authRepositories.checkOTPByEmail(
         otp: otpInput.text,
         email: email,
       );
 
       SnackBarCustom.success(message: response.message);
-
+      Get.toNamed(FormChangePassword.routeName);
+      loading.value = false;
       update();
     } catch (e) {
+      loading.value = false;
+      update();
       SnackBarCustom.error(message: e.toString());
     }
   }
@@ -47,6 +53,8 @@ class OtpProvider extends GetxController {
       loading.value = false;
       update();
     } catch (e) {
+      loading.value = false;
+      update();
       SnackBarCustom.error(message: e.toString());
     }
   }

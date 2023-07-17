@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
-class InputGroup extends StatefulWidget {
+class InputGroupCustom extends StatefulWidget {
   final String hintText;
+  final String? errorText;
   final bool obscure;
   final String subLabel;
   final bool required;
   final TextEditingController inputController;
   final TextInputType keyboardType;
+  final Function(String value)? onChanged;
 
-  const InputGroup({
+  const InputGroupCustom({
     super.key,
     required this.hintText,
     this.obscure = false,
@@ -17,16 +19,15 @@ class InputGroup extends StatefulWidget {
     required this.inputController,
     this.keyboardType = TextInputType.text,
     this.subLabel = '',
-    
+    this.errorText = '',
+    this.onChanged,
   });
 
   @override
-  State<InputGroup> createState() => _InputGroupState();
+  State<InputGroupCustom> createState() => _InputGroupCustomState();
 }
 
-class _InputGroupState extends State<InputGroup> {
-  bool inputNullCheck = false;
-
+class _InputGroupCustomState extends State<InputGroupCustom> {
   bool showPass = true;
 
   void _eventTogglePassword() {
@@ -77,7 +78,7 @@ class _InputGroupState extends State<InputGroup> {
               color: backgroundColor6,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
-                color: inputNullCheck ? redColor : transparent,
+                color: widget.errorText != '' ? redColor : transparent,
               ),
             ),
             child: Center(
@@ -95,17 +96,7 @@ class _InputGroupState extends State<InputGroup> {
                           return null;
                         }
                       },
-                      onChanged: (value) {
-                        if (widget.required) {
-                          if (value.isEmpty) {
-                            inputNullCheck = true;
-                          } else {
-                            inputNullCheck = false;
-                            // The user has entered something.
-                          }
-                        }
-                        setState(() {});
-                      },
+                      onChanged: widget.onChanged,
                       scrollPadding: const EdgeInsets.only(bottom: 40),
                       style: primaryTextStyle.copyWith(
                         color: Colors.black,
@@ -136,14 +127,14 @@ class _InputGroupState extends State<InputGroup> {
   }
 
   Widget textInvalidInput() {
-    return inputNullCheck
+    return widget.errorText != ''
         ? Column(
             children: [
               const SizedBox(
                 height: 4,
               ),
               Text(
-                "Input ${widget.hintText.toLowerCase()} tidak boleh kosong",
+                "${widget.errorText}",
                 style: primaryTextStyle.copyWith(
                   fontWeight: FontWeight.w600,
                   color: redColor,
