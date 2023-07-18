@@ -32,6 +32,10 @@ class UsersProvider extends GetxController {
 
   RxBool isLoading = false.obs;
 
+  RxBool isSwitched = false.obs;
+
+  RxList<bool> isSwitchedList = <bool>[].obs;
+
   int getPreviousPage() {
     return getCurrentPage - 1 == 0 ? 1 : getCurrentPage - 1;
   }
@@ -39,7 +43,6 @@ class UsersProvider extends GetxController {
   int getNextPage() {
     return getCurrentPage + 1 > getLastPage ? getLastPage : getCurrentPage + 1;
   }
-
 
   Future<void> getAllMasyarakatBySubDistrictId(
       {required int pemungutId, int page = 1}) async {
@@ -51,7 +54,6 @@ class UsersProvider extends GetxController {
 
       usersPagination.value = UsersPagination.fromJson(response.data);
 
-      update();
     } catch (e) {
       Get.snackbar(
         'Error',

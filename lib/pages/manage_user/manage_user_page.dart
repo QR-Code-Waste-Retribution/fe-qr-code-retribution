@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
-import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/input/search_input.dart';
 import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/routes/init.dart';
@@ -9,7 +8,6 @@ import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/providers/users_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/alert_dialog_custom.dart';
-import 'package:qr_code_app/utils/logger.dart';
 import 'package:qr_code_app/utils/long_string_format.dart';
 
 class ManageUserPage extends StatefulWidget {
@@ -22,10 +20,6 @@ class ManageUserPage extends StatefulWidget {
 }
 
 class _ManageUserPageState extends State<ManageUserPage> {
-  bool isSwitched = false;
-
-  List<bool> isSwitchedList = [];
-
   final UsersProvider _usersProvider = Get.find<UsersProvider>();
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
@@ -94,7 +88,6 @@ class _ManageUserPageState extends State<ManageUserPage> {
   }
 
   void initData({int page = 1}) {
-    _usersProvider.isLoading.value = true;
     _usersProvider
         .getAllMasyarakatBySubDistrictId(
             pemungutId: _authProvider.getUserId!, page: page)
@@ -103,9 +96,8 @@ class _ManageUserPageState extends State<ManageUserPage> {
           index < _usersProvider.getUsersPaginationRecords!.length;
           index++) {
         var item = _usersProvider.getUsersPaginationRecords![index];
-        isSwitchedList.add(item.accountStatus!);
+        _usersProvider.isSwitchedList.add(item.accountStatus!);
       }
-      _usersProvider.isLoading.value = false;
     });
   }
 
@@ -178,14 +170,14 @@ class _ManageUserPageState extends State<ManageUserPage> {
                 },
               ),
               Switch(
-                value: isSwitchedList[index],
+                value: _usersProvider.isSwitchedList[index],
                 onChanged: (value) {
                   AlertDialogCustom.showAlertDialog(
                     context: context,
                     onYes: () {
-                      setState(() {
-                        isSwitchedList[index] = value;
-                      });
+                      // setState(() {
+                      //   isSwitchedList[index] = value;
+                      // });
                       return changeSelectedStatusMasyarakat(
                         userId: masyarakatId,
                       );
@@ -244,12 +236,6 @@ class _ManageUserPageState extends State<ManageUserPage> {
           ),
           Obx(
             () {
-              if (_usersProvider.isLoading.value) {
-                return const CustomLoading(
-                  loadingColor: primaryColor,
-                  textColor: primaryColor,
-                );
-              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

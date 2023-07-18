@@ -187,9 +187,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
               Get.back();
-            });
           }),
         ),
         title: Text(

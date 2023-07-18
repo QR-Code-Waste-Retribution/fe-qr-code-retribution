@@ -4,28 +4,18 @@ import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:get/get.dart';
 
-class HomePagination extends StatefulWidget {
-  const HomePagination({super.key});
+class HomePagination extends StatelessWidget {
+  HomePagination({super.key});
 
-  @override
-  State<HomePagination> createState() => _HomePaginationState();
-}
-
-class _HomePaginationState extends State<HomePagination> {
   final AuthProvider authProvider = Get.find<AuthProvider>();
-  final PaginationProvider paginationProvider = Get.find<PaginationProvider>();
-
-  @override
-  void reassemble() {
-    super.reassemble();
-  }
+  final PaginationProvider paginationProvider = Get.put(PaginationProvider(), permanent: false);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: backgroundColor6,
-      bottomNavigationBar: Obx(
-        () => BottomNavigationBar(
+    return Obx(
+      () => Scaffold(
+        backgroundColor: backgroundColor6,
+        bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.blue,
           currentIndex: paginationProvider.currentIndex.value,
           selectedItemColor: secondaryColor,
@@ -42,9 +32,7 @@ class _HomePaginationState extends State<HomePagination> {
           items: paginationProvider
               .roleMenus[authProvider.authData.user?.role?.name]!,
         ),
-      ),
-      body: Obx(
-        () => Center(
+        body: Center(
           child: paginationProvider
               .rolePages[authProvider.authData.user?.role?.name]!
               .elementAt(paginationProvider.currentIndex.value),

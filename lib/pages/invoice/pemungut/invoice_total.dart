@@ -118,9 +118,7 @@ class _InvoiceTotalState extends State<InvoiceTotal> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
               Get.back();
-            });
           }),
         ),
         title: Text(

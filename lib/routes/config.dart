@@ -30,7 +30,7 @@ class Pages {
     ),
     GetPage(
       name: homePage,
-      page: () => const HomePagination(),
+      page: () => HomePagination(),
       transition: Transition.fade,
     ),
     GetPage(

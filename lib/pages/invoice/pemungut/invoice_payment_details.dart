@@ -96,9 +96,7 @@ class _PaymentDetailsState extends State<PaymentDetails> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
               Get.back();
-            });
           }),
         ),
         title: Text(

@@ -60,9 +60,7 @@ class _InvoicePeoplePageState extends State<InvoicePeoplePage> {
             size: 20,
           ),
           onPressed: (() {
-            setState(() {
               Get.back();
-            });
           }),
         ),
         title: Text(

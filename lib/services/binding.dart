@@ -6,6 +6,7 @@ import 'package:qr_code_app/services/providers/doku_provider.dart';
 import 'package:qr_code_app/services/providers/forgot_password_provider.dart';
 import 'package:qr_code_app/services/providers/geographic_provider.dart';
 import 'package:qr_code_app/services/providers/invoice_provider.dart';
+import 'package:qr_code_app/services/providers/manage_user/add_user_provider.dart';
 import 'package:qr_code_app/services/providers/manage_user/edit_user_provider.dart';
 import 'package:qr_code_app/services/providers/otp_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
@@ -35,30 +36,17 @@ class AppBindings extends Bindings {
     Get.lazyPut<PemungutTransactionProvider>(
         () => PemungutTransactionProvider(),
         fenix: true);
-    Get.lazyPut<DokuProvider>(
-        () => DokuProvider(),
+    Get.lazyPut<DokuProvider>(() => DokuProvider(), fenix: true);
+    Get.lazyPut<SocketProvider>(() => SocketProvider(), fenix: true);
+    Get.lazyPut<GeographicProvider>(() => GeographicProvider(), fenix: true);
+    Get.lazyPut<PrinterProvider>(() => PrinterProvider(), fenix: true);
+    Get.lazyPut<ForgotPasswordProvider>(() => ForgotPasswordProvider(),
         fenix: true);
-    Get.lazyPut<SocketProvider>(
-        () => SocketProvider(),
+    Get.lazyPut<OtpProvider>(() => OtpProvider(), fenix: true);
+    Get.lazyPut<EditUserProvider>(() => EditUserProvider(), fenix: true);
+    Get.lazyPut<ChangePasswordProvider>(() => ChangePasswordProvider(),
         fenix: true);
-    Get.lazyPut<GeographicProvider>(
-            () => GeographicProvider(),
-        fenix: true);
-    Get.lazyPut<PrinterProvider>(
-            () => PrinterProvider(),
-        fenix: true);
-    Get.lazyPut<ForgotPasswordProvider>(
-            () => ForgotPasswordProvider(),
-        fenix: true);
-    Get.lazyPut<OtpProvider>(
-            () => OtpProvider(),
-        fenix: true);
-    Get.lazyPut<EditUserProvider>(
-            () => EditUserProvider(),
-        fenix: true);
-    Get.lazyPut<ChangePasswordProvider>(
-            () => ChangePasswordProvider(),
-        fenix: true);
+    Get.lazyPut<AddUserProvider>(() => AddUserProvider(), fenix: true);
 
     // Pagination
     Get.put<PaginationProvider>(PaginationProvider());
@@ -73,14 +61,9 @@ class AppBindings extends Bindings {
     Get.lazyPut<PemungutTransactionRepositories>(
         () => PemungutTransactionRepositories(),
         fenix: true);
-    Get.lazyPut<DokuRepositories>(
-        () => DokuRepositories(),
-        fenix: true);
-    Get.lazyPut<SocketRepositories>(
-        () => SocketRepositories(),
-        fenix: true);
-    Get.lazyPut<GeographicRepositories>(
-            () => GeographicRepositories(),
+    Get.lazyPut<DokuRepositories>(() => DokuRepositories(), fenix: true);
+    Get.lazyPut<SocketRepositories>(() => SocketRepositories(), fenix: true);
+    Get.lazyPut<GeographicRepositories>(() => GeographicRepositories(),
         fenix: true);
   }
 }

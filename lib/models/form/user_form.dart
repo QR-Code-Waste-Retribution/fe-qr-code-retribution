@@ -2,6 +2,7 @@ class UserForm {
   final String name;
   final String? username;
   final String? nik;
+  final String email;
   final String phoneNumber;
   final String gender;
   final int category;
@@ -14,6 +15,7 @@ class UserForm {
     required this.name,
     this.username,
     this.nik,
+    required this.email,
     required this.gender,
     required this.phoneNumber,
     required this.category,
@@ -27,6 +29,7 @@ class UserForm {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['username'] = username;
+    data['email'] = email;
     data['nik'] = nik;
     data['gender'] = gender;
     data['phoneNumber'] = phoneNumber;

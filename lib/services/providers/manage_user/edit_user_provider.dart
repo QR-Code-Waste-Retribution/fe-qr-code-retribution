@@ -27,7 +27,7 @@ class EditUserProvider extends GetxController {
   List<String> get getDropdownCategoriesValues => dropdownCategoriesValues;
   List<String> get getDropdownSubDistrictsValues => dropdownSubDistrictsValues;
 
-  RxString dropdownSubDistrictValue = ''.obs;
+  RxString dropdownSubDistrictValue = '1'.obs;
 
   String get getDropdownSubDistrictValue => dropdownSubDistrictValue.value;
 
