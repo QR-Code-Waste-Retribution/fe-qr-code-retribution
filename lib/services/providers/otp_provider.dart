@@ -15,9 +15,11 @@ class OtpProvider extends GetxController {
 
   RxBool sendAgain = false.obs;
   RxBool loading = false.obs;
+  RxBool loadingSend = false.obs;
 
   bool get isSendAgain => sendAgain.value;
   bool get isLoading => loading.value;
+  bool get isLoadingSend => loadingSend.value;
 
   void onNextStage({required String email}) async {
     try {
@@ -29,7 +31,9 @@ class OtpProvider extends GetxController {
       );
 
       SnackBarCustom.success(message: response.message);
-      Get.toNamed(FormChangePassword.routeName);
+      Get.toNamed(FormChangePassword.routeName, arguments: {
+        'email': email,
+      });
       loading.value = false;
       update();
     } catch (e) {
@@ -42,7 +46,7 @@ class OtpProvider extends GetxController {
   void send(String email) async {
     emptyInput();
     try {
-      loading.value = true;
+      loadingSend.value = true;
       update();
 
       ResponseAPI response = await _authRepositories.sendOTPByEmail(
@@ -50,10 +54,10 @@ class OtpProvider extends GetxController {
       );
 
       SnackBarCustom.success(message: response.message);
-      loading.value = false;
+      sendAgain.value = true;
+      loadingSend.value = false;
       update();
     } catch (e) {
-      loading.value = false;
       update();
       SnackBarCustom.error(message: e.toString());
     }

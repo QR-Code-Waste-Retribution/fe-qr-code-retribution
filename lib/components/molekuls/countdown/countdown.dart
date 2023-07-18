@@ -23,7 +23,7 @@ class CountDown extends StatefulWidget {
 
 class _CountDownState extends State<CountDown> with WidgetsBindingObserver {
   late Timer countdownTimer;
-  DateTime expiredDate = DateTime.now().add(const Duration(seconds: 5));
+  DateTime expiredDate = DateTime.now().add(const Duration(seconds: 60));
 
   String countdownText = '';
 

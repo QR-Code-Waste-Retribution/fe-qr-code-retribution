@@ -61,23 +61,26 @@ class EditUserProvider extends GetxController {
     Get.back();
   }
 
-  void onSubmit() {
-    List<Categories> categories = [];
+  void onSubmit({
+    required int pemungutId,
+  }) {
+    Categories categories = Categories();
 
     for (var i = 0; i < dropdownCategoriesValues.length; i++) {
-      categories.add(
-        Categories(
+      categories.insert?.add(
+        Meta(
           id: int.parse(dropdownCategoriesValues[i]),
           address: listAddressTextController[i].text,
         ),
       );
     }
 
-    UserEditForm userEditForm = UserEditForm(
+    UserCategoriesForm userEditForm = UserCategoriesForm(
       name: nameController.value.text,
       nik: nikController.value.text,
       phoneNumber: phoneNumberController.value.text,
       categories: categories,
+      pemungutId: pemungutId
     );
 
     logger.d(userEditForm.toJson());

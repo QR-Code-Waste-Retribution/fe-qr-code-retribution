@@ -80,6 +80,8 @@ class TransactionProvider extends GetxController {
       );
       update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to store transaction : ${e.toString()}',
@@ -109,6 +111,8 @@ class TransactionProvider extends GetxController {
       );
       update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to store transaction : ${e.toString()}',
@@ -123,12 +127,14 @@ class TransactionProvider extends GetxController {
     try {
       ResponseAPI response = await _transactionRepositories
           .allTransactionByPemungutId(pemungutId: pemungutId!);
-    
+
       _transactionList.value = TransactionList.fromJson(response.data);
       isLoading.value = false;
 
       update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to store transaction : ${e.toString()}',
@@ -148,6 +154,8 @@ class TransactionProvider extends GetxController {
       isLoading.value = false;
       update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get transaction : ${e.toString()}',
@@ -169,6 +177,8 @@ class TransactionProvider extends GetxController {
       isLoading.value = false;
       update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get transaction : ${e.toString()}',
@@ -211,6 +221,8 @@ class TransactionProvider extends GetxController {
 
       update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get transaction : ${e.toString()}',
@@ -246,7 +258,10 @@ class TransactionProvider extends GetxController {
         colorText: Colors.white,
         borderRadius: 5,
       );
+      update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to update transaction : ${e.toString()}',
@@ -303,6 +318,9 @@ class TransactionProvider extends GetxController {
       );
       update();
     } catch (e) {
+
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to store transaction QRIS : ${e.toString()}',

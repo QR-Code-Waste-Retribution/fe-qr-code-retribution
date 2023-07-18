@@ -62,7 +62,10 @@ class IAppBar extends AppBar {
     );
   }
 
-  factory IAppBar.transparent({Key? key}) {
+  factory IAppBar.transparent({
+    Key? key,
+    Function()? onTapLeading,
+  }) {
     return IAppBar._(
       key: key,
       centerTitle: true,
@@ -76,7 +79,7 @@ class IAppBar extends AppBar {
           color: blackColor,
         ),
         onPressed: () {
-          Get.back();
+          onTapLeading!();
         },
       ),
       actions: [],

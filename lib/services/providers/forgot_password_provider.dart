@@ -20,20 +20,22 @@ class ForgotPasswordProvider extends GetxController {
     try {
       loading.value = true;
       update();
-      
+
       ResponseAPI response = await _authRepositories.sendOTPByEmail(
         email: emailInput.text,
       );
+      SnackBarCustom.success(message: response.message);
 
       loading.value = false;
-      SnackBarCustom.success(message: response.message);
+      update();
 
       Get.toNamed(OtpInputStagePage.routeName, arguments: {
         'email': emailInput.text,
       });
 
-      update();
     } catch (e) {
+      loading.value = false;
+      update();
       SnackBarCustom.error(message: e.toString());
     }
   }

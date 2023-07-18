@@ -30,6 +30,9 @@ class ChangePasswordProvider extends GetxController {
   String get getConfirmPasswordInputErrorText =>
       confirmPasswordInputErrorText.value;
 
+  RxBool valid = false.obs;
+  bool get isValid => valid.value;
+
   void onSubmit() async {
     if (oldPasswordInput.text == '' ||
         newPasswordInput.text == '' ||
@@ -60,21 +63,50 @@ class ChangePasswordProvider extends GetxController {
     }
   }
 
+  void forgetPassword({ required String email }) async {
+    onChangeNewPasswordInput();
+    onChangeConfirmPasswordInput();
+    if (!isValid) {
+      SnackBarCustom.error(message: 'Semua input harus diisi');
+      return;
+    }
+
+    try {
+      ResponseAPI response = await authRepositories.changeForgetPassword(
+        changePasswordForm: ChangePasswordForm(
+          email: email,
+          newPassword: newPasswordInput.text,
+          confirmPassword: confirmPasswordInput.text,
+        ),
+      );
+      SnackBarCustom.success(message: response.message);
+      update();
+      Get.offAndToNamed(Pages.loginPage);
+    } on Exception catch (e) {
+      SnackBarCustom.error(message: e.toString());
+    }
+  }
+
   void onChangeNewPasswordInput() {
     if (newPasswordInput.text == '') {
+      valid.value = false;
       newPasswordInputErrorText.value = "Input password harus diisi";
     } else {
+      valid.value = true;
       newPasswordInputErrorText.value = "";
     }
   }
 
   void onChangeConfirmPasswordInput() {
     if (confirmPasswordInput.text == '') {
+      valid.value = false;
       confirmPasswordInputErrorText.value =
           "Input Konfirmasi password harus diisi";
     } else if (confirmPasswordInput.text != newPasswordInput.text) {
+      valid.value = false;
       confirmPasswordInputErrorText.value = "Password tidak sama";
     } else {
+      valid.value = true;
       confirmPasswordInputErrorText.value = "";
     }
   }

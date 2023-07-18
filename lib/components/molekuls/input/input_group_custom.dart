@@ -138,6 +138,7 @@ class _InputGroupCustomState extends State<InputGroupCustom> {
                 style: primaryTextStyle.copyWith(
                   fontWeight: FontWeight.w600,
                   color: redColor,
+                  fontSize: 12,
                 ),
               ),
             ],

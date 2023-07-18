@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
+import 'package:qr_code_app/components/molekuls/appbar/i_appbar.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 import 'package:qr_code_app/services/providers/forgot_password_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -26,24 +27,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
-      appBar: AppBar(
-        centerTitle: true,
-        elevation: 0,
-        backgroundColor: transparent,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: blackColor,
-          ),
-          onPressed: (() {
-            Get.back();
-          }),
-        ),
-        title: const Text(
-          "",
-        ),
-      ),
+      appBar: IAppBar.transparent(),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(30),

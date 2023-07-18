@@ -49,6 +49,8 @@ class CategoriesProvider extends GetxController {
       isLoading.value = false;
       update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get all categories : ${e.toString()}',
@@ -77,6 +79,9 @@ class CategoriesProvider extends GetxController {
       );
       update();
     } catch (e) {
+
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get all categories : ${e.toString()}',

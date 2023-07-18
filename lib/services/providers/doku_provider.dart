@@ -41,15 +41,17 @@ class DokuProvider extends GetxController {
 
   Future<void> getApiPayDokuDirectVirtualAccount({required String url}) async {
     try {
-    var response =
-        await _dokuRepositories.apiPayDokuDirectVirtualAccount(url: url);
+      var response =
+          await _dokuRepositories.apiPayDokuDirectVirtualAccount(url: url);
 
-    _virtualAccountPayment.value = VirtualAccountPayment.fromJson(response);
+      _virtualAccountPayment.value = VirtualAccountPayment.fromJson(response);
 
-    isLoading.value = false;
+      isLoading.value = false;
 
-    update();
+      update();
     } catch (e) {
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get api : ${e.toString()}',

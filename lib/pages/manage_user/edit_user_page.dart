@@ -21,7 +21,9 @@ class EditUserPage extends StatelessWidget {
   final EditUserProvider _editUserProvider = Get.find<EditUserProvider>();
 
   void addUserAction() {
-    _editUserProvider.onSubmit();
+    _editUserProvider.onSubmit(
+      pemungutId: _authProvider.getUserId!,
+    );
   }
 
   final int masyarakatId = Get.arguments['id'];

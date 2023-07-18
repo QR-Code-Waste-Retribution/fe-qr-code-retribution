@@ -1,10 +1,12 @@
 class ChangePasswordForm {
-  final String oldPassword;
+  final String? oldPassword;
+  final String? email;
   final String newPassword;
   final String confirmPassword;
 
   ChangePasswordForm({
-    required this.oldPassword,
+    this.oldPassword,
+    this.email,
     required this.newPassword,
     required this.confirmPassword,
   });
@@ -13,6 +15,7 @@ class ChangePasswordForm {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['old_password'] = oldPassword;
     data['password'] = newPassword;
+    data['email'] = email;
     data['password_confirmation'] = confirmPassword;
     return data;
   }

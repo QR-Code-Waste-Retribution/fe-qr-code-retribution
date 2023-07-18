@@ -42,6 +42,9 @@ class PemungutTransactionProvider extends GetxController {
       isLoading.value = false;
       update();
     } catch (e) {
+
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get pemungut transaction : ${e.toString()}',

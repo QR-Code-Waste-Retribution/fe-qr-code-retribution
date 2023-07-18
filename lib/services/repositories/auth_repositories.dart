@@ -60,6 +60,23 @@ class AuthRepositories extends GetxService {
     }
   }
 
+  Future changeForgetPassword({
+    required ChangePasswordForm changePasswordForm,
+  }) async {
+    try {
+      final response = await _client.put(
+        '/user/forget-password/change',
+        data: changePasswordForm.toJson(),
+      );
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioException catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      var response = ResponseAPI.fromJson(jsonDecodeResponse);
+      throw Exception(response.message.toString());
+    }
+  }
+
   Future sendOTPByEmail({
     required String email,
   }) async {

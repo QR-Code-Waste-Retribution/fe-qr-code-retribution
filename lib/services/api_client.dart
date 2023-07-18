@@ -3,7 +3,7 @@ import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
 
 class Client {
-  Dio init({String baseUrl = AppConstants.apiUrlLocal}) {
+  Dio init({String baseUrl = AppConstants.apiUrlNgrok}) {
     Dio dio = Dio();
     dio.options.baseUrl = baseUrl;
     dio.options.contentType = 'application/json';

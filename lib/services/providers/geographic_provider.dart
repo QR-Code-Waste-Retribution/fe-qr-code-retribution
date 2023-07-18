@@ -24,6 +24,9 @@ class GeographicProvider extends GetxController {
 
       update();
     } catch (e) {
+
+      isLoading.value = false;
+      update();
       Get.snackbar(
         'Error',
         'Failed to get api : ${e.toString()}',

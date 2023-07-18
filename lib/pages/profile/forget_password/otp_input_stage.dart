@@ -21,7 +21,6 @@ class OtpInputStagePage extends StatelessWidget {
     otpProvider.sendAgain.value = true;
 
     return Scaffold(
-      appBar: IAppBar.transparent(),
       body: Obx(
         () {
           if (otpProvider.isLoading) {
@@ -108,7 +107,7 @@ class OtpInputStagePage extends StatelessWidget {
                                 otpProvider.send(email);
                               },
                               child: Text(
-                                otpProvider.isLoading
+                                otpProvider.isLoadingSend
                                     ? 'Loading...'
                                     : 'Kirim Ulang',
                                 style: priceTextStyle.copyWith(
