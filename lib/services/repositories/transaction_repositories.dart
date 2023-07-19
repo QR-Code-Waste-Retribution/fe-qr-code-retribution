@@ -48,7 +48,6 @@ class TransactionRepositories extends GetxService {
       final response = await _client.post('/transaction/store/non-cash',
           data: transactionNonCash.toJson());
       final jsonDecodeResponse = jsonDecode(response.toString());
-;
 
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {

@@ -29,7 +29,6 @@ class StorageReferences {
       AuthData? authData = AuthData.fromJson(jsonDecode(storedAuthData!));
       return authData.accessToken;
     } catch (e) {
-      print('Error decoding JSON data: $e');
     }
     return '';
   }

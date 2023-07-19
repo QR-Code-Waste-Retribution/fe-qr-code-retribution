@@ -13,7 +13,6 @@ import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/button/button_group.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 import 'package:qr_code_app/utils/alert_dialog_custom.dart';
-import 'package:qr_code_app/utils/logger.dart';
 
 class EditUserPage extends StatelessWidget {
   EditUserPage({super.key});

@@ -83,7 +83,7 @@ class _AdditionalRetributionPageState extends State<AdditionalRetributionPage> {
                 onChanged: (String? newValue) {
                   _categoriesProvider.dropdownValue.value = newValue!;
                   _categoriesProvider.priceSelectedCategories(
-                    idSelected: int.parse(newValue!),
+                    idSelected: int.parse(newValue),
                   );
                   priceController.text =
                       _categoriesProvider.getPriceSelectedCategory;

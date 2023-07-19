@@ -21,6 +21,5 @@ class SnackBarCustom {
       colorText: Colors.white,
       borderRadius: 5,
     );
-    ;
   }
 }

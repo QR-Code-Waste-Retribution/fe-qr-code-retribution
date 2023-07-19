@@ -6,7 +6,6 @@ import 'package:qr_code_app/models/form/auth/change_password_form.dart';
 import 'package:qr_code_app/models/form/auth/edit_profile_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/api_client.dart';
-import 'package:qr_code_app/utils/logger.dart';
 
 class AuthRepositories extends GetxService {
   final Dio _client = Client().init();

@@ -7,12 +7,6 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 class SocketRepositories extends GetxService {
   IO.Socket? socket;
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-  }
-
   void connect({required Map<String, dynamic>? query}) {
     socket = IO.io(AppConstants.urlSocketLocal, <String, dynamic>{
       'transports': ['websocket'],
@@ -41,7 +35,7 @@ class SocketRepositories extends GetxService {
     socket?.connect();
 
     socket!.on('connect', (_) {
-      print('Connected to socket server');
+      // print('Connected to socket server');
     });
 
     // Handle other socket events and messages here
@@ -49,6 +43,6 @@ class SocketRepositories extends GetxService {
 
   void disconnect() {
     socket?.disconnect();
-    print('Disconnected from socket server');
+    // print('Disconnected from socket server');
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class IAppBar extends AppBar {
@@ -45,7 +44,7 @@ class IAppBar extends AppBar {
         ),
         onPressed: () {},
       ),
-      actions: [],
+      actions: const [],
       title: Text(
         title,
         style: primaryTextStyle.copyWith(
@@ -82,7 +81,7 @@ class IAppBar extends AppBar {
           onTapLeading!();
         },
       ),
-      actions: [],
+      actions: const [],
       bottom: null,
       flexibleSpace: null,
       iconTheme: null,

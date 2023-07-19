@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
-import 'package:qr_code_app/components/molekuls/appbar/i_appbar.dart';
 import 'package:qr_code_app/components/molekuls/countdown/countdown.dart';
 import 'package:qr_code_app/components/molekuls/input/input_otp.dart';
 import 'package:qr_code_app/services/providers/otp_provider.dart';

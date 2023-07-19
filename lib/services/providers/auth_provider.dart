@@ -215,9 +215,4 @@ class AuthProvider extends GetxController {
     }
     super.onInit();
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 }

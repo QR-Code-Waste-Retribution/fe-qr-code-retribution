@@ -9,7 +9,6 @@ import 'package:qr_code_app/services/providers/geographic_provider.dart';
 import 'package:qr_code_app/services/providers/manage_user/add_user_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
-import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 
 class AddUserPage extends StatefulWidget {
   const AddUserPage({super.key});
@@ -232,7 +231,7 @@ class _AddUserPageState extends State<AddUserPage> {
                           addUserProvider.dropdownCategoryValue.value =
                               newValue!;
                           _categoriesProvider.priceSelectedCategories(
-                            idSelected: int.parse(newValue!),
+                            idSelected: int.parse(newValue),
                           );
                         },
                         items: _categoriesProvider.getCategoriesList.categories

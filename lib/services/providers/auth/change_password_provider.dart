@@ -6,7 +6,6 @@ import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
-import 'package:qr_code_app/utils/logger.dart';
 
 class ChangePasswordProvider extends GetxController {
   final AuthProvider authProvider = Get.find<AuthProvider>();

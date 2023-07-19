@@ -4,7 +4,6 @@ import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/pages/profile/forget_password/form_change_password_stage.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
-import 'package:qr_code_app/utils/logger.dart';
 
 class OtpProvider extends GetxController {
   final AuthRepositories _authRepositories = AuthRepositories();

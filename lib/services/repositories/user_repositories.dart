@@ -7,7 +7,6 @@ import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/api_client.dart';
 import 'package:qr_code_app/models/form/auth/user_categories_form.dart';
-import 'package:qr_code_app/utils/logger.dart';
 
 class UserRepositories extends GetxService {
   final Dio _client = Client().init();
