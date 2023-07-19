@@ -23,9 +23,11 @@ class ChangePasswordProvider extends GetxController {
   TextEditingController get confirmPasswordInput =>
       confirmPasswordController.value;
 
+  RxString oldPasswordInputErrorText = ''.obs;
   RxString newPasswordInputErrorText = ''.obs;
   RxString confirmPasswordInputErrorText = ''.obs;
 
+  String get getOldPasswordInputErrorText => oldPasswordInputErrorText.value;
   String get getNewPasswordInputErrorText => newPasswordInputErrorText.value;
   String get getConfirmPasswordInputErrorText =>
       confirmPasswordInputErrorText.value;
@@ -34,15 +36,12 @@ class ChangePasswordProvider extends GetxController {
   bool get isValid => valid.value;
 
   void onSubmit() async {
-    if (oldPasswordInput.text == '' ||
-        newPasswordInput.text == '' ||
-        confirmPasswordInput.text == '') {
-      SnackBarCustom.error(message: 'Semua input harus diisi');
-      return;
-    }
+    if (!isValid) {
+      onChangeNewPasswordInput();
+      onChangeConfirmPasswordInput();
+      onChangeOldPasswordInput();
 
-    if (newPasswordInput.text != confirmPasswordInput.text) {
-      SnackBarCustom.error(message: 'Konfirmasi sandi baru harus sama');
+      SnackBarCustom.error(message: 'Pastikan semua input valid');
       return;
     }
 
@@ -63,7 +62,7 @@ class ChangePasswordProvider extends GetxController {
     }
   }
 
-  void forgetPassword({ required String email }) async {
+  void forgetPassword({required String email}) async {
     onChangeNewPasswordInput();
     onChangeConfirmPasswordInput();
     if (!isValid) {
@@ -90,25 +89,37 @@ class ChangePasswordProvider extends GetxController {
   void onChangeNewPasswordInput() {
     if (newPasswordInput.text == '') {
       valid.value = false;
-      newPasswordInputErrorText.value = "Input password harus diisi";
+      newPasswordInputErrorText.value = "Kata sandi baru harus diisi";
     } else {
       valid.value = true;
       newPasswordInputErrorText.value = "";
     }
+    update();
   }
 
   void onChangeConfirmPasswordInput() {
     if (confirmPasswordInput.text == '') {
       valid.value = false;
-      confirmPasswordInputErrorText.value =
-          "Input Konfirmasi password harus diisi";
+      confirmPasswordInputErrorText.value = "Konfirmasi kata sandi harus diisi";
     } else if (confirmPasswordInput.text != newPasswordInput.text) {
       valid.value = false;
-      confirmPasswordInputErrorText.value = "Password tidak sama";
+      confirmPasswordInputErrorText.value = "Kata sandi tidak sama";
     } else {
       valid.value = true;
       confirmPasswordInputErrorText.value = "";
     }
+    update();
+  }
+
+  void onChangeOldPasswordInput() {
+    if (oldPasswordInput.text == '') {
+      valid.value = false;
+      oldPasswordInputErrorText.value = "Kata sandi harus diisi";
+    } else {
+      valid.value = true;
+      oldPasswordInputErrorText.value = "";
+    }
+    update();
   }
 
   @override

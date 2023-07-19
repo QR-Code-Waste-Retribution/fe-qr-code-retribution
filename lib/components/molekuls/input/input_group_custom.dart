@@ -9,6 +9,7 @@ class InputGroupCustom extends StatefulWidget {
   final bool required;
   final TextEditingController inputController;
   final TextInputType keyboardType;
+  final int? maxLength;
   final Function(String value)? onChanged;
 
   const InputGroupCustom({
@@ -21,6 +22,7 @@ class InputGroupCustom extends StatefulWidget {
     this.subLabel = '',
     this.errorText = '',
     this.onChanged,
+    this.maxLength,
   });
 
   @override
@@ -86,6 +88,7 @@ class _InputGroupCustomState extends State<InputGroupCustom> {
                 children: [
                   Expanded(
                     child: TextFormField(
+                      maxLength: widget.maxLength,
                       keyboardType: widget.keyboardType,
                       controller: widget.inputController,
                       obscureText: widget.obscure ? showPass : false,
@@ -105,6 +108,8 @@ class _InputGroupCustomState extends State<InputGroupCustom> {
                       decoration: InputDecoration.collapsed(
                         hintText: widget.hintText,
                         hintStyle: subtitleTextStyle,
+                      ).copyWith(
+                        counterText: '',
                       ),
                     ),
                   ),

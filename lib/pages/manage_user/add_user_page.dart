@@ -24,15 +24,9 @@ class _AddUserPageState extends State<AddUserPage> {
   final AuthProvider _authProvider = Get.find<AuthProvider>();
   final GeographicProvider _geographicProvider = Get.find<GeographicProvider>();
 
-
-  List<TextEditingController> textInputControllers = [];
-
   @override
   void dispose() {
     super.dispose();
-    for (var controller in textInputControllers) {
-      controller.dispose();
-    }
   }
 
   @override
@@ -53,7 +47,8 @@ class _AddUserPageState extends State<AddUserPage> {
         .then((value) {
       addUserProvider.dropdownSubDistrictValue.value =
           _geographicProvider.getListSubDistricts![0].id.toString();
-      addUserProvider.dropdownSubDistrictValue.value = _authProvider.userSubDistrictId!;
+      addUserProvider.dropdownSubDistrictValue.value =
+          _authProvider.userSubDistrictId!;
     });
   }
 
@@ -144,68 +139,6 @@ class _AddUserPageState extends State<AddUserPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Pilih Kategori',
-                    style: primaryTextStyle.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 7,
-                  ),
-                  Obx(
-                    () => Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 1),
-                      decoration: BoxDecoration(
-                        color: backgroundColor6,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: DropdownButton<String>(
-                        alignment: Alignment.bottomCenter,
-                        value: addUserProvider.getDropdownCategoryValue,
-                        isExpanded: true,
-                        icon: const Icon(Icons.arrow_drop_down_rounded),
-                        iconSize: 24,
-                        borderRadius: BorderRadius.circular(20),
-                        underline: Container(height: 0),
-                        style: const TextStyle(color: Colors.deepPurple),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            addUserProvider.dropdownCategoryValue.value = newValue!;
-                          });
-                          _categoriesProvider.priceSelectedCategories(
-                            idSelected: int.parse(newValue!),
-                          );
-                        },
-                        items: _categoriesProvider.getCategoriesList.categories
-                            .map<DropdownMenuItem<String>>((Category category) {
-                          return DropdownMenuItem(
-                            enabled: category.name == addUserProvider.getDropdownCategoryValue
-                                ? false
-                                : true,
-                            value: category.id.toString(),
-                            child: Text(
-                              "${category.name}",
-                              style: blackTextStyle.copyWith(
-                                fontSize: 16,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 12,
-            ),
-            SizedBox(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
                     'Pilih Kecamatan',
                     style: primaryTextStyle.copyWith(
                       fontWeight: FontWeight.w600,
@@ -235,22 +168,23 @@ class _AddUserPageState extends State<AddUserPage> {
                         style: const TextStyle(color: Colors.deepPurple),
                         onChanged: (String? newValue) {
                           setState(() {
-                            addUserProvider.dropdownSubDistrictValue.value = newValue!;
+                            addUserProvider.dropdownSubDistrictValue.value =
+                                newValue!;
                           });
                         },
                         items: _geographicProvider.getListSubDistricts
                             ?.map<DropdownMenuItem<String>>(
                                 (SubDistrict subDistrict) {
                           return DropdownMenuItem(
-                            enabled:
-                                subDistrict.name == addUserProvider.getDropdownSubDistrictValue
-                                    ? false
-                                    : true,
+                            enabled: subDistrict.name ==
+                                    addUserProvider.getDropdownSubDistrictValue
+                                ? false
+                                : true,
                             value: subDistrict.id.toString(),
                             child: Text(
                               subDistrict.name,
                               style: blackTextStyle.copyWith(
-                                fontSize: 16,
+                                fontSize: 14,
                               ),
                             ),
                           );
@@ -263,6 +197,68 @@ class _AddUserPageState extends State<AddUserPage> {
             ),
             const SizedBox(
               height: 10,
+            ),
+            SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Pilih Kategori',
+                    style: primaryTextStyle.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 7,
+                  ),
+                  Obx(
+                    () => Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: backgroundColor6,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: DropdownButton<String>(
+                        alignment: Alignment.bottomCenter,
+                        value: addUserProvider.getDropdownCategoryValue,
+                        isExpanded: true,
+                        icon: const Icon(Icons.arrow_drop_down_rounded),
+                        iconSize: 24,
+                        borderRadius: BorderRadius.circular(20),
+                        underline: Container(height: 0),
+                        style: const TextStyle(color: Colors.deepPurple),
+                        onChanged: (String? newValue) {
+                          addUserProvider.dropdownCategoryValue.value =
+                              newValue!;
+                          _categoriesProvider.priceSelectedCategories(
+                            idSelected: int.parse(newValue!),
+                          );
+                        },
+                        items: _categoriesProvider.getCategoriesList.categories
+                            .map<DropdownMenuItem<String>>((Category category) {
+                          return DropdownMenuItem(
+                            enabled: category.name ==
+                                    addUserProvider.getDropdownCategoryValue
+                                ? false
+                                : true,
+                            value: category.id.toString(),
+                            child: Text(
+                              "${category.name}",
+                              style: blackTextStyle.copyWith(
+                                fontSize: 14,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 12,
             ),
             InputGroupCustom(
               errorText: addUserProvider.getErrorMessages['phoneNumber'],

@@ -88,20 +88,16 @@ class _ManageUserPageState extends State<ManageUserPage> {
   }
 
   void initData({int page = 1}) {
-    _usersProvider
-        .getAllMasyarakatBySubDistrictId(
-            pemungutId: _authProvider.getUserId!, page: page)
-        .then((value) {
-      for (var index = 0;
-          index < _usersProvider.getUsersPaginationRecords!.length;
-          index++) {
-        var item = _usersProvider.getUsersPaginationRecords![index];
-        _usersProvider.isSwitchedList.add(item.accountStatus!);
-      }
-    });
+    _usersProvider.getAllMasyarakatBySubDistrictId(
+        pemungutId: _authProvider.getUserId!, page: page);
   }
 
-  Future<void> changeSelectedStatusMasyarakat({required int userId}) async {
+  Future<void> changeSelectedStatusMasyarakat({
+    required int userId,
+    required int index,
+    required bool status,
+  }) async {
+    _usersProvider.isSwitchedList[index] = status;
     _usersProvider.changeStatusMasyarakatSelected(userId: userId);
   }
 
@@ -175,11 +171,10 @@ class _ManageUserPageState extends State<ManageUserPage> {
                   AlertDialogCustom.showAlertDialog(
                     context: context,
                     onYes: () {
-                      // setState(() {
-                      //   isSwitchedList[index] = value;
-                      // });
                       return changeSelectedStatusMasyarakat(
                         userId: masyarakatId,
+                        index: index,
+                        status: value,
                       );
                     },
                     title: "Ubah status $name",
@@ -217,9 +212,6 @@ class _ManageUserPageState extends State<ManageUserPage> {
         shrinkWrap: true,
         padding: const EdgeInsets.all(20),
         children: [
-          SearchInputWidget(
-            onChange: (e) {},
-          ),
           CustomButton(
             title: 'Tambah Akun Baru',
             width: 100,
@@ -227,7 +219,7 @@ class _ManageUserPageState extends State<ManageUserPage> {
             fontSize: 14,
             defaultRadiusButton: 10,
             margin: const EdgeInsets.only(
-              top: 30,
+              top: 0,
               bottom: 30,
             ),
             onPressed: () {

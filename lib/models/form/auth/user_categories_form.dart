@@ -36,18 +36,13 @@ class UserCategoriesForm {
 }
 
 class Categories {
-  List<Meta>? delete;
+  List<int>? delete;
   List<Meta>? insert;
 
   Categories({this.delete, this.insert});
 
   Categories.fromJson(Map<String, dynamic> json) {
-    if (json['delete'] != null) {
-      delete = <Meta>[];
-      json['delete'].forEach((v) {
-        delete!.add(Meta.fromJson(v));
-      });
-    }
+    delete = json['delete'].cast<int>();
     if (json['insert'] != null) {
       insert = <Meta>[];
       json['insert'].forEach((v) {
@@ -58,9 +53,7 @@ class Categories {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    if (delete != null) {
-      data['delete'] = delete!.map((v) => v.toJson()).toList();
-    }
+    data['delete'] = delete;
     if (insert != null) {
       data['insert'] = insert!.map((v) => v.toJson()).toList();
     }

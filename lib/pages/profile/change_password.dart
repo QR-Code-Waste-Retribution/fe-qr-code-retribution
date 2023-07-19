@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/components/molekuls/input/input_group_custom.dart';
 import 'package:qr_code_app/services/providers/auth/change_password_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
-import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 
 class ChangePasswordPage extends StatelessWidget {
   ChangePasswordPage({super.key});
@@ -48,23 +48,48 @@ class ChangePasswordPage extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          InputGroup(
-            hintText: "Kata Sandi Lama",
-            obscure: true,
-            required: true,
-            inputController: changePasswordProvider.oldPasswordInput,
+          Obx(
+            () => InputGroupCustom(
+              hintText: "kata sandi lama",
+              required: true,
+              obscure: true,
+              inputController: changePasswordProvider.oldPasswordInput,
+              onChanged: (value) {
+                changePasswordProvider.onChangeOldPasswordInput();
+              },
+              errorText: changePasswordProvider.getOldPasswordInputErrorText,
+            ),
           ),
-          InputGroup(
-            hintText: "Kata Sandi Baru",
-            obscure: true,
-            required: true,
-            inputController: changePasswordProvider.newPasswordInput,
+          const SizedBox(
+            height: 15,
           ),
-          InputGroup(
-            hintText: "Konfirmasi Kata Sandi Baru",
-            obscure: true,
-            required: true,
-            inputController: changePasswordProvider.confirmPasswordInput,
+          Obx(
+            () => InputGroupCustom(
+              hintText: "Kata sandi baru",
+              required: true,
+              obscure: true,
+              inputController: changePasswordProvider.newPasswordInput,
+              onChanged: (value) {
+                changePasswordProvider.onChangeNewPasswordInput();
+              },
+              errorText: changePasswordProvider.getNewPasswordInputErrorText,
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Obx(
+            () => InputGroupCustom(
+              hintText: "Konfirmasi kata sandi baru",
+              required: true,
+              obscure: true,
+              inputController: changePasswordProvider.confirmPasswordInput,
+              onChanged: (value) {
+                changePasswordProvider.onChangeConfirmPasswordInput();
+              },
+              errorText:
+                  changePasswordProvider.getConfirmPasswordInputErrorText,
+            ),
           ),
           const SizedBox(
             height: 20,

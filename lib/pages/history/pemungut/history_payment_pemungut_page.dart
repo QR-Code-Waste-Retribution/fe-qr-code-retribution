@@ -23,10 +23,8 @@ class _HistoryPaymentPemungutPageState
 
   @override
   void initState() {
-    if (_pemungutTransactionProvider.getDataExist) {
-      _pemungutTransactionProvider.getAllPemungutTransactionByPemungutId(
-          pemungutId: _authProvider.authData.user?.id);
-    }
+    _pemungutTransactionProvider.getAllPemungutTransactionByPemungutId(
+        pemungutId: _authProvider.authData.user?.id);
     super.initState();
   }
 

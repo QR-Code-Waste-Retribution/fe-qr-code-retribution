@@ -54,6 +54,12 @@ class UsersProvider extends GetxController {
 
       usersPagination.value = UsersPagination.fromJson(response.data);
 
+      isSwitchedList.value = [];
+      for (var index = 0; index < getUsersPaginationRecords!.length; index++) {
+        var item = getUsersPaginationRecords![index];
+        isSwitchedList.add(item.accountStatus!);
+      }
+      update();
     } catch (e) {
       Get.snackbar(
         'Error',

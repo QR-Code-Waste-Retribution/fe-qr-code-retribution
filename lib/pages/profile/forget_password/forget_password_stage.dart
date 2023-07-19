@@ -27,7 +27,11 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: whiteColor,
-      appBar: IAppBar.transparent(),
+      appBar: IAppBar.transparent(
+        onTapLeading: () {
+          Get.back();
+        },
+      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(30),
