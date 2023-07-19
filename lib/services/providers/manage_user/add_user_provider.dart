@@ -122,7 +122,6 @@ class AddUserProvider extends GetxController {
       pemungutId: _authProvider.getUserId!,
     );
 
-    logger.d(userForm.toJson().toString());
     storeRegisterUser(userForm: userForm);
   }
 
