@@ -6,7 +6,7 @@ class AppConstants {
   static const String apiUrlServer = 'http://34.142.240.225/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
   static const String apiUrlNgrok =
-      'https://2ef8-36-79-30-172.ngrok-free.app/api';
+      'https://b8bb-36-79-30-172.ngrok-free.app/api';
 
   static const String wbServerPort = '8000';
   static const String urlSocketLocal = 'http://localhost:$wbServerPort/';

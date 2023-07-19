@@ -33,7 +33,7 @@ class _AddUserPageState extends State<AddUserPage> {
     super.initState();
     _categoriesProvider.isLoading.value = true;
     _categoriesProvider
-        .getAllCategories(districtId: _authProvider.districtId!)
+        .getAllCategoriesMonthly(districtId: _authProvider.districtId!)
         .then((value) {
       addUserProvider.dropdownCategoryValue.value =
           _categoriesProvider.getCategoriesList.categories[0].id.toString();

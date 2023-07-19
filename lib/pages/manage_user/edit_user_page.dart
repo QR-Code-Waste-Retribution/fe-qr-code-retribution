@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group_custom.dart';
+import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/models/categories/category.dart';
 import 'package:qr_code_app/models/geographic/sub_district.dart';
 import 'package:qr_code_app/services/providers/auth_provider.dart';
@@ -179,17 +180,27 @@ class EditUserPage extends StatelessWidget {
                                       defaultRadiusButton: 10,
                                       backgroundColor: redColor,
                                       onPressed: () {
-                                        AlertDialogCustom.showAlertDialog(
-                                          context: context,
-                                          onYes: () {
-                                            return _editUserProvider
-                                                .deleteCategories(
-                                              index: index,
-                                            );
-                                          },
-                                          title: "Hapus kategori",
-                                          content: 'Apakah anda yakin?',
-                                        );
+                                        if (_editUserProvider
+                                                .getDropdownCategoriesValues
+                                                .length ==
+                                            1) {
+                                          SnackBarCustom.error(
+                                            message:
+                                                "Kategori wajib retribusi harus memiliki satu kategori",
+                                          );
+                                        } else {
+                                          AlertDialogCustom.showAlertDialog(
+                                            context: context,
+                                            onYes: () {
+                                              return _editUserProvider
+                                                  .deleteCategories(
+                                                index: index,
+                                              );
+                                            },
+                                            title: "Hapus kategori",
+                                            content: 'Apakah anda yakin?',
+                                          );
+                                        }
                                       },
                                     ),
                                     const SizedBox(

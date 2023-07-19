@@ -61,6 +61,27 @@ class CategoriesProvider extends GetxController {
     }
   }
 
+  Future<void> getAllCategoriesMonthly({required int districtId}) async {
+    try {
+      ResponseAPI response =
+          await _categoriesRepositories.allCategoriesMonthly(districtId: districtId);
+
+      _categories.value = ListCategories.fromJson(response.data);
+      isLoading.value = false;
+      update();
+    } catch (e) {
+      isLoading.value = false;
+      update();
+      Get.snackbar(
+        'Error',
+        'Failed to get all categories : ${e.toString()}',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        borderRadius: 5,
+      );
+    }
+  }
+
   Future<void> getAllAddtionalCategories({required int districtId}) async {
     try {
       ResponseAPI response = await _categoriesRepositories

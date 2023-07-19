@@ -17,7 +17,20 @@ class CategoriesRepositories extends GetxService {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {
-      throw Exception("Failed to get invoice user: $e");
+      throw Exception("Failed to get categories user: $e");
+    }
+  }
+
+  Future allCategoriesMonthly({required int districtId, String? uuid}) async {
+    try {
+      final response = await _client.get('/category/monthly/$districtId');
+      final jsonDecodeResponse = jsonDecode(response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } on DioException catch (ex) {
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      return ResponseAPI.fromJson(jsonDecodeResponse);
+    } catch (e) {
+      throw Exception("Failed to get categories user: $e");
     }
   }
 
@@ -30,7 +43,7 @@ class CategoriesRepositories extends GetxService {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {
-      throw Exception("Failed to get invoice user: $e");
+      throw Exception("Failed to get categories user: $e");
     }
   }
 }
