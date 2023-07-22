@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
-import 'package:qr_code_app/services/providers/categories_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
+import 'package:qr_code_app/services/providers/categories/categories_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/number_format_price.dart';
 
@@ -62,7 +62,7 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
               children: [
                 Expanded(
                   child: Text(
-                    'Daftar Kategori Retribusi Sampah di Kabupaten Toba',
+                    'Daftar Kategori Retribusi Sampah di Kabupaten ${_authProvider.authData.user?.district?.name}',
                     style: whiteTextStyle.copyWith(
                       fontWeight: FontWeight.w700,
                       fontSize: 25,
@@ -90,7 +90,7 @@ class _ListCategoriesPageState extends State<ListCategoriesPage> {
                 padding: const EdgeInsets.all(20),
                 children: [
                   Text(
-                    'Berikut daftar kategori dan harga tarif dari iuran retribusi sampah kab. Toba',
+                    'Berikut daftar kategori dan harga tarif dari iuran retribusi sampah kab. ${_authProvider.authData.user?.district?.name}',
                     style: primaryTextStyle.copyWith(
                       fontWeight: FontWeight.w600,
                       fontSize: 18,

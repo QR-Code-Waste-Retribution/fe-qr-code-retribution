@@ -3,15 +3,15 @@ import 'package:qr_code_app/models/payment_method_page.dart';
 import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 
 class AppConstants {
-  static const String apiUrlServer = 'http://34.142.240.225/api';
+  static const String apiUrlServer = 'http://34.143.171.104/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
   static const String apiUrlNgrok =
-      'https://b8bb-36-79-30-172.ngrok-free.app/api';
+      'https://e180-36-79-23-220.ngrok-free.app/api';
 
   static const String wbServerPort = '8000';
   static const String urlSocketLocal = 'http://localhost:$wbServerPort/';
-  static const String urlSocketServer = 'http://34.142.240.225:$wbServerPort/';
-  static const String urlSocketNgrok = 'http://34.142.240.225:$wbServerPort/';
+  static const String urlSocketServer = 'http://34.143.171.104:$wbServerPort/';
+  static const String urlSocketNgrok = 'https://1897-36-79-23-220.ngrok-free.app';
 
   static const int apiTimeout = 5000; // milliseconds
 

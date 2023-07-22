@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
+import 'package:qr_code_app/core/constants/storage.dart';
+import 'package:qr_code_app/core/firebase/firebase_provider.dart';
+import 'package:qr_code_app/exceptions/api_exception.dart';
 import 'package:qr_code_app/models/form/auth/change_password_form.dart';
 import 'package:qr_code_app/models/form/auth/edit_profile_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
@@ -13,9 +16,11 @@ import 'package:qr_code_app/services/binding.dart';
 // import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/logger.dart';
 
 class AuthProvider extends GetxController {
   final AuthRepositories _authRepositories = AuthRepositories();
+  final FirebaseProvider firebaseProvider = FirebaseProvider();
 
   final box = GetStorage();
 
@@ -63,6 +68,36 @@ class AuthProvider extends GetxController {
     return false;
   }
 
+  void saveToken() async {
+    // try {
+      final fcmToken = box.read(StorageReferences.fcmToken);
+      String token = await FirebaseProvider.setupToken();
+
+      if (fcmToken != null) {
+        if (fcmToken != token) {
+          await _authRepositories.saveToken(
+            userId: _authData.value.user!.id!,
+            token: token,
+          );
+          logger.d('Token has stored to database!!');
+        } else {
+          logger.d('Token match!!');
+        }
+        box.write(StorageReferences.fcmToken, token);
+      } else {
+        await _authRepositories.saveToken(
+          userId: _authData.value.user!.id!,
+          token: token,
+        );
+        logger.d('Token has stored to database!!');
+      }
+    // } on ApiException catch (e) {
+    //   logger.d(e.responseAPI?.message);
+    // } catch (e) {
+    //   logger.d(e.toString());
+    // }
+  }
+
   Future<void> login(
       {required String username, required String password}) async {
     try {
@@ -74,34 +109,18 @@ class AuthProvider extends GetxController {
         _authData.value = AuthData.fromJson(response.data);
         box.write('authData', jsonEncode(authData.toJson()));
 
-        Get.offNamed('/home');
-        Get.snackbar(
-          "Success",
-          response.message,
-          backgroundColor: primaryColor,
-          colorText: Colors.white,
-          borderRadius: 5,
-        );
+        saveToken();
+        Get.offNamed(Pages.homePage);
+
+        SnackBarCustom.success(message: response.message);
       } else {
-        Get.snackbar(
-          "Failed",
-          response.message,
-          backgroundColor: redColor,
-          colorText: Colors.white,
-          borderRadius: 5,
-        );
+        SnackBarCustom.error(message: response.message);
       }
 
       AppBindings().dependencies();
       update();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to login ${e.toString()}',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      SnackBarCustom.error(message: e.toString());
     }
   }
 
@@ -113,12 +132,7 @@ class AuthProvider extends GetxController {
       Get.put(AuthProvider());
       update();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to logout',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      SnackBarCustom.error(message: e.toString());
     }
   }
 
@@ -130,12 +144,7 @@ class AuthProvider extends GetxController {
         update();
       }
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to get data',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      SnackBarCustom.error(message: e.toString());
     }
   }
 
@@ -160,23 +169,11 @@ class AuthProvider extends GetxController {
         Get.offAndToNamed(Pages.homePage);
       }
 
-      Get.snackbar(
-        "Success",
-        response.message,
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      SnackBarCustom.success(message: response.message);
 
       update();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Gagal menyimpan data : ${e.toString()}',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      SnackBarCustom.error(message: e.toString());
     }
   }
 

@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_additional_page.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
-import 'package:qr_code_app/services/providers/categories_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
+import 'package:qr_code_app/services/providers/categories/categories_provider.dart';
 import 'package:qr_code_app/models/categories/category.dart';
 
 class AdditionalRetributionPage extends StatefulWidget {

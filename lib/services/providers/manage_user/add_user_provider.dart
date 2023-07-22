@@ -6,7 +6,7 @@ import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/routes/init.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/services/repositories/user_repositories.dart';
 import 'package:qr_code_app/utils/logger.dart';
 

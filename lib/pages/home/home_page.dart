@@ -3,7 +3,7 @@ import 'package:qr_code_app/components/molekuls/home_menu_grid.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/pages/home/home_body.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:get/get.dart';
 
@@ -24,11 +24,6 @@ class _HomePageState extends State<HomePage> {
       MediaQuery.of(context).size.width,
       MediaQuery.of(context).size.height,
     );
-// Image.asset(
-//                     'assets/image/home_image.png',
-//                     width: device.width,
-//                     scale: 0.9,
-//                   )
     return Scaffold(
       body: ListView(
         shrinkWrap: true,
@@ -37,9 +32,10 @@ class _HomePageState extends State<HomePage> {
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
-                  image: AssetImage('assets/image/home_image.png'),
-                  fit: BoxFit.contain,
-                  alignment: Alignment.topLeft),
+                image: AssetImage('assets/image/home_image.png'),
+                fit: BoxFit.contain,
+                alignment: Alignment.topLeft,
+              ),
             ),
             width: device.width,
             child: HomeContent(
@@ -54,7 +50,6 @@ class _HomePageState extends State<HomePage> {
 }
 
 class HomeContent extends StatelessWidget {
-
   final AuthProvider _authProvider = Get.find<AuthProvider>();
 
   HomeContent({

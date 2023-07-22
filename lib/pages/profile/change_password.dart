@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group_custom.dart';
 import 'package:qr_code_app/services/providers/auth/change_password_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
@@ -12,6 +13,7 @@ class ChangePasswordPage extends StatelessWidget {
   final ChangePasswordProvider changePasswordProvider =
       Get.find<ChangePasswordProvider>();
 
+  final AuthProvider authProvider = Get.find<AuthProvider>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -101,7 +103,7 @@ class ChangePasswordPage extends StatelessWidget {
             fontSize: 14,
             defaultRadiusButton: 10,
             onPressed: () {
-              changePasswordProvider.onSubmit();
+              changePasswordProvider.onSubmit(userId: authProvider.getUserId!);
             },
           ),
         ],

@@ -4,11 +4,10 @@ import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/models/form/auth/change_password_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/routes/init.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 
 class ChangePasswordProvider extends GetxController {
-  final AuthProvider authProvider = Get.find<AuthProvider>();
 
   final AuthRepositories authRepositories = Get.find<AuthRepositories>();
 
@@ -34,7 +33,7 @@ class ChangePasswordProvider extends GetxController {
   RxBool valid = false.obs;
   bool get isValid => valid.value;
 
-  void onSubmit() async {
+  void onSubmit({ required int userId }) async {
     if (!isValid) {
       onChangeNewPasswordInput();
       onChangeConfirmPasswordInput();
@@ -46,7 +45,7 @@ class ChangePasswordProvider extends GetxController {
 
     try {
       ResponseAPI response = await authRepositories.changePassword(
-        userId: authProvider.getUserId!,
+        userId: userId,
         changePasswordForm: ChangePasswordForm(
           oldPassword: oldPasswordInput.text,
           newPassword: newPasswordInput.text,

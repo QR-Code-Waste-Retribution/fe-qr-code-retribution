@@ -4,7 +4,7 @@ import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/models/doku/virtual_account/virtual_account.dart';
 import 'package:qr_code_app/models/transaction/transaction_noncash.dart';
-import 'package:qr_code_app/services/providers/transaction_provider.dart';
+import 'package:qr_code_app/services/providers/transaction/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/components/molekuls/arrow_option_card.dart';
 import 'package:qr_code_app/utils/alert_dialog_custom.dart';

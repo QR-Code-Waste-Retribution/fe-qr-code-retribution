@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
-import 'package:qr_code_app/services/providers/transaction_provider.dart';
+import 'package:qr_code_app/services/providers/transaction/transaction_provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 

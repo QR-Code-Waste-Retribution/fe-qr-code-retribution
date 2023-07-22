@@ -7,6 +7,7 @@ class StorageReferences {
   static final box = GetStorage();
 
   static const String authData = 'authData';
+  static const String fcmToken = 'FCMToken';
 
   // DOKU
   static const String urlPaymentDoku = 'urlPaymentDoku';

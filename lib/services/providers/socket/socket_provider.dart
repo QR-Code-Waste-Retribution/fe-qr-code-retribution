@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/core/constants/app_constants.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
 import 'package:qr_code_app/routes/init.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -21,7 +21,7 @@ class SocketProvider extends GetxController {
   };
 
   void initSocketIO({required String? uuid, required String typeOfChannel}) {
-    socket = IO.io(AppConstants.urlSocketServer, <String, dynamic>{
+    socket = IO.io(AppConstants.urlSocketNgrok, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
       'query': {'uuid': uuid, 'role': _authProvider.userRole},

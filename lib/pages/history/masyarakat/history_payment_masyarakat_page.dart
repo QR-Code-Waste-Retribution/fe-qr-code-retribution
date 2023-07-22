@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
-import 'package:qr_code_app/services/providers/transaction_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
+import 'package:qr_code_app/services/providers/transaction/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/date_format.dart';
 

@@ -3,9 +3,9 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/models/transaction/transaction_invoice.dart';
 import 'package:qr_code_app/routes/init.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
-import 'package:qr_code_app/services/providers/printer_provider.dart';
-import 'package:qr_code_app/services/providers/transaction_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
+import 'package:qr_code_app/services/providers/printer/printer_provider.dart';
+import 'package:qr_code_app/services/providers/transaction/transaction_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/number_format_price.dart';
 

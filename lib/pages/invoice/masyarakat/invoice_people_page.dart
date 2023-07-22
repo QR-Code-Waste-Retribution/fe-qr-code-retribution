@@ -5,7 +5,7 @@ import 'package:qr_code_app/components/molekuls/invoice/invoice_card.dart';
 import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_total.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:qr_code_app/services/providers/invoice_provider.dart';
+import 'package:qr_code_app/services/providers/transaction/invoice_provider.dart';
 
 class InvoicePeoplePage extends StatefulWidget {
   const InvoicePeoplePage({Key? key}) : super(key: key);

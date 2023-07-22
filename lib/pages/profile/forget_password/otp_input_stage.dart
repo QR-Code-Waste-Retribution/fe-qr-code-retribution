@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/countdown/countdown.dart';
 import 'package:qr_code_app/components/molekuls/input/input_otp.dart';
-import 'package:qr_code_app/services/providers/otp_provider.dart';
+import 'package:qr_code_app/services/providers/auth/otp_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/logger.dart';
 

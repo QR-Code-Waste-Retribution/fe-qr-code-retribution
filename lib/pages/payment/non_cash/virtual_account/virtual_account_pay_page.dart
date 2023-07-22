@@ -5,11 +5,11 @@ import 'package:qr_code_app/components/molekuls/countdown/countdown.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 
 import 'package:qr_code_app/models/doku/virtual_account/api/virtual_account_payment.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 
-import 'package:qr_code_app/services/providers/doku_provider.dart';
-import 'package:qr_code_app/services/providers/socket_provider.dart';
-import 'package:qr_code_app/services/providers/transaction_provider.dart';
+import 'package:qr_code_app/services/providers/transaction/doku_provider.dart';
+import 'package:qr_code_app/services/providers/socket/socket_provider.dart';
+import 'package:qr_code_app/services/providers/transaction/transaction_provider.dart';
 
 import 'package:qr_code_app/utils/number_format_price.dart';
 import 'package:qr_code_app/shared/theme/init.dart';

@@ -4,7 +4,7 @@ import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
 import 'package:qr_code_app/routes/init.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class LoginPage extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/molekuls/option_tile/option_tile.dart';
-import 'package:qr_code_app/services/providers/printer_provider.dart';
+import 'package:qr_code_app/services/providers/printer/printer_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class PrinterPortablePage extends StatefulWidget {

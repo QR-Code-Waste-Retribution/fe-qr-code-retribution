@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth/change_password_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/alert_dialog_custom.dart';
 
@@ -16,6 +17,8 @@ class FormChangePassword extends StatelessWidget {
   final ChangePasswordProvider changePasswordProvider =
       Get.find<ChangePasswordProvider>();
 
+  final AuthProvider authProvider = Get.find<AuthProvider>();
+  
   final String email = Get.arguments['email'];
   @override
   Widget build(BuildContext context) {

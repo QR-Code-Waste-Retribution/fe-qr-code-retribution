@@ -4,7 +4,8 @@ import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/appbar/i_appbar.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
-import 'package:qr_code_app/services/providers/forgot_password_provider.dart';
+import 'package:qr_code_app/components/molekuls/input/input_group_custom.dart';
+import 'package:qr_code_app/services/providers/auth/forgot_password_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
@@ -58,10 +59,16 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             const SizedBox(
               height: 20,
             ),
-            InputGroup(
-              hintText: 'Email',
-              required: true,
-              inputController: forgotPasswordProvider.emailInput,
+            Obx(
+              () => InputGroupCustom(
+                errorText: forgotPasswordProvider.getErrorMessages['email'],
+                onChanged: (value) {
+                  forgotPasswordProvider.onChangeInputEmail();
+                },
+                hintText: 'Email',
+                required: true,
+                inputController: forgotPasswordProvider.emailInput,
+              ),
             ),
             const SizedBox(
               height: 20,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qr_code_app/services/providers/auth_provider.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:get/get.dart';
