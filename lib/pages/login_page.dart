@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/components/atoms/custom_loading.dart';
 import 'package:qr_code_app/components/molekuls/input/input_group.dart';
+import 'package:qr_code_app/components/molekuls/input/input_group_custom.dart';
 import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
@@ -19,9 +20,6 @@ class _LoginPageState extends State<LoginPage> {
 
   Size device = const Size(0, 0);
 
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
-
   @override
   void initState() {
     super.initState();
@@ -30,8 +28,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void dispose() {
     super.dispose();
-    emailController.dispose();
-    passwordController.dispose();
   }
 
   @override
@@ -44,10 +40,7 @@ class _LoginPageState extends State<LoginPage> {
     Future<void> login() async {
       _authProvider.isLoading.value = true;
       await _authProvider
-          .login(
-            username: emailController.text,
-            password: passwordController.text,
-          )
+          .login()
           .then((value) => {_authProvider.isLoading.value = false});
     }
 
@@ -121,14 +114,27 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                InputGroup(
-                  hintText: "Username/Email",
-                  inputController: emailController,
+                Obx(
+                  () => InputGroupCustom(
+                    errorText: _authProvider.getErrorMessages['username'],
+                    onChanged: (value) {
+                      _authProvider.onChangeInputUsername();
+                    },
+                    hintText: "Username",
+                    required: true,
+                    inputController: _authProvider.usernameController.value,
+                  ),
                 ),
-                InputGroup(
-                  hintText: "Password",
-                  obscure: true,
-                  inputController: passwordController,
+                Obx(
+                  () => InputGroupCustom(
+                    errorText: _authProvider.getErrorMessages['password'],
+                    onChanged: (value) {
+                      _authProvider.onChangeInputPassword();
+                    },
+                    hintText: "Password",
+                    required: true,
+                    inputController: _authProvider.passwordController.value,
+                  ),
                 ),
                 const SizedBox(
                   height: 10,

@@ -31,6 +31,16 @@ class AuthProvider extends GetxController {
     user: null,
   ).obs;
 
+  Rx<TextEditingController> usernameController = TextEditingController().obs;
+  Rx<TextEditingController> passwordController = TextEditingController().obs;
+
+  RxMap<String, String> errorMessages = <String, String>{
+    'username': '',
+    'password': '',
+  }.obs;
+
+  Map<String, String> get getErrorMessages => errorMessages;
+
   RxBool isLoading = false.obs;
 
   bool get getLoading => isLoading.value;
@@ -60,6 +70,16 @@ class AuthProvider extends GetxController {
   String? get userSubDistrictId =>
       _authData.value.user?.subDistrict?.id.toString();
 
+  void onChangeInputUsername() {
+    errorMessages['username'] = "";
+    update();
+  }
+
+  void onChangeInputPassword() {
+    errorMessages['password'] = "";
+    update();
+  }
+
   bool checkAuth() {
     final authDataJson = box.read('authData');
     if (authDataJson != null) {
@@ -69,41 +89,53 @@ class AuthProvider extends GetxController {
   }
 
   void saveToken() async {
-    // try {
-      final fcmToken = box.read(StorageReferences.fcmToken);
-      String token = await FirebaseProvider.setupToken();
+    final fcmToken = box.read(StorageReferences.fcmToken);
+    String token = await FirebaseProvider.setupToken();
 
-      if (fcmToken != null) {
-        if (fcmToken != token) {
-          await _authRepositories.saveToken(
-            userId: _authData.value.user!.id!,
-            token: token,
-          );
-          logger.d('Token has stored to database!!');
-        } else {
-          logger.d('Token match!!');
-        }
-        box.write(StorageReferences.fcmToken, token);
-      } else {
+    if (fcmToken != null) {
+      if (fcmToken != token) {
         await _authRepositories.saveToken(
           userId: _authData.value.user!.id!,
           token: token,
         );
         logger.d('Token has stored to database!!');
+      } else {
+        logger.d('Token match!!');
       }
-    // } on ApiException catch (e) {
-    //   logger.d(e.responseAPI?.message);
-    // } catch (e) {
-    //   logger.d(e.toString());
-    // }
+      box.write(StorageReferences.fcmToken, token);
+    } else {
+      await _authRepositories.saveToken(
+        userId: _authData.value.user!.id!,
+        token: token,
+      );
+      logger.d('Token has stored to database!!');
+    }
   }
 
-  Future<void> login(
-      {required String username, required String password}) async {
+  bool validation() {
+    bool isValid = true;
+    if (usernameController.value.text == '') {
+      isValid = false;
+      errorMessages['username'] = "Username harus diisi";
+    }
+
+    if (passwordController.value.text == '') {
+      isValid = false;
+      errorMessages['password'] = "Password harus diisi";
+    }
+
+    update();
+    return isValid;
+  }
+
+  Future<void> login() async {
     try {
+      if (!(validation())) {
+        return;
+      }
       ResponseAPI response = await _authRepositories.login(
-        username: username,
-        password: password,
+        username: usernameController.value.text,
+        password: passwordController.value.text,
       );
       if (response.success) {
         _authData.value = AuthData.fromJson(response.data);
@@ -201,6 +233,13 @@ class AuthProvider extends GetxController {
       update();
     }
     super.onReady();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    usernameController.value.dispose();
+    passwordController.value.dispose();
   }
 
   @override

@@ -126,7 +126,7 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
                       await qrViewController?.resumeCamera();
                     },
                     title: 'Scan QR Code',
-                    width: 120,
+                    width: 200,
                     height: 40,
                     defaultRadiusButton: 7,
                     margin: const EdgeInsets.symmetric(vertical: 20),
@@ -181,5 +181,4 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
       );
     }
   }
-
 }

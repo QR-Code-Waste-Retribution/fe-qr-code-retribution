@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/models/invoice/invoice_paid_unpaid.dart';
 import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
@@ -148,13 +149,7 @@ class InvoiceProvider extends GetxController {
         ),
       );
 
-      Get.snackbar(
-        "Success",
-        response.message,
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      SnackBarCustom.success(message: response.message);
       update();
     } catch (e) {
       Get.snackbar(
@@ -198,7 +193,6 @@ class InvoiceProvider extends GetxController {
       isLoading.value = false;
       update();
     } catch (e) {
-
       isLoading.value = false;
       update();
       Get.snackbar(

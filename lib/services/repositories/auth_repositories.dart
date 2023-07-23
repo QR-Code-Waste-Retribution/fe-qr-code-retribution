@@ -129,7 +129,6 @@ class AuthRepositories extends GetxService {
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
-      logger.d(ex.response.toString());
       var response = ResponseAPI.fromJson(jsonDecodeResponse);
 
       throw ApiException(message: response.message.toString());
