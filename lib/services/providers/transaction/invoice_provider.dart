@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
+import 'package:qr_code_app/exceptions/api_exception.dart';
 import 'package:qr_code_app/models/invoice/invoice_paid_unpaid.dart';
 import 'package:qr_code_app/models/invoice/invoice_model.dart';
 import 'package:qr_code_app/models/response_api.dart';
@@ -9,6 +10,7 @@ import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/pages/invoice/pemungut/invoice_page.dart';
 import 'package:qr_code_app/services/repositories/invoice_repositories.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
+import 'package:qr_code_app/utils/logger.dart';
 import 'package:qr_code_app/utils/number_format_price.dart';
 
 class InvoiceProvider extends GetxController {
@@ -132,11 +134,13 @@ class InvoiceProvider extends GetxController {
   }
 
   Future<void> getInvoiceUserByUUIDandSubDistrict(
-      {String? uuid, int? subDistrictId}) async {
+      {String? uuid, int? subDistrictId, int? pemungutId}) async {
     try {
       ResponseAPI response =
           await _invoiceRepositories.invoiceUserByUUIDandSubDistrict(
-              subDistrictId: subDistrictId!, uuid: uuid);
+              subDistrictId: subDistrictId!,
+              uuid: uuid,
+              pemungutId: pemungutId);
 
       _invoice.value = InvoiceList.fromJson(response.data);
 
@@ -151,14 +155,10 @@ class InvoiceProvider extends GetxController {
 
       SnackBarCustom.success(message: response.message);
       update();
+    } on ApiException catch (e) {
+      SnackBarCustom.error(message: e.responseAPI!.message);
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to get invoice by ${uuid!} : ${e.toString()}',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      SnackBarCustom.error(message: e.toString());
     }
   }
 

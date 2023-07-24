@@ -80,7 +80,10 @@ class _QRCodeScannerPageState extends State<QRCodeScannerPage> {
     await qrViewController!.pauseCamera();
     initSocketIO(uuid: uuid!);
     _invoiceProvider.getInvoiceUserByUUIDandSubDistrict(
-        uuid: uuid, subDistrictId: _authProvider.authData.user?.subDistrictId);
+      uuid: uuid,
+      subDistrictId: _authProvider.authData.user?.subDistrictId,
+      pemungutId: _authProvider.getUserId
+    );
   }
 
   @override
