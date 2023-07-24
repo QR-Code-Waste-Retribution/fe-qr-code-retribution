@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:qr_code_app/models/transaction/transaction_noncash.dart';
 import 'package:qr_code_app/models/transaction/transaction_store.dart';
 import 'package:qr_code_app/services/api_client.dart';
+import 'package:qr_code_app/utils/logger.dart';
 
 class TransactionRepositories extends GetxService {
   final Dio _client = Client().init();
@@ -32,10 +33,12 @@ class TransactionRepositories extends GetxService {
       final response = await _client.post('/transaction/store/additional',
           data: transactionStore.toJson());
       final jsonDecodeResponse = jsonDecode(response.toString());
+      logger.d(jsonDecodeResponse.toString());
 
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      logger.d(jsonDecodeResponse.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } catch (e) {
       throw Exception("Failed to get invoice user: $e");

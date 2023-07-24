@@ -318,7 +318,6 @@ class TransactionProvider extends GetxController {
       );
       update();
     } catch (e) {
-
       isLoading.value = false;
       update();
       Get.snackbar(

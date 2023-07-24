@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:qr_code_app/components/atoms/custom_button.dart';
 import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class QRCodeGeneratorPage extends StatefulWidget {
-  const QRCodeGeneratorPage({super.key});
+  const QRCodeGeneratorPage({Key? key}) : super(key: key);
 
   @override
   State<QRCodeGeneratorPage> createState() => _QRCodeGeneratorPageState();
@@ -14,54 +14,6 @@ class QRCodeGeneratorPage extends StatefulWidget {
 
 class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
   final AuthProvider _authProvider = Get.find<AuthProvider>();
-  late IO.Socket socket;
-
-  @override
-  void initState() {
-    super.initState();
-    initSocketIO();
-  }
-
-  void initSocketIO() {
-    socket = IO.io('http://localhost:6001', <String, dynamic>{
-      'transports': ['websocket'],
-      'autoConnect': false,
-      'query': {
-        'uuid': _authProvider.authData.user?.uuid,
-        'role': _authProvider.authData.user?.role?.name
-      },
-    });
-    socket.onConnect((_) {
-      socket.emit('join', {
-        'name': 'Masyarakat',
-      });
-    });
-
-    socket.on('message', (data) {
-
-      Get.snackbar(
-        "Success",
-        '${data['status']} ${data['user']}: ${data['text']}',
-        backgroundColor: primaryColor,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
-    });
-
-    socket.connect();
-  }
-
-  void _sendMessage() {
-    // Emit a 'message' event to the server
-    socket.emit('message', {'user': 'Zico', 'text': 'has Joined!!'});
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    socket.disconnect();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,9 +28,9 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
             size: 20,
             color: primaryColor,
           ),
-          onPressed: (() {
+          onPressed: () {
             Get.back();
-          }),
+          },
         ),
         title: Text(
           "Pembayaran Tunai",
@@ -109,14 +61,24 @@ class _QRCodeGeneratorPageState extends State<QRCodeGeneratorPage> {
             const SizedBox(
               height: 30,
             ),
-            GestureDetector(
-              onTap: () => _sendMessage(),
-              child: QrImageView(
-                data: _authProvider.getUUID!,
-                version: QrVersions.auto,
-                size: 320,
-                padding: const EdgeInsets.all(0),
-              ),
+            CustomButton(
+              title: 'Unduh Gambar QR Code',
+              width: 200,
+              height: 40,
+              fontSize: 14,
+              defaultRadiusButton: 10,
+              onPressed: () async {
+                _authProvider.downloadQRCode();
+              },
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            QrImageView(
+              data: _authProvider.getUUID!,
+              version: QrVersions.auto,
+              size: 320,
+              padding: const EdgeInsets.all(0),
             ),
           ],
         ),

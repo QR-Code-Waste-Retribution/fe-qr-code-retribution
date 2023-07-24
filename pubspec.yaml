@@ -53,6 +53,7 @@ dependencies:
   firebase_core: ^2.12.0
   logger: ^1.4.0
   pinput: ^2.2.31
+  image_gallery_saver: ^2.0.3
 
 
 dev_dependencies:

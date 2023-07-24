@@ -117,6 +117,18 @@ class AuthRepositories extends GetxService {
     }
   }
 
+  Future downloadQRCode() async {
+    try {
+      final response = await _client.post(
+        '/user/qrcode/download',
+        data: {},
+      );
+      return response.toString();
+    } on DioException catch (ex) {
+      throw Exception(ex.message.toString());
+    }
+  }
+
   Future saveToken({required int userId, required String token}) async {
     try {
       final response = await _client.put(

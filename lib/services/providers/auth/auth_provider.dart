@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
 import 'package:qr_code_app/core/firebase/firebase_provider.dart';
@@ -222,6 +224,16 @@ class AuthProvider extends GetxController {
       update();
     } catch (e) {
       SnackBarCustom.error(message: e.toString());
+    }
+  }
+
+  Future<void> downloadQRCode() async {
+    var response = await _authRepositories.downloadQRCode();
+    Uint8List uint8List = base64Decode(response);
+    final result = await ImageGallerySaver.saveImage(uint8List, quality: 100);
+
+    if (result['isSuccess']) {
+      SnackBarCustom.success(message: 'Berhasil mendownload gambar');
     }
   }
 
