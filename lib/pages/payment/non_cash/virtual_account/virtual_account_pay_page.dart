@@ -13,7 +13,6 @@ import 'package:qr_code_app/services/providers/transaction/transaction_provider.
 
 import 'package:qr_code_app/utils/number_format_price.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 class VirtualAccountPayPage extends StatefulWidget {
   const VirtualAccountPayPage({super.key});
@@ -31,8 +30,6 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
       Get.find<TransactionProvider>();
 
   final AuthProvider _authProvider = Get.find<AuthProvider>();
-
-  late IO.Socket socket;
 
   @override
   void initState() {

@@ -21,7 +21,7 @@ class SocketProvider extends GetxController {
   };
 
   void initSocketIO({required String? uuid, required String typeOfChannel}) {
-    socket = IO.io(AppConstants.urlSocketNgrok, <String, dynamic>{
+    socket = IO.io(AppConstants.urlSocketServer, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
       'query': {'uuid': uuid, 'role': _authProvider.userRole},

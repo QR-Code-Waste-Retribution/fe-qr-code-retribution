@@ -131,6 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                     onChanged: (value) {
                       _authProvider.onChangeInputPassword();
                     },
+                    obscure: true,
                     hintText: "Password",
                     required: true,
                     inputController: _authProvider.passwordController.value,
