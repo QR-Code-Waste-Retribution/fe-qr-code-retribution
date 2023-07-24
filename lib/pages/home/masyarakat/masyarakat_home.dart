@@ -4,6 +4,7 @@ import 'package:qr_code_app/components/atoms/custom_header.dart';
 import 'package:qr_code_app/components/molekuls/invoice/invoice_card.dart';
 import 'package:qr_code_app/components/molekuls/invoice/invoice_paid_card.dart';
 import 'package:qr_code_app/models/invoice/invoice_model.dart';
+import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/services/providers/transaction/invoice_provider.dart';
 import 'package:qr_code_app/services/providers/pagination_provider.dart';
@@ -94,10 +95,15 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            'Lihat history >',
-                            textAlign: TextAlign.right,
-                            style: priceTextStyle.copyWith(),
+                          GestureDetector(
+                            onTap: () {
+                              paginationProvider.currentIndex.value = 3;
+                            },
+                            child: Text(
+                              'Lihat history >',
+                              textAlign: TextAlign.right,
+                              style: priceTextStyle.copyWith(),
+                            ),
                           ),
                         ],
                       ),
