@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/atoms/custom_button.dart';
+import 'package:qr_code_app/components/molekuls/input/search_input_custom.dart';
 import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
@@ -217,13 +218,26 @@ class _ManageUserPageState extends State<ManageUserPage> {
             height: 40,
             fontSize: 14,
             defaultRadiusButton: 10,
-            margin: const EdgeInsets.only(
-              top: 0,
-              bottom: 30,
-            ),
             onPressed: () {
               Get.toNamed('/add_user');
             },
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          SearchInputCustom(
+            onChange: (String str) {},
+            onSearch: () {
+              _usersProvider.searchMasyarakat(
+                pemungutId: _authProvider.getUserId!,
+                page: 1,
+              );
+            },
+            controller: _usersProvider.searchController.value,
+            hintText: 'Cari masyarakat',
+          ),
+          const SizedBox(
+            height: 15,
           ),
           Obx(
             () {

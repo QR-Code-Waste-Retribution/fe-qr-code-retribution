@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:qr_code_app/shared/theme/init.dart';
 
@@ -6,21 +8,25 @@ class InputGroupCustom extends StatefulWidget {
   final String? errorText;
   final bool obscure;
   final String subLabel;
+  final bool label;
   final bool required;
-  final TextEditingController inputController;
+  final TextEditingController? inputController;
   final TextInputType keyboardType;
   final int? maxLength;
   final Function(String value)? onChanged;
+  final double height;
 
   const InputGroupCustom({
     super.key,
     required this.hintText,
+    this.label = true,
     this.obscure = false,
     this.required = false,
-    required this.inputController,
+    this.inputController,
     this.keyboardType = TextInputType.text,
     this.subLabel = '',
     this.errorText = '',
+    this.height = 50,
     this.onChanged,
     this.maxLength,
   });
@@ -60,21 +66,25 @@ class _InputGroupCustomState extends State<InputGroupCustom> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "${widget.hintText} ${widget.required ? '*' : ''}",
-            style: primaryTextStyle.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          subLabelCreate(),
-          const SizedBox(
-            height: 10,
-          ),
+          widget.label ? Column(
+            children: [
+              Text(
+                "${widget.hintText} ${widget.required ? '*' : ''}",
+                style: primaryTextStyle.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(
+                height: 4,
+              ),
+              subLabelCreate(),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
+          ) : const SizedBox(),
           Container(
-            height: 50,
+            height: widget.height,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               color: backgroundColor6,

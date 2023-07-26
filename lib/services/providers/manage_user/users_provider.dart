@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
@@ -36,6 +37,8 @@ class UsersProvider extends GetxController {
 
   RxList<bool> isSwitchedList = <bool>[].obs;
 
+  Rx<TextEditingController> searchController = TextEditingController().obs;
+
   int getPreviousPage() {
     return getCurrentPage - 1 == 0 ? 1 : getCurrentPage - 1;
   }
@@ -44,30 +47,37 @@ class UsersProvider extends GetxController {
     return getCurrentPage + 1 > getLastPage ? getLastPage : getCurrentPage + 1;
   }
 
+  void initSwitchedList() {
+    isSwitchedList.value = [];
+    for (var index = 0; index < getUsersPaginationRecords!.length; index++) {
+      var item = getUsersPaginationRecords![index];
+      isSwitchedList.add(item.accountStatus!);
+    }
+    update();
+  }
+
+  void searchMasyarakat({required int pemungutId, int page = 1}) async {
+    await getAllMasyarakatBySubDistrictId(
+      pemungutId: pemungutId,
+      page: page,
+      search: searchController.value.text,
+    );
+  }
+
   Future<void> getAllMasyarakatBySubDistrictId(
-      {required int pemungutId, int page = 1}) async {
+      {required int pemungutId, int page = 1, String search = ''}) async {
     try {
       ResponseAPI response = await _userRepositories.getAllUserMasyarakat(
         pemungutId: pemungutId,
         page: page,
+        search: search,
       );
 
       usersPagination.value = UsersPagination.fromJson(response.data);
-
-      isSwitchedList.value = [];
-      for (var index = 0; index < getUsersPaginationRecords!.length; index++) {
-        var item = getUsersPaginationRecords![index];
-        isSwitchedList.add(item.accountStatus!);
-      }
+      initSwitchedList();
       update();
     } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to get all user : ${e.toString()}',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      SnackBarCustom.error(message: e.toString());
     }
   }
 

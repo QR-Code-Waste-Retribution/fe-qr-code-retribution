@@ -7,13 +7,16 @@ import 'package:qr_code_app/models/form/user_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/services/api_client.dart';
 import 'package:qr_code_app/models/form/auth/user_categories_form.dart';
+import 'package:qr_code_app/utils/logger.dart';
 
 class UserRepositories extends GetxService {
   final Dio _client = Client().init();
 
-  Future getAllUserMasyarakat({required int pemungutId, int page = 1}) async {
+  Future getAllUserMasyarakat(
+      {required int pemungutId, int page = 1, String search = ''}) async {
     try {
-      final response = await _client.get('/user/all/$pemungutId?page=$page');
+      final response =
+          await _client.get('/user/all/$pemungutId?search=$search&page=$page');
       final jsonDecodeResponse = jsonDecode(response.toString());
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {
