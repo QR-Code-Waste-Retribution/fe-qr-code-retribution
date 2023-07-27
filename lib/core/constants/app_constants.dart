@@ -6,12 +6,12 @@ class AppConstants {
   static const String apiUrlServer = 'http://34.143.171.104/api';
   static const String apiUrlLocal = 'http://localhost:8000/api';
   static const String apiUrlNgrok =
-      'https://e180-36-79-23-220.ngrok-free.app/api';
+      'https://42bd-36-71-139-18.ngrok-free.app/api';
 
   static const String wbServerPort = '8000';
   static const String urlSocketLocal = 'http://localhost:$wbServerPort/';
   static const String urlSocketServer = 'http://34.143.171.104:$wbServerPort/';
-  static const String urlSocketNgrok = 'https://1897-36-79-23-220.ngrok-free.app';
+  static const String urlSocketNgrok = 'https://b3c4-36-71-139-18.ngrok-free.app';
 
   static const int apiTimeout = 5000; // milliseconds
 

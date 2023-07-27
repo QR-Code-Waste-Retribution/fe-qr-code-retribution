@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/doku/virtual_account/api/virtual_account_payment.dart';
 import 'package:qr_code_app/services/repositories/doku_repositories.dart';
+import 'package:qr_code_app/utils/logger.dart';
 
 class DokuProvider extends GetxController {
   final box = GetStorage();
@@ -41,6 +42,7 @@ class DokuProvider extends GetxController {
 
   Future<void> getApiPayDokuDirectVirtualAccount({required String url}) async {
     try {
+      logger.d(url);
       var response =
           await _dokuRepositories.apiPayDokuDirectVirtualAccount(url: url);
 

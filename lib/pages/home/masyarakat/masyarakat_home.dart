@@ -48,7 +48,7 @@ class _MasyarakatHomeState extends State<MasyarakatHome> {
           height: 10,
         ),
         Text(
-          'Ayooo, Jangan lupa membayar kewajiban retribusi anda untuk Toba yang lebih indah dan bersih ${_invoiceProvider.getInvoice.invoice.length}',
+          'Ayooo, Jangan lupa membayar kewajiban retribusi anda untuk Toba yang lebih indah dan bersih',
           style: blackTextStyle,
           textAlign: TextAlign.center,
         ),

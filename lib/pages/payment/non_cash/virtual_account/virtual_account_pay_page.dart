@@ -140,11 +140,11 @@ class _VirtualAccountPayPageState extends State<VirtualAccountPayPage> {
     return ExpansionPanelList(
       animationDuration: const Duration(milliseconds: 700),
       expansionCallback: (int index, bool isExpanded) {
-          _dokuProvider.getVirtualAccountPayment.paymentInstruction[index]
+          _dokuProvider.getVirtualAccountPayment.paymentInstruction![index]
               .isExpanded = !isExpanded;
       },
       children: _dokuProvider.getVirtualAccountPayment.paymentInstruction
-          .map<ExpansionPanel>((PaymentInstruction item) {
+          !.map<ExpansionPanel>((PaymentInstruction item) {
         return ExpansionPanel(
           headerBuilder: (BuildContext context, bool isExpanded) {
             return ListTile(

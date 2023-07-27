@@ -3,14 +3,14 @@ class VirtualAccountPayment {
   Order? order;
   VirtualAccountInfo? virtualAccountInfo;
   Customer? customer;
-  late List<PaymentInstruction> paymentInstruction;
+  List<PaymentInstruction>? paymentInstruction;
 
   VirtualAccountPayment(
       {this.client,
       this.order,
       this.virtualAccountInfo,
       this.customer,
-      required this.paymentInstruction});
+      this.paymentInstruction});
 
   VirtualAccountPayment.fromJson(Map<String, dynamic> json) {
     client = json['client'] != null ? Client.fromJson(json['client']) : null;
@@ -23,7 +23,7 @@ class VirtualAccountPayment {
     if (json['payment_instruction'] != null) {
       paymentInstruction = <PaymentInstruction>[];
       json['payment_instruction'].forEach((v) {
-        paymentInstruction.add(PaymentInstruction.fromJson(v));
+        paymentInstruction!.add(PaymentInstruction.fromJson(v));
       });
     }
   }
@@ -43,7 +43,7 @@ class VirtualAccountPayment {
       data['customer'] = customer!.toJson();
     }
     data['payment_instruction'] =
-        paymentInstruction.map((v) => v.toJson()).toList();
+        paymentInstruction!.map((v) => v.toJson()).toList();
     return data;
   }
 }
