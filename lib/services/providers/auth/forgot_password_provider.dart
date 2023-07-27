@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
+import 'package:qr_code_app/exceptions/api_exception.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/pages/profile/forget_password/otp_input_stage.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
@@ -48,6 +49,15 @@ class ForgotPasswordProvider extends GetxController {
       Get.toNamed(OtpInputStagePage.routeName, arguments: {
         'email': emailInput.text,
       });
+    } on ApiException catch (e) {
+      if (e.statusCode == 422) {
+        e.responseAPI?.data.forEach((key, value) {
+          errorMessages[key] = value;
+        });
+      }
+      loading.value = false;
+      update();
+      SnackBarCustom.error(message: e.message);
     } catch (e) {
       loading.value = false;
       update();

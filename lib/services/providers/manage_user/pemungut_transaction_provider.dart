@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
+import 'package:qr_code_app/exceptions/api_exception.dart';
 import 'package:qr_code_app/models/response_api.dart';
+import 'package:qr_code_app/models/transaction/deposit_calculation.dart';
 import 'package:qr_code_app/models/transaction/transaction_pemungut.dart';
 import 'package:qr_code_app/services/repositories/pemungut_transaction_repositories.dart';
 
@@ -12,8 +15,13 @@ class PemungutTransactionProvider extends GetxController {
       PemungutTransactionRepositories();
 
   final Rx<TransactionPemungut> depositList = TransactionPemungut(
-          deposits: [], depositArreas: '', depositCalculation: null)
-      .obs;
+    deposits: [],
+    depositArreas: '',
+    depositCalculation: DepositCalculation(
+      alreadyDeposited: 0,
+      notYetDeposited: 0,
+    ),
+  ).obs;
 
   final RxBool isLoading = false.obs;
 
@@ -41,17 +49,14 @@ class PemungutTransactionProvider extends GetxController {
       depositList.value = TransactionPemungut.fromJson(response.data);
       isLoading.value = false;
       update();
-    } catch (e) {
-
+    } on ApiException catch (e) {
       isLoading.value = false;
       update();
-      Get.snackbar(
-        'Error',
-        'Failed to get pemungut transaction : ${e.toString()}',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-        borderRadius: 5,
-      );
+      SnackBarCustom.error(message: e.message);
+    } catch (e) {
+      isLoading.value = false;
+      update();
+      SnackBarCustom.error(message: e.toString());
     }
   }
 }

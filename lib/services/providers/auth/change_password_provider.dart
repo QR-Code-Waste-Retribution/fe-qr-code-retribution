@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
+import 'package:qr_code_app/exceptions/api_exception.dart';
 import 'package:qr_code_app/models/form/auth/change_password_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/routes/init.dart';
@@ -8,7 +9,6 @@ import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
 
 class ChangePasswordProvider extends GetxController {
-
   final AuthRepositories authRepositories = Get.find<AuthRepositories>();
 
   Rx<TextEditingController> oldPasswordController = TextEditingController().obs;
@@ -33,7 +33,7 @@ class ChangePasswordProvider extends GetxController {
   RxBool valid = false.obs;
   bool get isValid => valid.value;
 
-  void onSubmit({ required int userId }) async {
+  void onSubmit({required int userId}) async {
     if (!isValid) {
       onChangeNewPasswordInput();
       onChangeConfirmPasswordInput();
@@ -55,7 +55,9 @@ class ChangePasswordProvider extends GetxController {
       SnackBarCustom.success(message: response.message);
       update();
       Get.offAndToNamed(Pages.homePage);
-    } on Exception catch (e) {
+    } on ApiException catch (e) {
+      SnackBarCustom.error(message: e.message);
+    } catch (e) {
       SnackBarCustom.error(message: e.toString());
     }
   }
@@ -79,7 +81,9 @@ class ChangePasswordProvider extends GetxController {
       SnackBarCustom.success(message: response.message);
       update();
       Get.offAndToNamed(Pages.loginPage);
-    } on Exception catch (e) {
+    } on ApiException catch (e) {
+      SnackBarCustom.error(message: e.message);
+    } catch (e) {
       SnackBarCustom.error(message: e.toString());
     }
   }

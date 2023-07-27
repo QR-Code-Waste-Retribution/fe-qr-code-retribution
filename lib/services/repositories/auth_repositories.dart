@@ -23,7 +23,9 @@ class AuthRepositories extends GetxService {
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
-      return ResponseAPI.fromJson(jsonDecodeResponse);
+      var response = ResponseAPI.fromJson(jsonDecodeResponse);
+
+      throw ApiException(message: response.message.toString());
     }
   }
 
@@ -38,7 +40,9 @@ class AuthRepositories extends GetxService {
       return ResponseAPI.fromJson(jsonDecodeResponse);
     } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
-      return ResponseAPI.fromJson(jsonDecodeResponse);
+      var response = ResponseAPI.fromJson(jsonDecodeResponse);
+
+      throw ApiException(message: response.message.toString());
     }
   }
 
@@ -57,7 +61,7 @@ class AuthRepositories extends GetxService {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       var response = ResponseAPI.fromJson(jsonDecodeResponse);
 
-      throw Exception(response.message.toString());
+      throw ApiException(message: response.message.toString());
     }
   }
 
@@ -74,7 +78,8 @@ class AuthRepositories extends GetxService {
     } on DioException catch (ex) {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       var response = ResponseAPI.fromJson(jsonDecodeResponse);
-      throw Exception(response.message.toString());
+
+      throw ApiException(message: response.message.toString());
     }
   }
 
@@ -94,7 +99,11 @@ class AuthRepositories extends GetxService {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       var response = ResponseAPI.fromJson(jsonDecodeResponse);
 
-      throw Exception(response.message.toString());
+      throw ApiException(
+        message: response.message.toString(),
+        responseAPI: response,
+        statusCode: ex.response?.statusCode
+      );
     }
   }
 
@@ -113,7 +122,7 @@ class AuthRepositories extends GetxService {
       final jsonDecodeResponse = jsonDecode(ex.response.toString());
       var response = ResponseAPI.fromJson(jsonDecodeResponse);
 
-      throw Exception(response.message.toString());
+      throw ApiException(message: response.message.toString());
     }
   }
 
@@ -125,7 +134,10 @@ class AuthRepositories extends GetxService {
       );
       return response.toString();
     } on DioException catch (ex) {
-      throw Exception(ex.message.toString());
+      final jsonDecodeResponse = jsonDecode(ex.response.toString());
+      var response = ResponseAPI.fromJson(jsonDecodeResponse);
+
+      throw ApiException(message: response.message.toString());
     }
   }
 

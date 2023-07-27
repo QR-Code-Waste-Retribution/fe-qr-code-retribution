@@ -139,21 +139,23 @@ class AuthProvider extends GetxController {
         username: usernameController.value.text,
         password: passwordController.value.text,
       );
-      if (response.success) {
-        _authData.value = AuthData.fromJson(response.data);
-        box.write('authData', jsonEncode(authData.toJson()));
+      _authData.value = AuthData.fromJson(response.data);
+      box.write('authData', jsonEncode(authData.toJson()));
 
-        saveToken();
-        Get.offNamed(Pages.homePage);
+      saveToken();
+      Get.offNamed(Pages.homePage);
 
-        SnackBarCustom.success(message: response.message);
-      } else {
-        SnackBarCustom.error(message: response.message);
-      }
+      SnackBarCustom.success(message: response.message);
 
       AppBindings().dependencies();
       update();
+    } on ApiException catch (e) {
+      isLoading.value = false;
+      update();
+      SnackBarCustom.error(message: e.message);
     } catch (e) {
+      isLoading.value = false;
+      update();
       SnackBarCustom.error(message: e.toString());
     }
   }
@@ -206,7 +208,13 @@ class AuthProvider extends GetxController {
       SnackBarCustom.success(message: response.message);
 
       update();
+    } on ApiException catch (e) {
+      isLoading.value = false;
+      update();
+      SnackBarCustom.error(message: e.message);
     } catch (e) {
+      isLoading.value = false;
+      update();
       SnackBarCustom.error(message: e.toString());
     }
   }
@@ -222,7 +230,13 @@ class AuthProvider extends GetxController {
 
       SnackBarCustom.success(message: response.message);
       update();
+    } on ApiException catch (e) {
+      isLoading.value = false;
+      update();
+      SnackBarCustom.error(message: e.message);
     } catch (e) {
+      isLoading.value = false;
+      update();
       SnackBarCustom.error(message: e.toString());
     }
   }

@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:qr_code_app/models/user/user.dart';
+import 'package:qr_code_app/routes/init.dart';
+import 'package:qr_code_app/services/providers/auth/auth_provider.dart';
 
 class StorageReferences {
   static final box = GetStorage();
@@ -29,11 +32,9 @@ class StorageReferences {
     try {
       AuthData? authData = AuthData.fromJson(jsonDecode(storedAuthData!));
       return authData.accessToken;
-    } catch (e) {
-    }
+    } catch (e) {}
     return '';
   }
-
 
   List<int?> getInvoiceIdArrayFromLocalStorage() {
     List<int?> arrInvoiceId = [];
@@ -53,5 +54,13 @@ class StorageReferences {
     }
 
     return arrInvoiceId;
+  }
+
+  static void backToLogin() {
+    Get.toNamed(Pages.loginPage);
+    box.remove('authData');
+    Get.offAllNamed('/');
+    Get.deleteAll();
+    Get.put(AuthProvider());
   }
 }
