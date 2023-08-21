@@ -108,6 +108,7 @@ class _AddUserPageState extends State<AddUserPage> {
                 addUserProvider.onChangeInputNik();
               },
               hintText: "NIK",
+              maxLength: 16,
               inputController: addUserProvider.nikController.value,
               keyboardType: TextInputType.number,
             ),

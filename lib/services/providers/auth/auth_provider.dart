@@ -8,16 +8,13 @@ import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:qr_code_app/components/molekuls/snackbar/snackbar.dart';
 import 'package:qr_code_app/core/constants/storage.dart';
 import 'package:qr_code_app/core/firebase/firebase_provider.dart';
-import 'package:qr_code_app/exceptions/api_exception.dart';
 import 'package:qr_code_app/models/form/auth/change_password_form.dart';
 import 'package:qr_code_app/models/form/auth/edit_profile_form.dart';
 import 'package:qr_code_app/models/response_api.dart';
 import 'package:qr_code_app/models/user/user.dart';
 import 'package:qr_code_app/routes/init.dart';
 import 'package:qr_code_app/services/binding.dart';
-// import 'package:qr_code_app/services/providers/pagination_provider.dart';
 import 'package:qr_code_app/services/repositories/auth_repositories.dart';
-import 'package:qr_code_app/shared/theme/init.dart';
 import 'package:qr_code_app/utils/logger.dart';
 
 class AuthProvider extends GetxController {

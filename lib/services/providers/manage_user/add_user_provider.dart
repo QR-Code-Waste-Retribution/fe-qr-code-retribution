@@ -141,7 +141,7 @@ class AddUserProvider extends GetxController {
       SnackBarCustom.success(message: response.message);
 
       clearInput();
-      Get.toNamed(Pages.homePage);
+      Get.offAndToNamed(Pages.homePage);
 
       update();
     } on ApiException catch (e) {
