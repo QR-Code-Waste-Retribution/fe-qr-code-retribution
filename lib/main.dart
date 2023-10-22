@@ -9,8 +9,8 @@ import 'package:qr_code_app/core/firebase/firebase_provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final firebaseProvider = FirebaseProvider();
-  await firebaseProvider.initFirebase();
+  // final firebaseProvider = FirebaseProvider();
+  // await firebaseProvider.initFirebase();
 
   await GetStorage.init();
   AppBindings().dependencies();
